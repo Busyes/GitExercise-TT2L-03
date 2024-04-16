@@ -4,5 +4,6 @@ He takes a bath.
 He has breakfast.
 Then he watched Youtube.
 He goes to class.
-
+The lecturer was very boring.
+He was confused with git.
 
