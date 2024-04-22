@@ -8,3 +8,4 @@ The lecturer was very boring.
 He was confused with git.
 He decided to ask the for help from his friend.
 He then worked on the project together with his friend.
+They are working together.
