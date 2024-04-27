@@ -1,0 +1,11 @@
+*{
+    margin: 3px;
+    padding: 3px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    transition: .2s linear;
+}
+
+.logo img{
+    width: 150px;
+    height: auto;
+}
