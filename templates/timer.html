@@ -1,42 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
-    <title>Document</title>
+<html>
+  <head>
+    <title>Pomodoro Timer</title>
+  </head>
+  <body>
+    <h1>Pomodoro Timer</h1>
+    <button id="start-button">Start</button>
+    <button id="stop-button" disabled>Stop</button>
+    <button id="reset-button" disabled>Reset</button>
+    <div id="timer">
+      <span id="work-time">25:00</span>
+      <span id="separator">/</span>
+      <span id="break-time">05:00</span>
+    </div>
+    <script>
+      const startButton = document.getElementById("start-button");
+      const stopButton = document.getElementById("stop-button");
+      const resetButton = document.getElementById("reset-button");
+      const timer = document.getElementById("timer");
+      const workTime = document.getElementById("work-time");
+      const breakTime = document.getElementById("break-time");
+      let workInterval;
+      let breakInterval;
+      let timeLeft = 25 * 60; // 25 minutes in seconds
+      let breakTimeLeft = 5 * 60; // 5 minutes in seconds
+      let isWorking = true;
 
-</head>
-<body>
-    <h1>Timer Web</h1>
-
-    <p id = "timer"><span id = "remaining_time"></span></p>
-
-    <form action="/reset" method="post">
-        <input type="submit" value="Reset Timer">
-
-    </form>
-
-</body>
-
-
-
-<script>
-    function updateRemainingTime() {
-        fetch('/remaining_time')
-        .then(response => response.json())
-        .then(data => {
-            let minutes = Math.floor(data.remaining_time / 60);
-            let seconds = Math.floor(data.remaining_time_in_seconds % 60);
-            if (seconds , 10 && seconds >= 0) {
-                seconds = "0" + seconds ;
+      startButton.addEventListener("click", () => {
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        resetButton.disabled = false;
+        if (isWorking) {
+          workInterval = setInterval(() => {
+            timeLeft--;
+            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+            if (timeLeft === 0) {
+              clearInterval(workInterval);
+              isWorking = false;
+              breakTimeLeft = breakTimeLeft;
+              breakInterval = setInterval(() => {
+                breakTimeLeft--;
+                breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
+                if (breakTimeLeft === 0) {
+                  clearInterval(breakInterval);
+                  isWorking = true;
+                }
+              }, 1000);
             }
+          }, 1000);
+        } else {
+          breakInterval = setInterval(() => {
+            breakTimeLeft--;
+            breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
+            if (breakTimeLeft === 0) {
+              clearInterval(breakInterval);
+              isWorking = true;
+              timeLeft = 25 * 60;
+              workInterval = setInterval(() => {
+                timeLeft--;
+                workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+                if (timeLeft === 0) {
+                  clearInterval(workInterval);
+                  isWorking = false;
+                }
+              }, 1000);
+            }
+          }, 1000);
+        }
+      });
+      </script>
+    </body>
+    <div id="timer">
+        <span id="minutes">25</span>:<span id="seconds">00</span>
+    </div>
+    <button id="start-stop-button">Start</button>
+    <button id="reset-button">Reset</button>
 
-            let remainingTimeElement = document.getElementById("remaining_time")
-            remainingTimeElement.innerText = '${minutes}:${seconds}';
-            document.getElementById("remaining_time").innerText = minutes + ":" + seconds;
-        })
-    }
-    setInterval(updateRemainingTime, 1000);
-</script>
-</html>
+    
