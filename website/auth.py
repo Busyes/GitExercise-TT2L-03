@@ -3,13 +3,32 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+import bcrypt
 
 auth = Blueprint('auth', __name__)
 
+def hash_password(password):
+    salt = bcrypt.gensalt()
+    password = request.form.get('password')
+    hashed_password = bcrypt.hashpw(password, salt)
+    return hashed_password
+    
+def get_hashed_password(password):
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password, salt)
+    return hashed_password
+
+def get_hashed_password(username):
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(username, salt)
+    return hashed_password
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    hashed_password = get_hashed_password('password')
+    if hashed_password is None:
+        return None
+    
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -37,6 +56,9 @@ def logout():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    salt = bcrypt.gensalt()
+    password = b'my_password'
+    hashed_password = hash_password(password)
     if request.method == 'POST':
         email = request.form.get('email')
         first_name = request.form.get('firstName')

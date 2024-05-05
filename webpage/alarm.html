@@ -37,16 +37,13 @@
         <h1>Alarm selection:</h1>
         <p1>Different alarm will be unlocked once you have reached your desired study target!</p>
         </body>
-    
+    <div>
+        <h3>alarm 1</h3>
+        <audio controls src="alarm/alarm.mp3"> music 1</audio>
+        <h3>alarm 2</h3>
+        <audio controls src="alarm/alarm_clock_old.mp3">music 2</audio>
+    </div>
 
-        <form method="POST" action="{{ url_for('set_alarm') }}">
-            <label for="alarm_sound">Choose an alarm sound:</label>
-            <select name="alarm_sound">
-              <option value="alarm/alarm.mp3">Alarm 1</option>
-              <option value="alarm2.mp3">Alarm 2</option>
-              <option value="alarm3.mp3">Alarm 3</option>
-            </select>
-            <input type="submit" value="Set Alarm">
-          </form>
+    
 
 </html>
