@@ -68,6 +68,27 @@
           }, 1000);
         }
       });
+
+      stopButton.addEventListener("click", () => {
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        clearInterval(workInterval);
+        clearInterval(breakInterval);
+      });
+
+      resetButton.addEventListener("click", () => {
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        resetButton.disabled = true;
+        clearInterval(workInterval);
+        clearInterval(breakInterval);
+        timeLeft = 25 * 60;
+        breakTimeLeft = 5 * 60;
+        workTime.textContent = "25:00";
+        breakTime.textContent = "05:00";
+        isWorking = true;
+      });
+      
       </script>
     </body>
     <div id="timer">
