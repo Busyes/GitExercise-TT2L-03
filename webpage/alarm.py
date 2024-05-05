@@ -1,25 +1,26 @@
-from spotipy import Spotify
-import schedule
-import time
-import threading
+from flask import Flask, render_template, request, redirect
+from flask import session
 
-def play_track(track_uri):
-    sp = Spotify()
-    sp.start()
-    sp.play(uris=[track_uri])
+app = Flask(__name__)
+app.secret_key = 'my_hard_to_crack_secret_key'
 
+@app.route('/set_alarm', methods=['POST'])
+def set_alarm():
+    alarm_sound = request.form.get('alarm_sound')
+    # Set the alarm sound using the user's selection
+    set_alarm_sound(alarm_sound)
+    return redirect('/alarm')
 
-def run_alarm():
-    # Set the alarm time here
-    alarm_time = "06:00"
+@app.route('/alarm')
+def alarm():
+    # Retrieve the current alarm sound
+    alarm_sound = get_alarm_sound()
+    return render_template('alarm.html', alarm_sound=alarm_sound)
 
-    # Schedule the play_track function to run at the alarm time
-    schedule.every().day.at(alarm_time).do(play_track, "alarm/alarm.mp3")
+def set_alarm_sound(alarm_sound):
+    # Set the alarm sound in the database or session
+    session['alarm_sound'] = alarm_sound
 
-    # Run the scheduler in a loop
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
-t = threading.Thread(target=run_alarm)
-t.start()
+def get_alarm_sound():
+    # Retrieve the alarm sound from the database or session
+    return session.get('alarm_sound', 'default_alarm.mp3')
