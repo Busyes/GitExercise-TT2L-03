@@ -10,7 +10,7 @@ auth = Blueprint('auth', __name__)
 def hash_password(password):
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-    return hashed_password
+    return hashed_password.decode('utf-8')
 
 def get_hashed_password(password):
     salt = bcrypt.gensalt()

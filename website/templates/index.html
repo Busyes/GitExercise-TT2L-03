@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, intial-scale=1">
 
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> 
         <!--w-->
     </head>
     <body>
@@ -13,9 +14,9 @@
         <!--supposedly header sec with navbar + login option-->
             <nav class="navbar">
                 <div class="navdiv">
-                    <div class="logo"><a href="#" class="logo"><img src="img/logo.png" alt="jomPOMO logo"> </a> </div>
+                    <div class="logo"><a href="#" class="logo"><img src="logo.png" alt="jomPOMO logo"> </a> </div>
                         <ul>
-                            <li><a href="#">POMOZONE</a></li>
+                            <li><a href="timer.html">POMOZONE</a></li>
                             <li>
                                 <a href="#">LIBRARY 🡻 </a>
                                 <ul class="dropdown">
@@ -26,8 +27,8 @@
                             </li>
                             <li><a href="#">TRACK</a></li>
                             <li><a href="#">ABOUT</a></li>
-                            <button><a href="#">LOG IN</a></button>
-                            <button><a href="#">SIGN UP</a></button>
+                            <button><a href="login.html">LOG IN</a></button>
+                            <button><a href="sign_up.html">SIGN UP</a></button>
                         </ul>
 
 
