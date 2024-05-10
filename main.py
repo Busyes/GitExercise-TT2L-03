@@ -9,7 +9,7 @@ main = create_app()
 
 index = Blueprint('index', __name__)
 
-@main.route('/')
+@main.route('/index')
 def index():
     return render_template('index.html')
 
@@ -25,6 +25,17 @@ def alarm():
 def login():
     return render_template('login.html')
 
+@main.route('/logo')
+def logo():
+    return render_template('logo.png')
+
+@main.route('/sign_up')
+def sign_up():
+    return render_template('sign_up.html')
+
+@main.route('/timer')
+def timer():
+    return render_template('timer.py')
 
 if __name__ == '__main__':
     main.run(debug=True)
