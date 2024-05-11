@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="static/style.css">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="navdiv">
+                <div class="logo"><a href="/index" class="logo"><img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo"> </a> </div>
+                    <ul>
+                        <li><a href="#">POMOZONE</a></li>
+                        <li>
+                            <a href="#">LIBRARY</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Background image</a> </li>
+                                <li><a href="/sound">Sound</a> </li>
+                                <li><a href="/alarm">Alarm</a> </li>
+                            </ul>
+                        </li>
+                        <li><a href="#">TRACK</a></li>
+                        <li><a href="#">ABOUT</a></li>
+                        <button><a href="/login">LOG IN</a></button>
+                        <button><a href="/sign_up">SIGN UP</a></button>
+                    </ul>
+
+
+            </div>
+
+
+
+
+        </nav>
+
+
+
+
+        <h1>Background music selection:</h1>
+        <p1>Different background music will be unlocked once you have reached your desired study target!</p>
+        </body>
+    <div>
+        <h4>music 1</h4>
+        <audio controls>
+            <source src="{{ url_for('send_audio', filename='song 1.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        <h4>music 2</h4>
+        <audio controls>
+            <source src="{{ url_for('send_audio', filename='song 2.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+    </div>
+
+    
+
+</html>
