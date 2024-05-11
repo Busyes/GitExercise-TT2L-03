@@ -37,9 +37,9 @@ def sign_up():
 def send_static(logo):
     return send_from_directory('static/images', logo)
 
-@main.route('/audio/<path:audio>')
-def send_audio(audio):
-    return send_from_directory('static/audio', audio)
+@main.route('/sound/<path:sound>')
+def serve_song(sound):
+    return send_from_directory('static', sound)
 
 if __name__ == '__main__':
     main.run(debug=True)
