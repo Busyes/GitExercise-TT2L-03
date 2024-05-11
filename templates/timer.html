@@ -13,6 +13,10 @@
       <span id="separator">/</span>
       <span id="break-time">05:00</span>
     </div>
+    <div>
+      <button id="skipbreak-button" disabled>Skip Break</button>
+    </div>
+
     <script>
       const startButton = document.getElementById("start-button");
       const stopButton = document.getElementById("stop-button");
@@ -20,9 +24,10 @@
       const timer = document.getElementById("timer");
       const workTime = document.getElementById("work-time");
       const breakTime = document.getElementById("break-time");
+      const skipbreakButton = document.getElementById("skipbreak-button");
       let workInterval;
       let breakInterval;
-      let timeLeft = 25 * 60; // 25 minutes in seconds
+      let timeLeft = 5; // 25 minutes in seconds
       let breakTimeLeft = 5 * 60; // 5 minutes in seconds
       let isWorking = true;
 
@@ -90,11 +95,4 @@
       });
       
       </script>
-    </body>
-    <div id="timer">
-        <span id="minutes">25</span>:<span id="seconds">00</span>
-    </div>
-    <button id="start-stop-button">Start</button>
-    <button id="reset-button">Reset</button>
-
     

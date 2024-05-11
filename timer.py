@@ -32,7 +32,7 @@ def pomodoro():
             return redirect(url_for('pomodoro'))
     t_now = datetime.datetime.now()
     t_fut = t_now + datetime.timedelta(minutes=work_session)
-    return render_template('pomodoro.html', t_fut=t_fut, session_count=session_count)
+    return render_template('timer.html', t_fut=t_fut, session_count=session_count)
 
 @app.route('/break', methods=['GET', 'POST'])
 def break_time():
@@ -43,7 +43,7 @@ def break_time():
             return redirect(url_for('pomodoro'))
     t_now = datetime.datetime.now()
     t_fut = t_now + datetime.timedelta(minutes=break_session)
-    return render_template('break.html', t_fut=t_fut, session_count=session_count)
+    return render_template('timer.html', t_fut=t_fut, session_count=session_count)
 
 if __name__ == '__main__':
     app.run(debug=True)
