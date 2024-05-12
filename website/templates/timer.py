@@ -4,6 +4,15 @@ import datetime
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return render_template('index.html')  # render the HTML file
+
+@app.route('/timer')
+def timer():
+    # logic for POMOZONE page goes here
+    return render_template('timer.html')  # render a new HTML file for POMOZONE
+
 # Initialize variables
 work_session = 25  # 25 minutes
 break_session = 5  # 5 minutes
