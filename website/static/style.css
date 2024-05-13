@@ -1,4 +1,5 @@
 *{
+
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     transition: .2s linear;
     text-decoration: none;
@@ -81,6 +82,7 @@ button{
 }
 
 .navbar {
+    height: auto;
     position: relative;
     background: #02988b;
     padding-right: 15px;
@@ -149,17 +151,104 @@ button a{
     font-size: 15px;
 }
 
-.center-button{
-    border-radius: 5px;
-    background: antiquewhite;
-    width: 90px;
-    margin-left: 10px;
-    padding: 10px;
-    white-space: nowrap;
-}
 
+.center-button {
+        border-radius: 5px;
+        background: antiquewhite;
+        width: 90px;
+        margin-left: 10px;
+        margin-top: 20px;
+        padding: 10px;
+        white-space: nowrap;
+        display: inline-block; 
+        transition: background-color 0.1s;
+    }
+    
+    .center-button:hover {
+        background-color:#02ae9f
+    }
+    
 .center-button a{
         color: rgb(28, 26, 24);
         font-weight: bolder;
         font-size: 15px;
     }
+
+.centered-text1 {
+        text-align: center;
+        font-size: 50px;
+        color: antiquewhite;
+        margin-bottom: 10px;
+    }
+
+.centered-text2 {
+    text-align: center;
+    font-size: 25px;
+    color: antiquewhite;
+    margin-top: 5px;
+}
+
+.homepage-title {
+    margin-bottom: 10px;
+}
+
+.homepage-text {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.login-box {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .login-form h3 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
