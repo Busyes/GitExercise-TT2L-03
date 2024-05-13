@@ -164,7 +164,7 @@ button a{
         transition: background-color 0.1s;
     }
     
-    .center-button:hover {
+.center-button:hover {
         background-color:#02ae9f
     }
     
@@ -202,18 +202,18 @@ button a{
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid antiquewhite;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: antiquewhite
 }
 
 .login-form {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid antiquewhite;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: antiquewhite;
   }
   
   .login-form h3 {
@@ -232,7 +232,7 @@ button a{
   .form-control {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid antiquewhite;
     border-radius: 5px;
   }
   
@@ -242,13 +242,13 @@ button a{
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #20B2AA;
+    color: antiquewhite;
     cursor: pointer;
     transition: background-color 0.3s;
   }
   
   .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #FF3800;
   }
   
