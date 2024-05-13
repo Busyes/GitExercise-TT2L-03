@@ -13,6 +13,10 @@ index = Blueprint('index', __name__)
 def index():
     return render_template('index.html')
 
+@main.route ('/timer')
+def timer():
+    return render_template('timer.html')
+
 @main.route('/sound')
 def sound():
     return render_template('sound.html')
