@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from main import app
 import time
 import datetime
 
@@ -11,7 +12,8 @@ def index():
 @app.route('/timer')
 def timer():
     # logic for POMOZONE page goes here
-    return render_template('timer.html')  # render a new HTML file for POMOZONE
+    return render_template('timer.html')  # render a new HTML file for P
+
 
 # Initialize variables
 work_session = 25  # 25 minutes
