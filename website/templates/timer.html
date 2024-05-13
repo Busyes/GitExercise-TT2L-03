@@ -14,7 +14,7 @@
       <span id="break-time">05:00</span>
     </div>
     <div>
-      <button id="skipbreak-button" disabled>Skip Break</button>
+      <button id="skipbreak-button">Skip Break</button>
     </div>
 
     <script>
@@ -87,11 +87,30 @@
         resetButton.disabled = true;
         clearInterval(workInterval);
         clearInterval(breakInterval);
-        timeLeft = 25 * 60;
+        timeLeft = 5;
         breakTimeLeft = 5 * 60;
         workTime.textContent = "25:00";
         breakTime.textContent = "05:00";
         isWorking = true;
+        skipbreakButton.disabled = false;
+      });
+
+    skipbreakButton.addEventListener("click", () => {
+      if (breakInterval) {
+      clearInterval(breakInterval);
+      isWorking = true;
+      timeLeft = 5;
+      breakTimeLeft = 5 * 60;
+      workInterval = setInterval(() => { 
+        timeLeft--;
+        workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`; 
+        if (timeLeft === 0) { 
+          clearInterval(workInterval); 
+          isWorking = false; 
+        } 
+      }, 1000);
+      skipbreakButton.disabled = true;
+        }
       });
       
       </script>
