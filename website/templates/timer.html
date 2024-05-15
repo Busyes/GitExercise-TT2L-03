@@ -4,6 +4,7 @@
     <title>POMOZONE</title>
   </head>
 
+
   <head>
     <link rel="stylesheet" href="static/style.css">
 </head>
@@ -35,6 +36,7 @@
 
     </nav>
     
+
   <body>
     <h1>POMOZONE</h1>
     <button id="start-button">Start</button>
@@ -45,8 +47,9 @@
       <span id="separator">/</span>
       <span id="break-time">05:00</span>
     </div>
-    <div>
-      <button id="skipbreak-button" disabled>Skip Break</button>
+  
+      <button id="skipbreak-button">Skip Break</button>
+
     </div>
 
     <script>
@@ -119,11 +122,14 @@
         resetButton.disabled = true;
         clearInterval(workInterval);
         clearInterval(breakInterval);
-        timeLeft = 25 * 60;
+
+        timeLeft = 5;
+
         breakTimeLeft = 5 * 60;
         workTime.textContent = "25:00";
         breakTime.textContent = "05:00";
         isWorking = true;
+
       });
       
       </script>
