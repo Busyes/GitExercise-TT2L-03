@@ -6,6 +6,7 @@
 
   <head>
     <link rel="stylesheet" href="static/style.css">
+    <audio id="alarm-music" src="static/sound/alarm 1.mp3" loop></audio>
 </head>
 <body>
     <nav class="navbar">
@@ -57,6 +58,8 @@
       const workTime = document.getElementById("work-time");
       const breakTime = document.getElementById("break-time");
       const skipbreakButton = document.getElementById("skipbreak-button");
+      const Alarm = document.getElementById("alarm-music");
+
       let workInterval;
       let breakInterval;
       let timeLeft = 5; // 25 minutes in seconds
@@ -125,6 +128,7 @@
         breakTime.textContent = "05:00";
         isWorking = true;
         skipbreakButton.disabled = false;
+        Alarm.pause();
       });
 
     skipbreakButton.addEventListener("click", () => {
@@ -139,6 +143,8 @@
         if (timeLeft === 0) { 
           clearInterval(workInterval); 
           isWorking = false; 
+          Alarm.play(); 
+          Alarm.currentTime = 0; 
           alert("Timer is up!");
           resetTimer();
         } 
@@ -146,6 +152,8 @@
       skipbreakButton.disabled = true;
         }
       });
+
+      updateTimerDisplay(); // Initial display update
       
       </script>
     
