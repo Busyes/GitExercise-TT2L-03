@@ -139,6 +139,8 @@
         if (timeLeft === 0) { 
           clearInterval(workInterval); 
           isWorking = false; 
+          alert("Timer is up!");
+          resetTimer();
         } 
       }, 1000);
       skipbreakButton.disabled = true;
