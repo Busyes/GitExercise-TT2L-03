@@ -51,6 +51,23 @@
     </div>
 
     <script>
+      function storeUserSession(sessionData) {
+        fetch('/store-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(sessionData),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+
       const startButton = document.getElementById("start-button");
       const stopButton = document.getElementById("stop-button");
       const resetButton = document.getElementById("reset-button");
@@ -60,11 +77,13 @@
       const skipbreakButton = document.getElementById("skipbreak-button");
       const Alarm = document.getElementById("alarm-music");
 
+      // 25 minutes --> 5 minutes --> 25 minutes = 1 session
       let workInterval;
       let breakInterval;
       let timeLeft = 5; // 25 minutes in seconds
       let breakTimeLeft = 5 * 60; // 5 minutes in seconds
       let isWorking = true;
+      let sessionId = null;
 
       startButton.addEventListener("click", () => {
         startButton.disabled = true;
@@ -78,6 +97,7 @@
               clearInterval(workInterval);
               isWorking = false;
               breakTimeLeft = breakTimeLeft;
+
               breakInterval = setInterval(() => {
                 breakTimeLeft--;
                 breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
@@ -143,8 +163,16 @@
         if (timeLeft === 0) { 
           clearInterval(workInterval); 
           isWorking = false; 
-          Alarm.play(); 
-          Alarm.currentTime = 0; 
+
+          {% if current_user.is_authenticated %}
+          const sessionData = {
+            user_id: {{ current_user.id }},
+          };
+          storeUserSession(sessionData);
+          {% endif %}
+
+          // Alarm.play(); 
+          // Alarm.currentTime = 0; 
           alert("Timer is up!");
           resetTimer();
         } 
