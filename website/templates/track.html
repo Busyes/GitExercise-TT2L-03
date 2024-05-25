@@ -1,9 +1,26 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <title>Tracker</title>
-    <script src="script.js"></script>
-  </head>
-  <body>
-  </body>
+</head>
+<body>
+    <h2>User's Trackzz</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Number of Sessions</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for session, first_name in user_sessions %}
+          <tr>
+              <td>{{ first_name }}</td>
+              <td>{{ session.num_session }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
 </html>

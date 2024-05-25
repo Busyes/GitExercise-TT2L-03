@@ -60,6 +60,12 @@ def store_session():
             db.session.add(new_session)
             db.session.commit()
             return 'session created'
+        
+@main.route('/tracker')
+def tracker():
+    user_sessions = db.session.query(UserSession, User.first_name).join(User, User.id == UserSession.user_id).all()
+    return render_template('track.html', user_sessions=user_sessions)
+
 
 if __name__ == '__main__':
     main.run(debug=True)
