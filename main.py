@@ -1,9 +1,10 @@
-from website import create_app
+from website import create_app, db
 from flask import render_template, request, redirect, session, send_from_directory, Response
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 import bcrypt
+from website.templates.models import User, UserSession
 
 main = create_app()
 
@@ -44,6 +45,21 @@ def send_static(logo):
 @main.route('/sound/<path:sound>')
 def serve_song(sound):
     return send_from_directory('static', sound)
+
+@main.route('/store-session', methods=['POST'])
+def store_session():
+    if request.method == 'POST':
+        data = request.get_json()
+        session = UserSession.query.filter_by(user_id=data['user_id']).first()
+        if session:
+            session.num_session = session.num_session + 1
+            db.session.commit()
+            return 'session added'
+        else:
+            new_session = UserSession(user_id=data['user_id'], num_session=1)
+            db.session.add(new_session)
+            db.session.commit()
+            return 'session created'
 
 if __name__ == '__main__':
     main.run(debug=True)
