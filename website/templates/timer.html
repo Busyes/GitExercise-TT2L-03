@@ -4,6 +4,7 @@
     <title>POMOZONE</title>
   </head>
 
+
   <head>
     <link rel="stylesheet" href="static/style.css">
     <audio id="alarm-music" src="static/sound/alarm 1.mp3" loop></audio>
@@ -36,6 +37,7 @@
 
     </nav>
     
+
   <body>
     <h1>POMOZONE</h1>
     <button id="start-button">Start</button>
@@ -46,8 +48,9 @@
       <span id="separator">/</span>
       <span id="break-time">05:00</span>
     </div>
-    <div>
+  
       <button id="skipbreak-button">Skip Break</button>
+
     </div>
 
     <script>
@@ -142,11 +145,14 @@
         resetButton.disabled = true;
         clearInterval(workInterval);
         clearInterval(breakInterval);
+
         timeLeft = 5;
+
         breakTimeLeft = 5 * 60;
         workTime.textContent = "25:00";
         breakTime.textContent = "05:00";
         isWorking = true;
+<<<<<<< HEAD
         skipbreakButton.disabled = false;
         Alarm.pause();
       });
@@ -179,6 +185,9 @@
       }, 1000);
       skipbreakButton.disabled = true;
         }
+=======
+
+>>>>>>> main
       });
 
       updateTimerDisplay(); // Initial display update
