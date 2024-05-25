@@ -12,7 +12,7 @@ def index():
 @app.route('/timer')
 def timer():
     # logic for POMOZONE page goes here
-    return render_template('timer.html')  # render a new HTML file for POMOZONE
+    return render_template('timer.html')  # render a new HTML file for P
 
 
 # Initialize variables
