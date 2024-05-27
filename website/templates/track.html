@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,23 +39,49 @@
 
 
             </nav>
+=======
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Tracker</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="logo"><a href="/index" class="logo"><img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo"> </a> </div>
+                <ul>
 
-    <h2>User's Trackzz</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Number of Sessions</th>
-            </tr>
-        </thead>
-        <tbody>
-          {% for session, first_name in user_sessions %}
-          <tr>
-              <td>{{ first_name }}</td>
-              <td>{{ session.num_session }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <li><a href="/timer">POMOZONE</a></li>
+
+                    <li>
+                        <a href="#">LIBRARY</a>
+                        <ul class="dropdown">
+                            <li><a href="/sound">Sound</a> </li>
+                            <li><a href="/alarm">Alarm</a> </li>
+                        </ul>
+                    </li>
+                    <li><a href="/tracker">TRACK</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                    <button><a href="/login">LOG IN</a></button>
+                    <button><a href="/sign_up">SIGN UP</a></button>
+                </ul>
+
+
+        </div>
+
+    </nav>
+>>>>>>> b58235d3b1532653a7e42d20139d2ba27f198345
+
+    <div style="display: flex; align-items: center; flex-direction: column;">
+        <h2>YOUR TRACKZ</h2>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="border-radius: 999999px; background-color: aquamarine; height: 2rem; width: 2rem; display: flex; justify-content: center; align-items: center;">
+                {{ user_session.num_session }}
+            </div>
+            <div>
+                You completed {{ user_session.num_session }} sessions
+            </div>
+        </div>
+    </div>
 </body>
 </html>

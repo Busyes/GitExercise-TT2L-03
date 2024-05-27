@@ -1,5 +1,3 @@
-import sqlite3
-from connect.py import get_db_connection
 
 <head>
   <meta charset="utf-8">
@@ -8,6 +6,7 @@ from connect.py import get_db_connection
 
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <!--w-->
 </head>
 <body>
@@ -83,7 +82,24 @@ from connect.py import get_db_connection
       <br />
       <button type="submit" class="btn btn-primary ">Submit</button>
 
-      <div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      </div>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              Toastify({
+                text: "{{ message }}",
+                duration: 3000,
+                destination: "https://github.com/apvarun/toastify-js",
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "center", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+              }).showToast();
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        </script>
     </form>

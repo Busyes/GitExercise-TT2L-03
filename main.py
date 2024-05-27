@@ -1,3 +1,4 @@
+import flask_login
 from website import create_app, db
 from flask import render_template, request, redirect, session, send_from_directory, Response
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -68,8 +69,10 @@ def store_session():
 @main.route('/tracker')
 @login_required
 def tracker():
-    user_sessions = db.session.query(UserSession, User.first_name).join(User, User.id == UserSession.user_id).all()
-    return render_template('track.html', user_sessions=user_sessions)
+    current_user = flask_login.current_user
+    user_session = UserSession.query.filter_by(user_id=current_user.id).first()
+    print(user_session)
+    return render_template('track.html', user_session=user_session)
 
 
 if __name__ == '__main__':
