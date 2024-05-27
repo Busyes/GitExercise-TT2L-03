@@ -176,12 +176,12 @@
           clearInterval(workInterval); 
           isWorking = false; 
 
-          {% if current_user.is_authenticated %}
-          const sessionData = {
-            user_id: {{ current_user.id }},
-          };
-          storeUserSession(sessionData);
-          {% endif %}
+            {% if current_user.is_authenticated %}
+            const sessionData = {
+              user_id: {{ current_user.id }},
+            };
+            storeUserSession(sessionData);
+            {% endif %}
 
           // Alarm.play(); 
           // Alarm.currentTime = 0; 
