@@ -74,6 +74,21 @@ def tracker():
     print(user_session)
     return render_template('track.html', user_session=user_session)
 
+@main.route('/sound/sound 2')
+def get_sound(sound_number):
+    if 'session_count' in session:
+        if session['session_count'] < sound_number:
+            return 'This song is locked. Please reach %d sessions to unlock.' % sound_number
+        else:
+            # Unlock the song and return the appropriate response
+            if sound_number == 0:
+                return 'This is background song 1. Enjoy!'
+            elif sound_number == 3:
+                return 'This is background song 2. Enjoy!'
+            else:
+                return 'Invalid song number.'
+    else:
+        return 'Please log in to access this feature.'
 
 if __name__ == '__main__':
     main.run(debug=True)
