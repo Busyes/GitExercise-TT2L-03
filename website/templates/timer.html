@@ -18,12 +18,11 @@
                     <li>
                         <a href="#">LIBRARY</a>
                         <ul class="dropdown">
-                            <li><a href="#">Background image</a> </li>
                             <li><a href="/sound">Sound</a> </li>
                             <li><a href="/alarm">Alarm</a> </li>
                         </ul>
                     </li>
-                    <li><a href="#">TRACK</a></li>
+                    <li><a href="/tracker">TRACK</a></li>
                     <li><a href="#">ABOUT</a></li>
                     <button><a href="/login">LOG IN</a></button>
                     <button><a href="/sign_up">SIGN UP</a></button>
@@ -41,6 +40,14 @@
   <body>
     <h1>POMOZONE</h1>
     <button id="start-button">Start</button>
+    <script>
+      var myTimer;
+
+      function start_button() {
+        myTimer = setTimeout(stopAudio, 25*60000);
+      }
+
+    </script>
     <button id="stop-button" disabled>Stop</button>
     <button id="reset-button" disabled>Reset</button>
     <div id="timer">
@@ -169,12 +176,12 @@
           clearInterval(workInterval); 
           isWorking = false; 
 
-          {% if current_user.is_authenticated %}
-          const sessionData = {
-            user_id: {{ current_user.id }},
-          };
-          storeUserSession(sessionData);
-          {% endif %}
+            {% if current_user.is_authenticated %}
+            const sessionData = {
+              user_id: {{ current_user.id }},
+            };
+            storeUserSession(sessionData);
+            {% endif %}
 
           // Alarm.play(); 
           // Alarm.currentTime = 0; 

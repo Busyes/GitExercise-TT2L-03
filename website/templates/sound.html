@@ -18,7 +18,7 @@
                                 <li><a href="/alarm">Alarm</a> </li>
                             </ul>
                         </li>
-                        <li><a href="#">TRACK</a></li>
+                        <li><a href="/tracker">TRACK</a></li>
                         <li><a href="#">ABOUT</a></li>
                         <button><a href="/login">LOG IN</a></button>
                         <button><a href="/sign_up">SIGN UP</a></button>
@@ -40,12 +40,21 @@
         </body>
     <div>
         <h4 class="centered-text2">music 1</h4>
-        <audio  controls>
+        <audio id="myAudio" controls loop>
             <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 1.mp3')}}" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
+          <button onclick="stopAudio()">Stop Audio</button>
+          <script>
+            function stopAudio() {
+                var audio = document.getElementById("myAudio");
+                audio.pause();
+                audio.currentTime = 0;
+                clearTimeout(myTimer);
+            }
+          </script>
         <h4 class="centered-text2">music 2</h4>
-        <audio controls>
+        <audio controls loop>
             <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 2.mp3')}}" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
