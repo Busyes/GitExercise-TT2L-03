@@ -73,6 +73,22 @@
                     <p id="message 2"></p>
                     <button onclick="playMessage2()">Play Message</button>
                     <script src="static/script.js"></script>
+
+                    <script>
+                        // Check for session status
+                        function checkSession() {
+                            // Make an API call to track.html to check for session status
+                            fetch('track.html')
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (!data.sessionReached) {
+                                        // Disable the audio player
+                                        document.querySelector('audio').setAttribute('disabled', 'disabled');
+                                    }
+                                });
+                        }
+                    </script>
+
           <h4 class="centered-text2">music 3</h4>
           <audio controls loop>
               <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 3.mp3')}}" type="audio/mpeg">
