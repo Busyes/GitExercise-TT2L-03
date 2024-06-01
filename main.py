@@ -75,9 +75,8 @@ def store_session():
 @login_required
 def tracker():
     current_user = flask_login.current_user
-    user_session = UserSession.query.filter_by(user_id=current_user.id).first()
-    print(user_session)
-    return render_template('track.html', user_session=user_session)
+    user_sessions = UserSession.query.filter_by(user_id=current_user.id).all()
+    return render_template('track.html', user_sessions=user_sessions)
 
 
 if __name__ == '__main__':

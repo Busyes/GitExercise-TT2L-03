@@ -48,15 +48,24 @@
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       
       <script>
+        
         const ctx = document.getElementById('myChart');
       
         new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ['Study', 'Gaming', 'Work', 'Hobby'],
+            labels: [
+              {% for user_session in user_sessions %}
+              "{{ user_session.category }}",
+              {% endfor %}
+            ],
             datasets: [{
               label: 'Pomozone Session',
-              data: [15],
+              data: [
+                {% for user_session in user_sessions %}
+                {{ user_session.num_session}},
+                {% endfor %}
+              ],
               borderWidth: 1
             }]
           },
