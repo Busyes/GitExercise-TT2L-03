@@ -60,13 +60,13 @@ def serve_song(sound):
 def store_session():
     if request.method == 'POST':
         data = request.get_json()
-        session = UserSession.query.filter_by(user_id=data['user_id']).first()
+        session = UserSession.query.filter_by(user_id=data['user_id'], category=data['category']).first()
         if session:
             session.num_session = session.num_session + 1
             db.session.commit()
             return 'session added'
         else:
-            new_session = UserSession(user_id=data['user_id'], num_session=1)
+            new_session = UserSession(user_id=data['user_id'],category=data['category'], num_session=1)
             db.session.add(new_session)
             db.session.commit()
             return 'session created'
@@ -75,9 +75,8 @@ def store_session():
 @login_required
 def tracker():
     current_user = flask_login.current_user
-    user_session = UserSession.query.filter_by(user_id=current_user.id).first()
-    print(user_session)
-    return render_template('track.html', user_session=user_session)
+    user_sessions = UserSession.query.filter_by(user_id=current_user.id).all()
+    return render_template('track.html', user_sessions=user_sessions)
 
 
 if __name__ == '__main__':

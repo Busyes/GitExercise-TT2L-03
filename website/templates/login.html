@@ -14,6 +14,7 @@
           <div class="navdiv">
             <div class="logo"><a href="/index" class="logo"><img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo"> </a> </div>
                   <ul>
+                    {% if current_user.is_authenticated %}
                       <li><a href="/timer">POMOZONE</a></li>
                       <li>
                           <a href="#">LIBRARY 🡻 </a>
@@ -23,6 +24,7 @@
                           </ul>
                       </li>
                       <li><a href="/tracker">TRACK</a></li>
+                      {% endif %}
                       <li><a href="#">ABOUT</a></li>
                       <button><a href="/login">LOG IN</a></button>
                       <button><a href="/logout">LOG OUT</a></button>
