@@ -8,6 +8,7 @@
   <head>
     <link rel="stylesheet" href="static/style.css">
     <audio id="alarm-music" src="static/sound/alarm 1.mp3" loop></audio>
+    <audio id="bg-sound" src="static/sound/sound 1.mp3" loop></audio>
 </head>
 <body>
     <nav class="navbar">
@@ -39,6 +40,22 @@
 
   <body>
     <h1>POMOZONE</h1>
+
+    
+            <!-- Create a select element with an ID -->
+            <select id="song-select">
+              <!-- Add options for each song -->
+              <option value="">Select a song</option>
+              <option value="song1">Song 1 - Happy Vibes</option>
+              <option value="song2">Song 2 - Relaxing Melody</option>
+              <option value="song3">Song 3 - Upbeat Energy</option>
+              <!-- Add more options for each song -->
+          </select>
+          
+          <!-- Create a button to play the selected song -->
+          <button id="play-button">Play Song</button>
+          <script src="static/app.js"></script>
+          
     <button id="start-button">Start</button>
     <script>
       var myTimer;
@@ -86,6 +103,7 @@
       const breakTime = document.getElementById("break-time");
       const skipbreakButton = document.getElementById("skipbreak-button");
       const Alarm = document.getElementById("alarm-music");
+      const BgSound = document.getElementById("bg-sound")
 
       // 25 minutes --> 5 minutes --> 25 minutes = 1 session
       let workInterval;
@@ -96,6 +114,7 @@
       let sessionId = null;
 
       startButton.addEventListener("click", () => {
+        BgSound.play();
         startButton.disabled = true;
         stopButton.disabled = false;
         resetButton.disabled = false;
@@ -109,6 +128,7 @@
               breakTimeLeft = breakTimeLeft;
 
               breakInterval = setInterval(() => {
+                BgSound.pause();
                 breakTimeLeft--;
                 breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
                 if (breakTimeLeft === 0) {
@@ -120,6 +140,7 @@
           }, 1000);
         } else {
           breakInterval = setInterval(() => {
+            BgSound.play();
             breakTimeLeft--;
             breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
             if (breakTimeLeft === 0) {
@@ -132,6 +153,7 @@
                 if (timeLeft === 0) {
                   clearInterval(workInterval);
                   isWorking = false;
+                  BgSound.pause();
                 }
               }, 1000);
             }
@@ -164,6 +186,7 @@
       });
 
     skipbreakButton.addEventListener("click", () => {
+      BgSound.play();
       if (breakInterval) {
       clearInterval(breakInterval);
       isWorking = true;
@@ -183,9 +206,11 @@
             storeUserSession(sessionData);
             {% endif %}
 
-          // Alarm.play(); 
-          // Alarm.currentTime = 0; 
+          BgSound.pause();
+          Alarm.play(); 
+          Alarm.currentTime = 0; 
           alert("Timer is up!");
+          Alarm.pause();
           resetTimer();
         } 
       }, 1000);
