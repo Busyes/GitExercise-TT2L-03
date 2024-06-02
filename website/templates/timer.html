@@ -40,6 +40,28 @@
 
   <body>
     <h1>POMOZONE</h1>
+    <h5>Pick a Category</h5>
+    <button id="study-button" class="category-button">Study</button>
+    <button id="gaming-button" class="category-button">Gaming</button>
+    <button id="work-button" class="category-button">Work</button>
+    <button id="hobby-button" class="category-button">Hobby</button>
+    <h5>Timer Control</h5>
+
+    
+            <!-- Create a select element with an ID -->
+            <select id="song-select">
+              <!-- Add options for each song -->
+              <option value="">Select a song</option>
+              <option value="song1">Song 1 - Happy Vibes</option>
+              <option value="song2">Song 2 - Relaxing Melody</option>
+              <option value="song3">Song 3 - Upbeat Energy</option>
+              <!-- Add more options for each song -->
+          </select>
+          
+          <!-- Create a button to play the selected song -->
+          <button id="play-button">Play Song</button>
+          <script src="static/app.js"></script>
+          
     <button id="start-button">Start</button>
     <script>
       var myTimer;
@@ -88,6 +110,11 @@
       const skipbreakButton = document.getElementById("skipbreak-button");
       const Alarm = document.getElementById("alarm-music");
       const BgSound = document.getElementById("bg-sound")
+      const studyButton = document.getElementById("study-button")
+      const gamingButton = document.getElementById("gaming-button")
+      const workButton = document.getElementById("work-button")
+      const hobbyButton = document.getElementById("hobby-button")
+      const categoryButtons = document.getElementsByClassName("category-button")
 
       // 25 minutes --> 5 minutes --> 25 minutes = 1 session
       let workInterval;
@@ -96,6 +123,21 @@
       let breakTimeLeft = 5 * 60; // 5 minutes in seconds
       let isWorking = true;
       let sessionId = null;
+      let category = ""
+
+      function getCategory(text){
+        category = text
+        console.log(category)
+
+        for (i = 0; i < categoryButtons.length; i++) {
+          categoryButtons[i].disabled = true
+        }
+      } 
+
+      studyButton.addEventListener("click", () => getCategory("study"))
+      gamingButton.addEventListener("click", () => getCategory("gaming"))
+      workButton.addEventListener("click", () => getCategory("work"))
+      hobbyButton.addEventListener("click", () => getCategory("hobby"))
 
       startButton.addEventListener("click", () => {
         BgSound.play();
@@ -186,6 +228,7 @@
             {% if current_user.is_authenticated %}
             const sessionData = {
               user_id: {{ current_user.id }},
+              category: category
             };
             storeUserSession(sessionData);
             {% endif %}

@@ -34,6 +34,11 @@ def alarm():
 def login():
     return render_template('login.html')
 
+@main.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 @main.route('/logo')
 def logo():
     return render_template('logo.png')
@@ -55,13 +60,13 @@ def serve_song(sound):
 def store_session():
     if request.method == 'POST':
         data = request.get_json()
-        session = UserSession.query.filter_by(user_id=data['user_id']).first()
+        session = UserSession.query.filter_by(user_id=data['user_id'], category=data['category']).first()
         if session:
             session.num_session = session.num_session + 1
             db.session.commit()
             return 'session added'
         else:
-            new_session = UserSession(user_id=data['user_id'], num_session=1)
+            new_session = UserSession(user_id=data['user_id'],category=data['category'], num_session=1)
             db.session.add(new_session)
             db.session.commit()
             return 'session created'
@@ -70,25 +75,9 @@ def store_session():
 @login_required
 def tracker():
     current_user = flask_login.current_user
-    user_session = UserSession.query.filter_by(user_id=current_user.id).first()
-    print(user_session)
-    return render_template('track.html', user_session=user_session)
+    user_sessions = UserSession.query.filter_by(user_id=current_user.id).all()
+    return render_template('track.html', user_sessions=user_sessions)
 
-@main.route('/sound/sound 2')
-def get_sound(sound_number):
-    if 'session_count' in session:
-        if session['session_count'] < sound_number:
-            return 'This song is locked. Please reach %d sessions to unlock.' % sound_number
-        else:
-            # Unlock the song and return the appropriate response
-            if sound_number == 0:
-                return 'This is background song 1. Enjoy!'
-            elif sound_number == 3:
-                return 'This is background song 2. Enjoy!'
-            else:
-                return 'Invalid song number.'
-    else:
-        return 'Please log in to access this feature.'
 
 if __name__ == '__main__':
     main.run(debug=True)
