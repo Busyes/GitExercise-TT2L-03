@@ -30,6 +30,11 @@ def sound():
 def alarm():
     return render_template('alarm.html')
 
+@main.route('/bgimage')
+@login_required
+def bgimage():
+    return render_template('bgimage.html')
+
 @main.route('/login')
 def login():
     return render_template('login.html')

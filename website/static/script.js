@@ -17,3 +17,23 @@ function playMessage4() {
 function playMessage5() {
 	document.getElementById("message 5").innerText = "This song will unlocked once you have reached 9 sessions";
 }
+
+function playMessage6() {
+	document.getElementById("message 6").innerText = "This alarm will unlocked once you have reached 11 sessions";
+}
+
+function playMessage7() {
+	document.getElementById("message 7").innerText = "This alarm will unlocked once you have reached 13 sessions";
+}
+
+function playMessage8() {
+	document.getElementById("message 8").innerText = "This alarm will unlocked once you have reached 15 sessions";
+}
+
+function playMessage9() {
+	document.getElementById("message 9").innerText = "This alarm will unlocked once you have reached 17 sessions";
+}
+
+function playMessage10() {
+	document.getElementById("message 10").innerText = "This alarm will unlocked once you have reached 19 sessions";
+}
