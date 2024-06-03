@@ -38,21 +38,96 @@
 
   <body>
     <h1>POMOZONE</h1>
+    <h5>Pick a Category</h5>
+    <button id="study-button" class="category-button">Study</button>
+    <button id="gaming-button" class="category-button">Gaming</button>
+    <button id="work-button" class="category-button">Work</button>
+    <button id="hobby-button" class="category-button">Hobby</button>
+    <h5>Timer Control</h5>
 
       <div>
-            <!-- Create a select element with an ID -->
-            <select id="song-select">
-              <!-- Add options for each song -->
-              <option value="">Select a song</option>
-              <option value="song1">Song 1</option>
-              <option value="song2">Song 2</option>
-              <option value="song3">Song 3</option>
-              <!-- Add more options for each song -->
-          </select>
-          
-          <!-- Create a button to play the selected song -->
-          <button id="play-button">Play Song</button>
-          <button id="stop-song-button">Stop Song</button>
+        <select id="song-select">
+          <option value="">Select a song</option>
+          <option value="song1" data-target="0">Song 1</option>
+          <option value="song2" data-target="3">Song 2</option>
+          <option value="song3" data-target="5">Song 3</option>
+          <option value="song4" data-target="7">Song 4</option>
+          <option value="song5" data-target="9">Song 5</option>
+        </select>
+        
+        <button id="play-button">Play Song</button>
+        <button id="stop-song-button">Stop Song</button>
+
+        <p id="session-display">Session : 0</p>
+        
+        <script>
+          const songSelect = document.getElementById('song-select');
+          const playButton = document.getElementById('play-button');
+          const stopSongButton = document.getElementById('stop-song-button');
+          const sessionDisplay = document.getElementById('session-display');
+        
+          const songUrls = {
+            song1: 'static/sound/sound 1.mp3',
+            song2: 'static/sound/sound 2.mp3',
+            song3: 'static/sound/sound 3.mp3',
+            song4: 'static/sound/sound 4.mp3',
+            song5: 'static/sound/sound 5.mp3',
+
+          };
+        
+          let currentAudio;
+          let startTime;
+          let session = 0;
+        
+          playButton.addEventListener('click', playSong);
+          stopSongButton.addEventListener('click', stopSong);
+        
+          function playSong() {
+            const selectedSong = songSelect.value;
+            const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-target'));
+        
+            if (selectedSong && session >= targetSession) {
+            if (currentAudio) {
+              currentAudio.pause();
+              currentAudio.currentTime = 0;
+            }
+
+        
+              currentAudio = new Audio(songUrls[selectedSong]);
+              currentAudio.loop = false; // Set loop to false to use onended event
+              currentAudio.onended = loopAudio;
+              currentAudio.play();
+              startTime = new Date().getTime(); // Record the start time
+            } else {
+              alert('`You need ${targetSession} session to unlock this song!`');
+            }
+         }
+          function stopSong() {
+            if (currentAudio) {
+              currentAudio.pause();
+              currentAudio.currentTime = 0;
+            }
+          }
+
+          function loopAudio() {
+            const currentTime = new Date().getTime();
+            const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
+
+            if (elapsedTime < 25 * 60) { // 25 minutes in seconds
+              currentAudio.play();
+            } else {
+              currentAudio.pause();
+              currentAudio.currentTime = 0;
+            }
+          }
+
+          function addSession(amount) {
+          session += amount;
+          sessionDisplay.textContent = `Session: ${session}`;
+        }
+
+            addSession(1); // Add 50 session
+         </script> 
       </div>
 
     <button id="start-button">Start</button>
@@ -103,6 +178,11 @@
       const skipbreakButton = document.getElementById("skipbreak-button");
       const Alarm = document.getElementById("alarm-music");
       const BgSound = document.getElementById("bg-sound")
+      const studyButton = document.getElementById("study-button")
+      const gamingButton = document.getElementById("gaming-button")
+      const workButton = document.getElementById("work-button")
+      const hobbyButton = document.getElementById("hobby-button")
+      const categoryButtons = document.getElementsByClassName("category-button")
 
       // 25 minutes --> 5 minutes --> 25 minutes = 1 session
       let workInterval;
@@ -111,6 +191,21 @@
       let breakTimeLeft = 5 * 60; // 5 minutes in seconds
       let isWorking = true;
       let sessionId = null;
+      let category = ""
+
+      function getCategory(text){
+        category = text
+        console.log(category)
+
+        for (i = 0; i < categoryButtons.length; i++) {
+          categoryButtons[i].disabled = true
+        }
+      } 
+
+      studyButton.addEventListener("click", () => getCategory("study"))
+      gamingButton.addEventListener("click", () => getCategory("gaming"))
+      workButton.addEventListener("click", () => getCategory("work"))
+      hobbyButton.addEventListener("click", () => getCategory("hobby"))
 
       startButton.addEventListener("click", () => {
         BgSound.play();
@@ -201,6 +296,7 @@
             {% if current_user.is_authenticated %}
             const sessionData = {
               user_id: {{ current_user.id }},
+              category: category
             };
             storeUserSession(sessionData);
             {% endif %}

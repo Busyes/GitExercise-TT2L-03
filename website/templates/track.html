@@ -40,16 +40,46 @@
 
             </nav>
 
-    <div style="display: flex; align-items: center; flex-direction: column;">
-        <h2>YOUR TRACKZ</h2>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <div style="border-radius: 999999px; background-color: aquamarine; height: 2rem; width: 2rem; display: flex; justify-content: center; align-items: center;">
-                {{ user_session.num_session }}
-            </div>
-            <div>
-                You completed {{ user_session.num_session }} sessions
-            </div>
-        </div>
-    </div>
+    <h2>User's Trackzz</h2>
+    <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        
+        const ctx = document.getElementById('myChart');
+      
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: [
+              {% for user_session in user_sessions %}
+              "{{ user_session.category }}",
+              {% endfor %}
+            ],
+            datasets: [{
+              label: 'Pomozone Session',
+              data: [
+                {% for user_session in user_sessions %}
+                {{ user_session.num_session}},
+                {% endfor %}
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+       
+
 </body>
 </html>
+

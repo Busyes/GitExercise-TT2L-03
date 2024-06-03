@@ -1,28 +1,33 @@
-
- //start of new trial
-
-  // Get the select element and button
+// Get the select element and button
 const songSelect = document.getElementById('song-select');
 const playButton = document.getElementById('play-button');
-const stopSongButton = document.getElementById('stop-song-button')
+const stopSongButton = document.getElementById('stop-song-button');
 
 // Create an object to store the song URLs
 const songUrls = {
   song1: 'static/sound/sound 1.mp3',
   song2: 'static/sound/sound 2.mp3',
   song3: 'static/sound/sound 3.mp3',
-
-  // Add more songs to the object
 };
+
+let currentAudio; // Declare the currentAudio variable outside the event listener
 
 // Add an event listener to the button
 playButton.addEventListener('click', () => {
   // Get the selected song value
   const selectedSong = songSelect.value;
-  // Play the selected song
+  
+  // Check if a song is selected
   if (selectedSong) {
-    const audio = new Audio(songUrls[selectedSong]);
-    audio.play();
+    // Stop the current audio if it exists
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    
+    // Play the selected song
+    currentAudio = new Audio(songUrls[selectedSong]);
+    currentAudio.play();
   } else {
     alert('Please select a song!');
   }
@@ -30,8 +35,11 @@ playButton.addEventListener('click', () => {
 
 // Stop song button
 stopSongButton.addEventListener('click', () => {
-  // Stop the current audio
-  audio.stop();
+  // Stop the current audio if it exists
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
 });
 
 const audioFiles = [
