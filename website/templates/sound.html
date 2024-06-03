@@ -48,15 +48,8 @@
             Your browser does not support the audio element.
           </audio>
           <button onclick="stopAudio()">Stop Audio</button>
-          <script>
-            function stopAudio() {
-                var audio = document.getElementById("myAudio");
-                audio.pause();
-                audio.currentTime = 0;
-                clearTimeout(myTimer);
-            }
-          </script>
-                   <p id="message"></p>
+          
+                    <p id="message"></p>
                    <button onclick="playMessage()">Play Message</button>
                    <script src="static/script.js"></script>
 
@@ -65,46 +58,18 @@
             <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 2.mp3')}}" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
-          <script>
-            function stopAudio() {
-                var audio = document.getElementById("myAudio");
-                audio.pause();
-                audio.currentTime = 0;
-                clearTimeout(myTimer);
-            }
-          </script>
+        
                     <p id="message 2"></p>
                     <button onclick="playMessage2()">Play Message</button>
                     <script src="static/script.js"></script>
 
-                    <script>
-                        // Check for session status
-                        function checkSession() {
-                            // Make an API call to track.html to check for session status
-                            fetch('track.html')
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (!data.sessionReached) {
-                                        // Disable the audio player
-                                        document.querySelector('audio').setAttribute('disabled', 'disabled');
-                                    }
-                                });
-                        }
-                    </script>
 
           <h4 class="centered-text2">music 3</h4>
           <audio controls loop>
               <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 3.mp3')}}" type="audio/mpeg">
               Your browser does not support the audio element.
             </audio>
-            <script>
-              function stopAudio() {
-                  var audio = document.getElementById("myAudio");
-                  audio.pause();
-                  audio.currentTime = 0;
-                  clearTimeout(myTimer);
-              }
-            </script>
+           
                     <p id="message 3"></p>
                     <button onclick="playMessage3()">Play Message</button>
                     <script src="static/script.js"></script>
@@ -115,15 +80,7 @@
                 Your browser does not support the audio element.
               </audio>
                
-              <script>
-                
-                function stopAudio() {
-                    var audio = document.getElementById("myAudio");
-                    audio.pause();
-                    audio.currentTime = 0;
-                    clearTimeout(myTimer);
-                }
-              </script>
+             
                     <p id="message 4"></p>
                     <button onclick="playMessage4()">Play Message</button>
                     <script src="static/script.js"></script>
@@ -133,14 +90,7 @@
                   <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 5.mp3')}}" type="audio/mpeg">
                   Your browser does not support the audio element.
                 </audio>
-                <script>
-                  function stopAudio() {
-                      var audio = document.getElementById("myAudio");
-                      audio.pause();
-                      audio.currentTime = 0;
-                      clearTimeout(myTimer);
-                  }
-                </script>
+             
 
                         <p id="message 5"></p>
                         <button onclick="playMessage5()">Play Message</button>
