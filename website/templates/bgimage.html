@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +17,7 @@
                 <div class="navdiv">
                     <div class="logo"><a href="/index" class="logo"><img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo"> </a> </div>
                         <ul>
+                            {% if current_user.is_authenticated %}
                             <li><a href="/timer">POMOZONE</a></li>
                             <li>
                                 <a href="#">LIBRARY 🡻 </a>
@@ -25,13 +26,16 @@
                                     <li><a href="/alarm">Alarm</a> </li>
                                     <li><a href="/bgimage">Background Image</a> </li>
                                 </ul>
+                        
                             </li>
                             <li><a href="/tracker">TRACK</a></li>
+                            {% endif %}
                             <li><a href="#">ABOUT</a></li>
                             <button><a href="/login">LOG IN</a></button>
                             <button><a href="/logout">LOG OUT</a></button>
                             <button><a href="/sign_up">SIGN UP</a></button>
                         </ul>
+                        
 
 
                 </div>
@@ -40,47 +44,32 @@
 
 
             </nav>
+    </body>
+    <class bgimage>
+            <h1 class="centered-text1">Background image selection:</h1>
+            <p class="centered-text2">Select a background image to apply it to the webpage:</p>
 
-    <h2>User's Trackzz</h2>
-    <div>
-        <canvas id="myChart"></canvas>
-      </div>
-      
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      
-      <script>
-        
-        const ctx = document.getElementById('myChart');
-      
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: [
-              {% for user_session in user_sessions %}
-              "{{ user_session.category }}",
-              {% endfor %}
-            ],
-            datasets: [{
-              label: 'Pomozone Session',
-              data: [
-                {% for user_session in user_sessions %}
-                {{ user_session.num_session}},
-                {% endfor %}
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true
-              }
-            }
-          }
-        });
-      </script>
-       
+            <form id="background-form">
+                <label for="background-image">Choose an image:</label>
+                <select id="background-image" name="background-image">
+                    <option value="static/images/img 1.jpg">Image 1</option>
+                    <option value="image2.jpg">Image 2</option>
+                    <option value="image3.jpg">Image 3</option>
+                    <!-- Add more options here -->
+                </select>
+                <button type="submit">Apply</button>
+            </form>
 
-</body>
+            <script src="static/script.js"></script>
+            <script>
+                const form = document.getElementById('background-form');
+                const backgroundImageSelect = document.getElementById('background-image');
+
+                form.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const selectedImage = backgroundImageSelect.value;
+                    document.body.style.backgroundImage = `url('static/${selectedImage}')`;
+                });
+            </script>
+    </class>
 </html>
-
