@@ -41,18 +41,18 @@
         </body>
     <div>
 
-
+        <!--song 1-->
         <h4 class="centered-text2">music 1</h4>
         <audio id="myAudio" controls loop>
             <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 1.mp3')}}" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
-          <button onclick="stopAudio()">Stop Audio</button>
           
                     <p id="message"></p>
                    <button onclick="playMessage()">Play Message</button>
                    <script src="static/script.js"></script>
 
+        <!--song 2-->
         <h4 class="centered-text2">music 2</h4>
         <audio controls loop>
             <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 2.mp3')}}" type="audio/mpeg">
@@ -63,40 +63,42 @@
                     <button onclick="playMessage2()">Play Message</button>
                     <script src="static/script.js"></script>
 
-
-          <h4 class="centered-text2">music 3</h4>
-          <audio controls loop>
-              <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 3.mp3')}}" type="audio/mpeg">
-              Your browser does not support the audio element.
+        <!--song 3-->
+        <h4 class="centered-text2">music 3</h4>
+        <audio controls loop>
+            <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 3.mp3')}}" type="audio/mpeg">
+            Your browser does not support the audio element.
             </audio>
-           
+            
                     <p id="message 3"></p>
                     <button onclick="playMessage3()">Play Message</button>
                     <script src="static/script.js"></script>
-                    
-            <h4 class="centered-text2">music 4</h4>
-            <audio controls loop>
-                <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 4.mp3')}}" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-               
-             
+                
+        <!--song 4-->
+        <h4 class="centered-text2">music 4</h4>
+        <audio controls loop>
+            <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 4.mp3')}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+            </audio>
+                
+                
                     <p id="message 4"></p>
                     <button onclick="playMessage4()">Play Message</button>
                     <script src="static/script.js"></script>
-
-              <h4 class="centered-text2">music 5</h4>
-              <audio controls loop>
-                  <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 5.mp3')}}" type="audio/mpeg">
-                  Your browser does not support the audio element.
-                </audio>
+        
+         <!--song 5-->
+        <h4 class="centered-text2">music 5</h4>
+        <audio controls loop>
+            <source class="centered-text2" src="{{ url_for('serve_song', sound = 'sound/sound 5.mp3')}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+            </audio>
              
 
-                        <p id="message 5"></p>
-                        <button onclick="playMessage5()">Play Message</button>
-                        <script src="static/script.js"></script>
+                    <p id="message 5"></p>
+                    <button onclick="playMessage5()">Play Message</button>
+                    <script src="static/script.js"></script>
 
-                        <script>
+                    <script>
                             document.addEventListener("visibilitychange", function() {
                                 if (document.visibilityState === "hidden") {
                                     // Stop all audio tracks when the tab is hidden
@@ -108,7 +110,7 @@
                                     // Add more stopAudio functions for each track
                                 }
                             });
-                        </script>
+                    </script>
     </div>
 
     

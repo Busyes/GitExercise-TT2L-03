@@ -48,11 +48,11 @@
       <div>
         <select id="song-select">
           <option value="">Select a song</option>
-          <option value="song1" data-target="0">Song 1</option>
-          <option value="song2" data-target="3">Song 2</option>
-          <option value="song3" data-target="5">Song 3</option>
-          <option value="song4" data-target="7">Song 4</option>
-          <option value="song5" data-target="9">Song 5</option>
+          <option value="song1" user-session="0">Song 1</option>
+          <option value="song2" user-session="3">Song 2</option>
+          <option value="song3" user-session="5">Song 3</option>
+          <option value="song4" user-session="7">Song 4</option>
+          <option value="song5" user-session="9">Song 5</option>
         </select>
         
         <button id="play-button">Play Song</button>
@@ -84,7 +84,7 @@
         
           function playSong() {
             const selectedSong = songSelect.value;
-            const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-target'));
+            const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('user-session'));
         
             if (selectedSong && session >= targetSession) {
             if (currentAudio) {
