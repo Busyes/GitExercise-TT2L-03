@@ -22,6 +22,7 @@
                                 <ul class="dropdown">
                                     <li><a href="/sound">Sound</a> </li>
                                     <li><a href="/alarm">Alarm</a> </li>
+                                    <li><a href="/bgimage">Background Image</a> </li>
                                 </ul>
                             </li>
                             <li><a href="/tracker">TRACK</a></li>
@@ -96,6 +97,20 @@
           <p id="message 10"></p>
           <button onclick="playMessage10()">Play Message</button>
           <script src="static/script.js"></script>
+
+            <script>
+                    document.addEventListener("visibilitychange", function() {
+                        if (document.visibilityState === "hidden") {
+                            // Stop all audio tracks when the tab is hidden
+                            stopAudio1();
+                            stopAudio2();
+                            stopAudio3();
+                            stopAudio4();
+                            stopAudio5();
+                            // Add more stopAudio functions for each track
+                        }
+                    });
+            </script>
     </div>
     
 

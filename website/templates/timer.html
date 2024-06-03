@@ -21,6 +21,7 @@
                         <ul class="dropdown">
                             <li><a href="/sound">Sound</a> </li>
                             <li><a href="/alarm">Alarm</a> </li>
+                            <li><a href="/bgimage">Background Image</a> </li>
                         </ul>
                     </li>
                     <li><a href="/tracker">TRACK</a></li>
@@ -45,6 +46,7 @@
     <button id="hobby-button" class="category-button">Hobby</button>
     <h5>Timer Control</h5>
 
+    <!--background song dropdown-->
       <div>
         <select id="song-select">
           <option value="">Select a song</option>
@@ -99,7 +101,7 @@
               currentAudio.play();
               startTime = new Date().getTime(); // Record the start time
             } else {
-              alert('`You need ${targetSession} session to unlock this song!`');
+              alert('`You need ${user-session} session to unlock this song!`');
             }
          }
           function stopSong() {
@@ -118,6 +120,91 @@
             } else {
               currentAudio.pause();
               currentAudio.currentTime = 0;
+            }
+          }
+
+          function addSession(amount) {
+          session += amount;
+          sessionDisplay.textContent = `Session: ${session}`;
+        }
+
+            addSession(1); // Add 50 session
+         </script> 
+      </div>
+
+      <!--alarm dropdown-->
+      <div>
+        <select id="alarm-select">
+          <option value="">Select an alarm</option>
+          <option value="alarm1" user-session="0">Alarm 1</option>
+          <option value="alarm2" user-session="3">Alarm 2</option>
+          <option value="alarm3" user-session="5">Alarm 3</option>
+          <option value="alarm4" user-session="7">Alarm 4</option>
+          <option value="alarm5" user-session="9">Alarm 5</option>
+        </select>
+        
+        <button id="play-alarm-button">Play Alarm</button>
+        <button id="stop-alarm-button">Stop Alarm</button>
+
+        <p id="session-display">Session : 0</p>
+        
+        <script>
+          const alarmSelect = document.getElementById('song-select');
+          const playAlarmButton = document.getElementById('play-alarm-button');
+          const stopAlarmButton = document.getElementById('stop-song-button');
+        
+          const alarmUrls = {
+            alarm1: 'static/sound/alarm 1.mp3',
+            alarm2: 'static/sound/alarm 2.mp3',
+            alarm3: 'static/sound/alarm 3.mp3',
+            alarm4: 'static/sound/alarm 4.mp3',
+            alarm5: 'static/sound/alarm 5.mp3',
+
+          };
+        
+          let currentAlarm;
+          let startTimeAlarm;
+          let sessionAlarm = 0;
+        
+          playAlarmButton.addEventListener('click', playAlarm);
+          stopAlarmButton.addEventListener('click', stopAlarm);
+        
+          function playAlarm() {
+            const selectedAlarm = alarmSelect.value;
+            const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('user-session'));
+        
+            if (selectedAlarm && session >= targetSession) {
+            if (currentAlarm) {
+              currentAlarm.pause();
+              currentAlarm.currentTime = 0;
+            }
+
+        
+              currentAlarm = new Audio(alarmUrls[selectedAlarm]);
+              currentAlarm.loop = false; // Set loop to false to use onended event
+              currentAlarm.onended = loopAudio;
+              currentAlarm.play();
+              startTimeAlarm = new Date().getTime(); // Record the start time
+            } else {
+              alert('`You need {user-session} session to unlock this alarm!`');
+            }
+         }
+          function stopAlarm() {
+            if (currentAlarm) {
+              currentAlarm.pause();
+              currentAlarm.currentTime = 0;
+            }
+          }
+
+          function loopAlarm() {
+            const currentTime = new Date().getTime();
+            const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
+
+            if (elapsedTime < 25 * 60) { // 25 minutes in seconds
+              currentAlarm.play();
+            } else {
+              currentAlarm.pause();
+              currentAlarm.currentTime = 0;
             }
           }
 
