@@ -22,6 +22,7 @@
                                 <ul class="dropdown">
                                     <li><a href="/sound">Sound</a> </li>
                                     <li><a href="/alarm">Alarm</a> </li>
+                                    <li><a href="/bgimage">Background Image</a> </li>
                                 </ul>
                             </li>
                             <li><a href="/tracker">TRACK</a></li>
@@ -46,16 +47,70 @@
             
         </body>
     <div>
+        <!--alarm 1-->
         <h3 class="centered-text2">alarm 1</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound = 'sound/alarm 1.mp3')}}" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
+
+          <p id="message 6"></p>
+          <button onclick="playMessage6()">Play Message</button>
+          <script src="static/script.js"></script>
+
+          <!--alarm 2-->
         <h3 class="centered-text2">alarm 2</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound='sound/alarm 2.mp3') }}" type="audio/mp3">
             Your browser does not support the audio element.
           </audio>
+          <p id="message 7"></p>
+          <button onclick="playMessage7()">Play Message</button>
+          <script src="static/script.js"></script>
+
+          <!--alarm 3-->
+        <h3 class="centered-text2">alarm 3</h3>
+        <audio controls>
+            <source src="{{ url_for('serve_song', sound='sound/alarm 3.mp3') }}" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+          <p id="message 8"></p>
+          <button onclick="playMessage8()">Play Message</button>
+          <script src="static/script.js"></script>
+
+          <!--alarm 4-->
+        <h3 class="centered-text2">alarm 4</h3>
+        <audio controls>
+            <source src="{{ url_for('serve_song', sound='sound/alarm 4.mp3') }}" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+          <p id="message 9"></p>
+          <button onclick="playMessage9()">Play Message</button>
+          <script src="static/script.js"></script>
+
+          <!--alarm 5-->
+        <h3 class="centered-text2">alarm 5</h3>
+        <audio controls>
+            <source src="{{ url_for('serve_song', sound='sound/alarm 5.mp3') }}" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+          <p id="message 10"></p>
+          <button onclick="playMessage10()">Play Message</button>
+          <script src="static/script.js"></script>
+
+            <script>
+                    document.addEventListener("visibilitychange", function() {
+                        if (document.visibilityState === "hidden") {
+                            // Stop all audio tracks when the tab is hidden
+                            stopAudio1();
+                            stopAudio2();
+                            stopAudio3();
+                            stopAudio4();
+                            stopAudio5();
+                            // Add more stopAudio functions for each track
+                        }
+                    });
+            </script>
     </div>
     
 
