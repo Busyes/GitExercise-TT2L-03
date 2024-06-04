@@ -39,37 +39,49 @@
 
 
                 </div>
-
-
-
-
             </nav>
+
     </body>
-    <class bgimage>
-            <h1 class="centered-text1">Background image selection:</h1>
-            <p class="centered-text2">Select a background image to apply it to the webpage:</p>
 
-            <form id="background-form">
-                <label for="background-image">Choose an image:</label>
-                <select id="background-image" name="background-image">
-                    <option value="static/images/img 1.jpg">Image 1</option>
-                    <option value="image2.jpg">Image 2</option>
-                    <option value="image3.jpg">Image 3</option>
-                    <!-- Add more options here -->
-                </select>
-                <button type="submit">Apply</button>
-            </form>
-
-            <script src="static/script.js"></script>
-            <script>
-                const form = document.getElementById('background-form');
-                const backgroundImageSelect = document.getElementById('background-image');
-
-                form.addEventListener('submit', (event) => {
-                    event.preventDefault();
-                    const selectedImage = backgroundImageSelect.value;
-                    document.body.style.backgroundImage = `url('static/${selectedImage}')`;
-                });
-            </script>
-    </class>
+            
+            
+                <nav>
+                    <h1 class="centered-text1">Background image selection:</h1>
+                    <p class="centered-text2">Select a background image to apply it to the webpage:</p>
+            
+                    <form id="background-form">
+                        <label for="background-image">Choose an image:</label>
+                        <select id="background-image" name="background-image">
+                            <option value="img 1.jpg">Image 1</option>
+                            <option value="img 2.jpg">Image 2</option>
+                            <option value="img 3.jpg">Image 3</option>
+                            <option value="img 4.jpg">Image 4</option>
+                            <option value="img 5.jpg">Image 5</option>
+                            <!-- Add more options here -->
+                        </select>
+                        <button type="submit">Apply</button>
+                    </form>
+                </nav>
+            
+                <style>
+                   .bg-image {
+                        background-image: url('static/images/${selectedImage}');
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+                </style>
+            
+                <script>
+                    const form = document.getElementById('background-form');
+                    const backgroundImageSelect = document.getElementById('background-image');
+            
+                    form.addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        const selectedImage = backgroundImageSelect.value;
+                        document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
+                    });
+                </script>
+    
+    
+    
 </html>

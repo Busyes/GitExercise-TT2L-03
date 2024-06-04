@@ -19,7 +19,7 @@ function playMessage5() {
 }
 
 function playMessage6() {
-	document.getElementById("message 6").innerText = "This alarm will unlocked once you have reached 11 sessions";
+	document.getElementById("message 6").innerText = "Alarm 1 is a default alarm for each session, other alarm will unlocked once user reach targeted session!";
 }
 
 function playMessage7() {
