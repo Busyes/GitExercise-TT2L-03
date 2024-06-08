@@ -60,6 +60,7 @@
                             <!-- Add more options here -->
                         </select>
                         <button type="submit">Apply</button>
+                        <button id="unapply-button" type="button">Unapply</button>
                     </form>
                 </nav>
             
@@ -74,11 +75,16 @@
                 <script>
                     const form = document.getElementById('background-form');
                     const backgroundImageSelect = document.getElementById('background-image');
+                    const unapplyButton = document.getElementById('unapply-button');
             
                     form.addEventListener('submit', (event) => {
                         event.preventDefault();
                         const selectedImage = backgroundImageSelect.value;
                         document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
+                    });
+
+                    unapplyButton.addEventListener('click', () => {
+                        document.body.style.backgroundImage = '';
                     });
                 </script>
     
