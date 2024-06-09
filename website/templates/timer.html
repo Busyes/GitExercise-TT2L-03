@@ -60,13 +60,14 @@
       <button id="play-button">Play Song</button>
       <button id="stop-song-button">Stop Song</button>
     
-      <p id="session-display">Session : 0</p>
+      <p id="total-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
       
       <script>
+        document.addEventListener('DOMContentLoaded', fetchTotalSessions);
+
         const songSelect = document.getElementById('song-select');
         const playButton = document.getElementById('play-button');
         const stopSongButton = document.getElementById('stop-song-button');
-        const sessionDisplay = document.getElementById('session-display');
     
         const songUrls = {
           song1: 'static/sound/sound 1.mp3',
@@ -78,47 +79,57 @@
     
         let currentAudio;
         let startTime;
-        let session = 0;
     
         // Retrieve the current user session data from the server
-        fetch('/get-current-user-session')
-         .then(response => response.json())
-         .then(data => {
-            session = data.num_session;
-            sessionDisplay.textContent = `Session: ${session}`;
-          });
-    
+        function fetchTotalSessions() {
+            fetch('/get-total-sessions')
+                .then(response => response.json())
+                .then(data => {
+                    const totalSessionsCount = document.getElementById('total-sessions-count');
+                    totalSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching total sessions:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTotalSessions();
+        });
+
         playButton.addEventListener('click', playSong);
         stopSongButton.addEventListener('click', stopSong);
-    
+
         function playSong() {
-          const selectedSong = songSelect.value;
-          const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
-    
-          if (selectedSong && session >= targetSession) {
-            if (currentAudio) {
-              currentAudio.pause();
-              currentAudio.currentTime = 0;
+            const selectedSong = songSelect.value;
+            const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
+            const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
+            if (targetSession <= totalSessions) {
+                // Play the song
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+
+                currentAudio = new Audio(songUrls[selectedSong]);
+                currentAudio.loop = false; // Set loop to false to use onended event
+                currentAudio.onended = loopAudio;
+                currentAudio.play();
+                startTime = new Date().getTime(); // Record the start time
+            } else {
+                const message = `You need ${targetSession} sessions to unlock this song!`;
+                alert(message);
             }
-    
-            currentAudio = new Audio(songUrls[selectedSong]);
-            currentAudio.loop = false; // Set loop to false to use onended event
-            currentAudio.onended = loopAudio;
-            currentAudio.play();
-            startTime = new Date().getTime(); // Record the start time
-          } else {
-            const message = `You need ${targetSession} sessions to unlock this song!`;
-            alert(message);
-          }
         }
-    
+
         function stopSong() {
-          if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-          }
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
         }
-    
+
         function loopAudio() {
           const currentTime = new Date().getTime();
           const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
@@ -131,10 +142,6 @@
           }
         }
     
-        function addSession(amount) {
-          session += amount;
-          sessionDisplay.textContent = `Session: ${session}`;
-        }
       </script>
     </div>
       <!--alarm dropdown-->
@@ -151,13 +158,12 @@
         <button id="alarm-button">Play Alarm</button>
         <button id="stop-alarm-button">Stop Alarm</button>
       
-        <p id="session-alarm-display">Session : 0</p>
+        <p id="total-alarm-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
         
         <script>
           const alarmSelect = document.getElementById('alarm-select');
           const alarmButton = document.getElementById('alarm-button');
           const stopAlarmButton = document.getElementById('stop-alarm-button');
-          const sessionAlarmDisplay = document.getElementById('session-alarm-display');
       
           const alarmUrls = {
             alarm1: 'static/sound/alarm 1.mp3',
@@ -169,63 +175,77 @@
       
           let currentAlarm;
           let startAlarmTime;
-          let sessionAlarm = 0;
+        
       
           // Retrieve the current user session data from the server
-          fetch('/get-current-user-session')
-          .then(response => response.json())
-          .then(data => {
-              sessionAlarm = data.num_session;
-              sessionAlarmDisplay.textContent = `Session: ${sessionAlarm}`;
-            });
-      
+          function fetchTotalSessions() {
+              fetch('/get-total-sessions')
+                  .then(response => response.json())
+                  .then(data => {
+                      const totalAlarmSessionsCount = document.getElementById('total-alarm-sessions-count');
+                      totalAlarmSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
+                      // Update data attributes of options
+                      const options = alarmSelect.querySelectorAll('option[data-user-session]');
+                      options.forEach(option => {
+                          const alarmValue = option.value;
+                          const userSession = data.alarm_sessions[alarmValue];
+                          option.setAttribute('data-user-session', userSession);
+                      });
+                  })
+                  .catch(error => {
+                      console.error('Error fetching total sessions:', error);
+                  });
+          }
+
+          document.addEventListener('DOMContentLoaded', () => {
+              fetchTotalSessions();
+          });
+
           alarmButton.addEventListener('click', playAlarm);
-          stopAlarmButton.addEventListener('click', stopAlarm);
-      
+          stopAlarmButton.addEventListener('click', stopAlarm)
+
           function playAlarm() {
-            const selectedAlarm = alarmSelect.value;
-            const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
-      
-            if (selectedAlarm && sessionAlarm >= targetSession) {
-              if (currentAlarm) {
-                currentAlarm.pause();
-                currentAlarm.currentTime = 0;
+              const selectedAlarm = alarmSelect.value;
+              const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
+              const totalSessions = parseInt(document.getElementById('total-alarm-sessions-count').textContent.split(':')[1].trim());
+
+              if (targetSession <= totalSessions) {
+                  // Play the alarm
+                  if (currentAlarm) {
+                      currentAlarm.pause();
+                      currentAlarm.currentTime = 0;
+                  }
+
+                  currentAlarm = new Audio(alarmUrls[selectedAlarm]);
+                  currentAlarm.loop = false; // Set loop to false to use onended event
+                  currentAlarm.onended = loopAudio;
+                  currentAlarm.play();
+                  startAlarmTime = new Date().getTime(); // Record the start time
+              } else {
+                  const message = `You need ${targetSession} sessions to unlock this alarm!`;
+                  alert(message);
               }
-      
-              currentAlarm = new Audio(alarmUrls[selectedAlarm]);
-              currentAlarm.loop = false; // Set loop to false to use onended event
-              currentAlarm.onended = loopAudio;
-              currentAlarm.play();
-              startAlarmTime = new Date().getTime(); // Record the start time
-            } else {
-              const message = `You need ${targetSession} sessions to unlock this alarm!`;
-              alert(message);
-            }
           }
-      
+
           function stopAlarm() {
-            if (currentAlarm) {
-              currentAlarm.pause();
-              currentAlarm.currentTime = 0;
-            }
+              if (currentAlarm) {
+                  currentAlarm.pause();
+                  currentAlarm.currentTime = 0;
+              }
           }
-      
+
           function loopAudio() {
-            const currentTime = new Date().getTime();
-            const elapsedTime = (currentTime - startAlarmTime) / 1000; // Convert to seconds
-      
-            if (elapsedTime < 25 * 60) { // 25 minutes in seconds
-              currentAlarm.play();
-            } else {
-              currentAlarm.pause();
-              currentAlarm.currentTime = 0;
-            }
+              const currentTime = new Date().getTime();
+              const elapsedTime = (currentTime - startAlarmTime) / 1000; // Convert to seconds
+
+              if (elapsedTime < 25 * 60) { // 25 minutes in seconds
+                  currentAlarm.play();
+              } else {
+                  currentAlarm.pause();
+                  currentAlarm.currentTime = 0;
+              }
           }
-      
-          function addSession(amount) {
-            sessionAlarm += amount;
-            sessionAlarmDisplay.textContent = `Session: ${sessionAlarm}`;
-          }
+
         </script>
       </div>
 
@@ -246,7 +266,8 @@
               </select>
               <button type="submit">Apply</button>
               <button id="unapply-button" type="button">Unapply</button>
-              <p id="session-image-display">Session: <span id="session-image-count">0</span></p>
+  
+              <p id="total-image-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
             </form>
           </nav>
           
@@ -262,36 +283,49 @@
             const form = document.getElementById('background-form');
             const backgroundImageSelect = document.getElementById('background-image');
             const unapplyButton = document.getElementById('unapply-button');
-            const sessionImageDisplay = document.getElementById('session-image-display');
+  
             const sessionImageCount = document.getElementById('session-image-count');
-            let sessionImage = 0;
+          
           
             // Retrieve the current user session data from the server
-            fetch('/get-current-user-session')
-          .then(response => response.json())
-          .then(data => {
-              sessionImage = data.num_session;
-              sessionImageCount.textContent = session;
-            });
-          
-            form.addEventListener('submit', (event) => {
-              event.preventDefault();
-              const selectedImage = backgroundImageSelect.value;
-              const targetSession = parseInt(backgroundImageSelect.querySelector(`option[value="${selectedImage}"]`).getAttribute('data-user-session'));
-          
-              if (session >= targetSession) {
+            function fetchTotalSessions() {
+                fetch('/get-total-sessions')
+                    .then(response => response.json())
+                    .then(data => {
+                        const totalImageSessionsCount = document.getElementById('total-image-sessions-count');
+                        totalImageSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching total sessions:', error);
+                    });
+            }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTotalSessions();
+        });
+                
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const selectedImage = backgroundImageSelect.value;
+            const targetSession = parseInt(backgroundImageSelect.querySelector(`option[value="${selectedImage}"]`).getAttribute('data-user-session'));
+            const totalSessions = parseInt(document.getElementById('total-image-sessions-count').textContent.split(':')[1].trim());
+
+            if (targetSession <= totalSessions) {
+                // Apply the background image
                 document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
-              } else {
+            } else {
                 const message = `You need ${targetSession} sessions to unlock this image!`;
                 alert(message);
-              }
-            });
+            }
+        });
+
+
           
             unapplyButton.addEventListener('click', () => {
               document.body.style.backgroundImage = '';
             });
           </script>
-
+    <!--start timer functionality-->
     <button id="start-button">Start</button>
     <script>
       var myTimer;

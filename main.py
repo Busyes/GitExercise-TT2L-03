@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 import bcrypt
 from website.templates.models import User, UserSession
+from sqlalchemy import func
 
 main = create_app()
 
@@ -76,15 +77,16 @@ def store_session():
             db.session.commit()
             return 'session created'
         
-@main.route('/get-current-user-session', methods=['GET'])
-def get_current_user_session():
-    user_id = current_user.id
-    session = UserSession.query.filter_by(user_id=user_id).order_by(UserSession.id.desc()).first()
-    if session:
-        return jsonify({'num_session': session.num_session})
+@main.route('/get-total-sessions', methods=['GET'])
+def get_total_sessions():
+    if current_user.is_authenticated:
+        total_sessions = db.session.query(db.func.sum(UserSession.num_session)).filter_by(user_id=current_user.id).scalar()
+        if total_sessions is None:
+            total_sessions = 0
+        return jsonify(total_sessions=total_sessions)
     else:
-        return jsonify({'num_session': 0})
-        
+        return jsonify(total_sessions=0), 401
+    
 @main.route('/tracker')
 @login_required
 def tracker():
