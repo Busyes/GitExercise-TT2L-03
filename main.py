@@ -1,7 +1,7 @@
 import flask_login
 from website import create_app, db
 from flask import render_template, request, redirect, session, send_from_directory, Response
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for,jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 import bcrypt
@@ -75,6 +75,15 @@ def store_session():
             db.session.add(new_session)
             db.session.commit()
             return 'session created'
+        
+@main.route('/get-current-user-session', methods=['GET'])
+def get_current_user_session():
+    user_id = current_user.id
+    session = UserSession.query.filter_by(user_id=user_id).order_by(UserSession.id.desc()).first()
+    if session:
+        return jsonify({'num_session': session.num_session})
+    else:
+        return jsonify({'num_session': 0})
         
 @main.route('/tracker')
 @login_required
