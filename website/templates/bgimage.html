@@ -39,37 +39,80 @@
 
 
                 </div>
-
-
-
-
             </nav>
+
     </body>
-    <class bgimage>
-            <h1 class="centered-text1">Background image selection:</h1>
-            <p class="centered-text2">Select a background image to apply it to the webpage:</p>
 
-            <form id="background-form">
-                <label for="background-image">Choose an image:</label>
-                <select id="background-image" name="background-image">
-                    <option value="static/images/img 1.jpg">Image 1</option>
-                    <option value="image2.jpg">Image 2</option>
-                    <option value="image3.jpg">Image 3</option>
-                    <!-- Add more options here -->
-                </select>
-                <button type="submit">Apply</button>
-            </form>
+            
+            
+                <nav>
+                    <h1 class="centered-text1">Background image selection:</h1>
+                    <p class="centered-text2">Select a background image to apply it to the webpage:</p>
+            
+                    <form id="background-form">
+                        <label for="background-image">Choose an image:</label>
+                        <select id="background-image" name="background-image">
+                            <option value="img 1.jpg">Image 1</option>
+                            <option value="img 2.jpg">Image 2</option>
+                            <option value="img 3.jpg">Image 3</option>
+                            <option value="img 4.jpg">Image 4</option>
+                            <option value="img 5.jpg">Image 5</option>
+                            <!-- Add more options here -->
+                        </select>
+                        <button type="submit">Apply</button>
+                        <button id="unapply-button" type="button">Unapply</button>
+                    </form>
+                </nav>
+            
+                <style>
+                   .bg-image {
+                        background-image: url('static/images/${selectedImage}');
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+                </style>
+            
+                <script>
+                    const form = document.getElementById('background-form');
+                    const backgroundImageSelect = document.getElementById('background-image');
+                    const unapplyButton = document.getElementById('unapply-button');
+            
+                    form.addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        const selectedImage = backgroundImageSelect.value;
+                        document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
+                    });
 
-            <script src="static/script.js"></script>
-            <script>
-                const form = document.getElementById('background-form');
-                const backgroundImageSelect = document.getElementById('background-image');
+                    unapplyButton.addEventListener('click', () => {
+                        document.body.style.backgroundImage = '';
+                    });
+                </script>
+    
+    
+            <div>
+                <p>Background Image 1</p>
+                <p id="message 11"></p>
+                   <button center onclick="playMessage11()">Play Message</button>
+                   <script src="static/script.js"></script>
 
-                form.addEventListener('submit', (event) => {
-                    event.preventDefault();
-                    const selectedImage = backgroundImageSelect.value;
-                    document.body.style.backgroundImage = `url('static/${selectedImage}')`;
-                });
-            </script>
-    </class>
+                <p>Background Image 2</p>
+                <p id="message 12"></p>
+                   <button onclick="playMessage12()">Play Message</button>
+                   <script src="static/script.js"></script>
+
+                <p>Background Image 3</p>
+                <p id="message 13"></p>
+                   <button onclick="playMessage13()">Play Message</button>
+                   <script src="static/script.js"></script>
+
+                <p>Background Image 4</p>
+                <p id="message 14"></p>
+                   <button onclick="playMessage14()">Play Message</button>
+                   <script src="static/script.js"></script>
+
+                <p>Background Image 5</p>
+                <p id="message 15"></p>
+                   <button onclick="playMessage15()">Play Message</button>
+                   <script src="static/script.js"></script>
+            </div>
 </html>
