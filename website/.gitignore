@@ -1,2 +1,3 @@
-#Ignore pyc files
+#Ignore pyc and db files
 *pyc
+instance/database.db
