@@ -56,275 +56,198 @@
         <option value="song4" data-user-session="9">Song 4</option>
         <option value="song5" data-user-session="12">Song 5</option>
       </select>
-      
-      <button id="play-button">Play Song</button>
-      <button id="stop-song-button">Stop Song</button>
+  
+  
+    </div>
     
-      <p id="total-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
-      
-      <script>
-        document.addEventListener('DOMContentLoaded', fetchTotalSessions);
-
-        const songSelect = document.getElementById('song-select');
-        const playButton = document.getElementById('play-button');
-        const stopSongButton = document.getElementById('stop-song-button');
+    <!--alarm dropdown-->
+    <div>
+      <select id="alarm-select">
+        <option value="">Select an alarm</option>
+        <option value="alarm1" data-user-session="0">Alarm 1</option>
+        <option value="alarm2" data-user-session="4">Alarm 2</option>
+        <option value="alarm3" data-user-session="7">Alarm 3</option>
+        <option value="alarm4" data-user-session="10">Alarm 4</option>
+        <option value="alarm5" data-user-session="13">Alarm 5</option>
+      </select>
     
-        const songUrls = {
-          song1: 'static/sound/sound 1.mp3',
-          song2: 'static/sound/sound 2.mp3',
-          song3: 'static/sound/sound 3.mp3',
-          song4: 'static/sound/sound 4.mp3',
-          song5: 'static/sound/sound 5.mp3',
-        };
+      <button id="alarm-button">Play Alarm</button>
+      <button id="stop-alarm-button">Stop Alarm</button>
+    </div>
     
-        let currentAudio;
-        let startTime;
+    <!--background image dropdown-->
+    <nav>
+      <h1 class="centered-text1">Background image selection:</h1>
+      <p class="centered-text2">Select a background image to apply it to the webpage:</p>
     
-        // Retrieve the current user session data from the server
-        function fetchTotalSessions() {
-            fetch('/get-total-sessions')
-                .then(response => response.json())
-                .then(data => {
-                    const totalSessionsCount = document.getElementById('total-sessions-count');
-                    totalSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
-                })
-                .catch(error => {
-                    console.error('Error fetching total sessions:', error);
-                });
+      <form id="background-form">
+        <label for="background-image">Choose an image:</label>
+        <select id="background-image" name="background-image">
+          <option value="img 1.jpg" data-user-session="0">Image 1</option>
+          <option value="img 2.jpg" data-user-session="5">Image 2</option>
+          <option value="img 3.jpg" data-user-session="8">Image 3</option>
+          <option value="img 4.jpg" data-user-session="11">Image 4</option>
+          <option value="img 5.jpg" data-user-session="14">Image 5</option>
+        </select>
+        <button type="submit">Apply</button>
+        <button id="unapply-button" type="button">Unapply</button>
+      </form>
+    </nav>
+    
+    <p id="total-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', fetchTotalSessions);
+    
+      const songSelect = document.getElementById('song-select');
+      const playButton = document.getElementById('play-button');
+      const stopSongButton = document.getElementById('stop-song-button');
+    
+      const alarmSelect = document.getElementById('alarm-select');
+      const alarmButton = document.getElementById('alarm-button');
+      const stopAlarmButton = document.getElementById('stop-alarm-button');
+    
+      const form = document.getElementById('background-form');
+      const backgroundImageSelect = document.getElementById('background-image');
+      const unapplyButton = document.getElementById('unapply-button');
+    
+      const songUrls = {
+        song1: 'static/sound/sound 1.mp3',
+        song2: 'static/sound/sound 2.mp3',
+        song3: 'static/sound/sound 3.mp3',
+        song4: 'static/sound/sound 4.mp3',
+        song5: 'static/sound/sound 5.mp3',
+      };
+    
+      const alarmUrls = {
+        alarm1: 'static/sound/alarm 1.mp3',
+        alarm2: 'static/sound/alarm 2.mp3',
+        alarm3: 'static/sound/alarm 3.mp3',
+        alarm4: 'static/sound/alarm 4.mp3',
+        alarm5: 'static/sound/alarm 5.mp3',
+      };
+    
+      let currentAudio;
+      let startTime;
+      let currentAlarm;
+      let startAlarmTime;
+    
+      // Fetch the total sessions once and update all relevant elements
+      function fetchTotalSessions() {
+        fetch('/get-total-sessions')
+          .then(response => response.json())
+          .then(data => {
+            const totalSessionsCount = document.getElementById('total-sessions-count');
+            totalSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
+          })
+          .catch(error => {
+            console.error('Error fetching total sessions:', error);
+          });
+      }
+    
+      playButton.addEventListener('click', playSong);
+      stopSongButton.addEventListener('click', stopSong);
+      alarmButton.addEventListener('click', playAlarm);
+      stopAlarmButton.addEventListener('click', stopAlarm);
+    
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const selectedImage = backgroundImageSelect.value;
+        const targetSession = parseInt(backgroundImageSelect.querySelector(`option[value="${selectedImage}"]`).getAttribute('data-user-session'));
+        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+    
+        if (targetSession <= totalSessions) {
+          document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
+        } else {
+          alert(`You need ${targetSession} sessions to unlock this image!`);
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchTotalSessions();
-        });
-
-        playButton.addEventListener('click', playSong);
-        stopSongButton.addEventListener('click', stopSong);
-
-        function playSong() {
-            const selectedSong = songSelect.value;
-            const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
-            const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-
-            if (targetSession <= totalSessions) {
-                // Play the song
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                }
-
-                currentAudio = new Audio(songUrls[selectedSong]);
-                currentAudio.loop = false; // Set loop to false to use onended event
-                currentAudio.onended = loopAudio;
-                currentAudio.play();
-                startTime = new Date().getTime(); // Record the start time
-            } else {
-                const message = `You need ${targetSession} sessions to unlock this song!`;
-                alert(message);
-            }
-        }
-
-        function stopSong() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-        }
-
-        function loopAudio() {
-          const currentTime = new Date().getTime();
-          const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds
+      });
     
-          if (elapsedTime < 25 * 60) { // 25 minutes in seconds
-            currentAudio.play();
-          } else {
+      unapplyButton.addEventListener('click', () => {
+        document.body.style.backgroundImage = '';
+      });
+    
+      function playSong() {
+        const selectedSong = songSelect.value;
+        const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
+        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+    
+        if (targetSession <= totalSessions) {
+          if (currentAudio) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
           }
-        }
     
-      </script>
-    </div>
-      <!--alarm dropdown-->
-      <div>
-        <select id="alarm-select">
-          <option value="">Select an alarm</option>
-          <option value="alarm1" data-user-session="0">Alarm 1</option>
-          <option value="alarm2" data-user-session="4">Alarm 2</option>
-          <option value="alarm3" data-user-session="7">Alarm 3</option>
-          <option value="alarm4" data-user-session="10">Alarm 4</option>
-          <option value="alarm5" data-user-session="13">Alarm 5</option>
-        </select>
-        
-        <button id="alarm-button">Play Alarm</button>
-        <button id="stop-alarm-button">Stop Alarm</button>
-      
-        <p id="total-alarm-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
-        
-        <script>
-          const alarmSelect = document.getElementById('alarm-select');
-          const alarmButton = document.getElementById('alarm-button');
-          const stopAlarmButton = document.getElementById('stop-alarm-button');
-      
-          const alarmUrls = {
-            alarm1: 'static/sound/alarm 1.mp3',
-            alarm2: 'static/sound/alarm 2.mp3',
-            alarm3: 'static/sound/alarm 3.mp3',
-            alarm4: 'static/sound/alarm 4.mp3',
-            alarm5: 'static/sound/alarm 5.mp3',
-          };
-      
-          let currentAlarm;
-          let startAlarmTime;
-        
-      
-          // Retrieve the current user session data from the server
-          function fetchTotalSessions() {
-              fetch('/get-total-sessions')
-                  .then(response => response.json())
-                  .then(data => {
-                      const totalAlarmSessionsCount = document.getElementById('total-alarm-sessions-count');
-                      totalAlarmSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
-                      // Update data attributes of options
-                      const options = alarmSelect.querySelectorAll('option[data-user-session]');
-                      options.forEach(option => {
-                          const alarmValue = option.value;
-                          const userSession = data.alarm_sessions[alarmValue];
-                          option.setAttribute('data-user-session', userSession);
-                      });
-                  })
-                  .catch(error => {
-                      console.error('Error fetching total sessions:', error);
-                  });
+          currentAudio = new Audio(songUrls[selectedSong]);
+          currentAudio.loop = false;
+          currentAudio.onended = loopAudio;
+          currentAudio.play();
+          startTime = new Date().getTime();
+        } else {
+          alert(`You need ${targetSession} sessions to unlock this song!`);
+        }
+      }
+    
+      function stopSong() {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+      }
+    
+      function loopAudio() {
+        const currentTime = new Date().getTime();
+        const elapsedTime = (currentTime - startTime) / 1000;
+    
+        if (elapsedTime < 25 * 60) {
+          currentAudio.play();
+        } else {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+      }
+    
+      function playAlarm() {
+        const selectedAlarm = alarmSelect.value;
+        const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
+        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+    
+        if (targetSession <= totalSessions) {
+          if (currentAlarm) {
+            currentAlarm.pause();
+            currentAlarm.currentTime = 0;
           }
-
-          document.addEventListener('DOMContentLoaded', () => {
-              fetchTotalSessions();
-          });
-
-          alarmButton.addEventListener('click', playAlarm);
-          stopAlarmButton.addEventListener('click', stopAlarm)
-
-          function playAlarm() {
-              const selectedAlarm = alarmSelect.value;
-              const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
-              const totalSessions = parseInt(document.getElementById('total-alarm-sessions-count').textContent.split(':')[1].trim());
-
-              if (targetSession <= totalSessions) {
-                  // Play the alarm
-                  if (currentAlarm) {
-                      currentAlarm.pause();
-                      currentAlarm.currentTime = 0;
-                  }
-
-                  currentAlarm = new Audio(alarmUrls[selectedAlarm]);
-                  currentAlarm.loop = false; // Set loop to false to use onended event
-                  currentAlarm.onended = loopAudio;
-                  currentAlarm.play();
-                  startAlarmTime = new Date().getTime(); // Record the start time
-              } else {
-                  const message = `You need ${targetSession} sessions to unlock this alarm!`;
-                  alert(message);
-              }
-          }
-
-          function stopAlarm() {
-              if (currentAlarm) {
-                  currentAlarm.pause();
-                  currentAlarm.currentTime = 0;
-              }
-          }
-
-          function loopAudio() {
-              const currentTime = new Date().getTime();
-              const elapsedTime = (currentTime - startAlarmTime) / 1000; // Convert to seconds
-
-              if (elapsedTime < 25 * 60) { // 25 minutes in seconds
-                  currentAlarm.play();
-              } else {
-                  currentAlarm.pause();
-                  currentAlarm.currentTime = 0;
-              }
-          }
-
-        </script>
-      </div>
-
-          <!--background image dropdown-->
-          <nav>
-            <h1 class="centered-text1">Background image selection:</h1>
-            <p class="centered-text2">Select a background image to apply it to the webpage:</p>
-          
-            <form id="background-form">
-              <label for="background-image">Choose an image:</label>
-              <select id="background-image" name="background-image">
-                <option value="img 1.jpg" data-user-session="0">Image 1</option>
-                <option value="img 2.jpg" data-user-session="5">Image 2</option>
-                <option value="img 3.jpg" data-user-session="8">Image 3</option>
-                <option value="img 4.jpg" data-user-session="11">Image 4</option>
-                <option value="img 5.jpg" data-user-session="14">Image 5</option>
-                <!-- Add more options here -->
-              </select>
-              <button type="submit">Apply</button>
-              <button id="unapply-button" type="button">Unapply</button>
-  
-              <p id="total-image-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
-            </form>
-          </nav>
-          
-          <style>
-          .bg-image {
-              background-image: url('static/images/${selectedImage}');
-              background-repeat: no-repeat;
-              background-size: cover;
-            }
-          </style>
-          
-          <script>
-            const form = document.getElementById('background-form');
-            const backgroundImageSelect = document.getElementById('background-image');
-            const unapplyButton = document.getElementById('unapply-button');
-  
-            const sessionImageCount = document.getElementById('session-image-count');
-          
-          
-            // Retrieve the current user session data from the server
-            function fetchTotalSessions() {
-                fetch('/get-total-sessions')
-                    .then(response => response.json())
-                    .then(data => {
-                        const totalImageSessionsCount = document.getElementById('total-image-sessions-count');
-                        totalImageSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching total sessions:', error);
-                    });
-            }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchTotalSessions();
-        });
-                
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const selectedImage = backgroundImageSelect.value;
-            const targetSession = parseInt(backgroundImageSelect.querySelector(`option[value="${selectedImage}"]`).getAttribute('data-user-session'));
-            const totalSessions = parseInt(document.getElementById('total-image-sessions-count').textContent.split(':')[1].trim());
-
-            if (targetSession <= totalSessions) {
-                // Apply the background image
-                document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
-            } else {
-                const message = `You need ${targetSession} sessions to unlock this image!`;
-                alert(message);
-            }
-        });
-
-
-          
-            unapplyButton.addEventListener('click', () => {
-              document.body.style.backgroundImage = '';
-            });
-          </script>
+    
+          currentAlarm = new Audio(alarmUrls[selectedAlarm]);
+          currentAlarm.loop = false;
+          currentAlarm.onended = loopAlarm;
+          currentAlarm.play();
+          startAlarmTime = new Date().getTime();
+        } else {
+          alert(`You need ${targetSession} sessions to unlock this alarm!`);
+        }
+      }
+    
+      function stopAlarm() {
+        if (currentAlarm) {
+          currentAlarm.pause();
+          currentAlarm.currentTime = 0;
+        }
+      }
+    
+      function loopAlarm() {
+        const currentTime = new Date().getTime();
+        const elapsedTime = (currentTime - startAlarmTime) / 1000;
+    
+        if (elapsedTime < 25 * 60) {
+          currentAlarm.play();
+        } else {
+          currentAlarm.pause();
+          currentAlarm.currentTime = 0;
+        }
+      }
+    </script>
+    
     <!--start timer functionality-->
     <button id="start-button">Start</button>
     <script>
@@ -372,7 +295,6 @@
       const workTime = document.getElementById("work-time");
       const breakTime = document.getElementById("break-time");
       const skipbreakButton = document.getElementById("skipbreak-button");
-      const Alarm = document.getElementById("alarm-music");
       const BgSound = document.getElementById("bg-sound")
       const studyButton = document.getElementById("study-button")
       const gamingButton = document.getElementById("gaming-button")
@@ -387,7 +309,9 @@
       let breakTimeLeft = 5 * 60; // 5 minutes in seconds
       let isWorking = true;
       let sessionId = null;
+      let currentAlarm;
       let category = ""
+      
 
       function getCategory(text){
         category = text
@@ -398,13 +322,57 @@
         }
       } 
 
+      function playSelectedBackgroundSong() {
+        const selectedSong = songSelect.value;
+        const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
+        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
+        if (targetSession <= totalSessions) {
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+          }
+
+          currentAudio = new Audio(songUrls[selectedSong]);
+          currentAudio.loop = true; // Loop the background song
+          currentAudio.play();
+          startTime = new Date().getTime();
+        } else {
+          alert(`You need ${targetSession} sessions to unlock this song!`);
+        }
+      }
+
+      function playSelectedAlarm() {
+    console.log("Alarm is being played");
+    const selectedAlarm = alarmSelect.value;
+    const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
+    const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
+    if (targetSession <= totalSessions) {
+      if (currentAlarm) {
+        currentAlarm.pause();
+        currentAlarm.currentTime = 0;
+      }
+
+      currentAlarm = new Audio(alarmUrls[selectedAlarm]);
+      currentAlarm.loop = true; // Loop the alarm
+      currentAlarm.play();
+      startTime = new Date().getTime();
+    } else {
+      alert(`You need ${targetSession} sessions to unlock this alarm!`);
+    }
+  }
+
+      
+
       studyButton.addEventListener("click", () => getCategory("study"))
       gamingButton.addEventListener("click", () => getCategory("gaming"))
       workButton.addEventListener("click", () => getCategory("work"))
       hobbyButton.addEventListener("click", () => getCategory("hobby"))
 
       startButton.addEventListener("click", () => {
-        BgSound.play();
+        playSelectedBackgroundSong();
+        
         startButton.disabled = true;
         stopButton.disabled = false;
         resetButton.disabled = false;
@@ -417,20 +385,22 @@
               isWorking = false;
               breakTimeLeft = breakTimeLeft;
 
+              currentAudio.pause();
+
               breakInterval = setInterval(() => {
-                BgSound.pause();
                 breakTimeLeft--;
                 breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
                 if (breakTimeLeft === 0) {
                   clearInterval(breakInterval);
                   isWorking = true;
+
+                  currentAudio.play();
                 }
               }, 1000);
             }
           }, 1000);
         } else {
           breakInterval = setInterval(() => {
-            BgSound.play();
             breakTimeLeft--;
             breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
             if (breakTimeLeft === 0) {
@@ -443,13 +413,15 @@
                 if (timeLeft === 0) {
                   clearInterval(workInterval);
                   isWorking = false;
-                  BgSound.pause();
+                  
                 }
               }, 1000);
             }
           }, 1000);
         }
       });
+
+
 
       stopButton.addEventListener("click", () => {
         startButton.disabled = false;
@@ -472,11 +444,11 @@
         breakTime.textContent = "05:00";
         isWorking = true;
         skipbreakButton.disabled = false;
-        Alarm.pause();
+        currentAlarm.pause();
       });
 
     skipbreakButton.addEventListener("click", () => {
-      BgSound.play();
+      currentAudio.play();
       if (breakInterval) {
       clearInterval(breakInterval);
       isWorking = true;
@@ -497,11 +469,11 @@
             storeUserSession(sessionData);
             {% endif %}
 
-          BgSound.pause();
-          Alarm.play(); 
-          Alarm.currentTime = 0; 
+          currentAudio.pause();
+          currentAlarm.play(); //The selected alarm is play 
+          currentAlarm.currentTime = 0;
           alert("Timer is up!");
-          Alarm.pause();
+          currentAlarm.pause();
           resetTimer();
         } 
       }, 1000);
