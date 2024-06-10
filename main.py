@@ -1,11 +1,12 @@
 import flask_login
 from website import create_app, db
 from flask import render_template, request, redirect, session, send_from_directory, Response
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for,jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 import bcrypt
 from website.templates.models import User, UserSession
+from sqlalchemy import func
 
 main = create_app()
 
@@ -76,6 +77,16 @@ def store_session():
             db.session.commit()
             return 'session created'
         
+@main.route('/get-total-sessions', methods=['GET'])
+def get_total_sessions():
+    if current_user.is_authenticated:
+        total_sessions = db.session.query(db.func.sum(UserSession.num_session)).filter_by(user_id=current_user.id).scalar()
+        if total_sessions is None:
+            total_sessions = 0
+        return jsonify(total_sessions=total_sessions)
+    else:
+        return jsonify(total_sessions=0), 401
+    
 @main.route('/tracker')
 @login_required
 def tracker():

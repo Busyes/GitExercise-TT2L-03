@@ -40,13 +40,6 @@ body{
     animation: bg-animation 25s infinite;
 }
 
-.bg image {
-    background-image: url('static/images/img 1.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-
 @keyframes bg-animation{
     0% {background-position: left;}
     50% {background-position: right;}
