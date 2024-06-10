@@ -1,6 +1,4 @@
 *{
-
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     transition: .2s linear;
     text-decoration: none;
 }
@@ -9,6 +7,25 @@
         --gradient: linear-gradient(270deg, #FF3800, rgb(136, 212, 151), #FF3800);
       
       } 
+
+@font-face {
+    font-family: 'body';
+    src: url(fonts/body.ttf) format('truetype'),
+         url('fonts/body.woff') format(woff),
+         url('fonts/body.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: headings;
+    src: url(fonts/big.ttf) format(truetype),
+         url(fonts/big/woff) format('woff'),
+         url(fonts/big.woff2) format(woff2);
+    font-weight: normal;
+    font-style: normal;
+}
 
 
 
@@ -34,8 +51,13 @@ body{
 }
 
 p{
+    font-family: 'big', sans-serif; 
     text-align: center;
     line-height: 1.5;
+}
+
+h1{
+    font-family: 'big';
 }
 
 .container{
@@ -163,6 +185,7 @@ button a{
         color: rgb(28, 26, 24);
         font-weight: bolder;
         font-size: 15px;
+        margin-top: 50px;
     }
 
 .sign_up-box {
@@ -215,4 +238,10 @@ button a{
 .btn-primary:hover {
         background-color: #0056b3;
       }
+
+.homepage-text{
+    font-size: 20px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
 

@@ -94,6 +94,10 @@ def tracker():
     user_sessions = UserSession.query.filter_by(user_id=current_user.id).all()
     return render_template('track.html', user_sessions=user_sessions)
 
+@main.route('/about')
+def about():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     main.run(debug=True)
