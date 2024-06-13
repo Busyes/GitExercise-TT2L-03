@@ -47,21 +47,8 @@
     <h5>Timer Control</h5>
 
     <!--background song dropdown-->
-
-      <div>
-        <select id="song-select">
-          <option value="">Select a song</option>
-          <option value="song1" user-session="0">Song 1</option> 
-          <option value="song2" user-session="3">Song 2</option>
-          <option value="song3" user-session="5">Song 3</option>
-          <option value="song4" user-session="7">Song 4</option>
-          <option value="song5" user-session="9">Song 5</option>
-        </select>
-        
-        <button id="play-button">Play Song</button>
-        <button id="stop-song-button">Stop Song</button>
-=======
     <div>
+      <h2 class="centered-text1">Background Song selection:</h2>
       <select id="song-select">
         <option value="">Select a song</option>
         <option value="song1" data-user-session="0">Song 1</option>
@@ -76,6 +63,7 @@
     
     <!--alarm dropdown-->
     <div>
+      <h2 class="centered-text1">Alarm Selection:</h2>
       <select id="alarm-select">
         <option value="">Select an alarm</option>
         <option value="alarm1" data-user-session="0">Alarm 1</option>
@@ -85,8 +73,7 @@
         <option value="alarm5" data-user-session="13">Alarm 5</option>
       </select>
     
-      <button id="alarm-button">Play Alarm</button>
-      <button id="stop-alarm-button">Stop Alarm</button>
+  
     </div>
     
     <!--background image dropdown-->
@@ -143,7 +130,6 @@
     
       let currentAudio;
       let startTime;
-      let currentAlarm;
       let startAlarmTime;
     
       // Fetch the total sessions once and update all relevant elements
@@ -357,25 +343,20 @@
       }
 
       function playSelectedAlarm() {
-    console.log("Alarm is being played");
-    const selectedAlarm = alarmSelect.value;
-    const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
-    const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+          const selectedAlarm = alarmSelect.value;
+          const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
+          const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
 
-    if (targetSession <= totalSessions) {
-      if (currentAlarm) {
-        currentAlarm.pause();
-        currentAlarm.currentTime = 0;
+          if (targetSession <= totalSessions) {
+              const alarmAudio = new Audio(alarmUrls[selectedAlarm]);
+              alarmAudio.loop = true; // Loop the alarm
+              alarmAudio.play();
+              return alarmAudio; // Return the audio object if needed
+          } else {
+              alert(`You need ${targetSession} sessions to unlock this alarm!`);
+          }
+          
       }
-
-      currentAlarm = new Audio(alarmUrls[selectedAlarm]);
-      currentAlarm.loop = true; // Loop the alarm
-      currentAlarm.play();
-      startTime = new Date().getTime();
-    } else {
-      alert(`You need ${targetSession} sessions to unlock this alarm!`);
-    }
-  }
 
       
 
@@ -386,7 +367,6 @@
 
       startButton.addEventListener("click", () => {
         playSelectedBackgroundSong();
-        
         startButton.disabled = true;
         stopButton.disabled = false;
         resetButton.disabled = false;
@@ -458,7 +438,7 @@
         breakTime.textContent = "05:00";
         isWorking = true;
         skipbreakButton.disabled = false;
-        currentAlarm.pause();
+        alarmAudio.pause();
       });
 
     skipbreakButton.addEventListener("click", () => {
@@ -484,10 +464,10 @@
             {% endif %}
 
           currentAudio.pause();
-          currentAlarm.play(); //The selected alarm is play 
-          currentAlarm.currentTime = 0;
+          alarmAudio.play(); //The selected alarm is play 
+          alarmAudio.currentTime = 0;
           alert("Timer is up!");
-          currentAlarm.pause();
+          alarmAudio.pause();
           resetTimer();
         } 
       }, 1000);
