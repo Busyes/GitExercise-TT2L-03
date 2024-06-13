@@ -4,9 +4,9 @@ import flask_login
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from flask import session, send_from_directory
 from flask_login import login_required, current_user
-
+from sqlalchemy import func
 from website import create_app, db
-from website.templates.models import UserSession, UserSession2
+from website.templates.models import UserSession
 
 main = create_app()
 
@@ -103,10 +103,7 @@ def store_session():
 @main.route('/get-total-sessions', methods=['GET'])
 def get_total_sessions():
     if current_user.is_authenticated:
-        total_sessions = db.session.query(db.func.sum(UserSession.num_session)).filter_by(
-            user_id=current_user.id).scalar()
-        if total_sessions is None:
-            total_sessions = 0
+        total_sessions = db.session.query(UserSession).filter_by(user_id=current_user.id).count()
         return jsonify(total_sessions=total_sessions)
     else:
         return jsonify(total_sessions=0), 401
