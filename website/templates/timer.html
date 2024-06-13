@@ -7,8 +7,6 @@
 
   <head>
     <link rel="stylesheet" href="static/style.css">
-    <audio id="alarm-music" src="static/sound/alarm 1.mp3" loop></audio>
-    <audio id="bg-sound" src="static/sound/sound 1.mp3" loop></audio>
 </head>
 <body>
     <nav class="navbar">
@@ -66,11 +64,11 @@
       <h2 class="centered-text1">Alarm Selection:</h2>
       <select id="alarm-select">
         <option value="">Select an alarm</option>
-        <option value="alarm1" data-user-session="0">Alarm 1</option>
-        <option value="alarm2" data-user-session="4">Alarm 2</option>
-        <option value="alarm3" data-user-session="7">Alarm 3</option>
-        <option value="alarm4" data-user-session="10">Alarm 4</option>
-        <option value="alarm5" data-user-session="13">Alarm 5</option>
+        <option value="alarm1" alarm-user-session="0">Alarm 1</option>
+        <option value="alarm2" alarm-user-session="4">Alarm 2</option>
+        <option value="alarm3" alarm-user-session="7">Alarm 3</option>
+        <option value="alarm4" alarm-user-session="10">Alarm 4</option>
+        <option value="alarm5" alarm-user-session="13">Alarm 5</option>
       </select>
     
   
@@ -145,11 +143,6 @@
           });
       }
     
-      playButton.addEventListener('click', playSong);
-      stopSongButton.addEventListener('click', stopSong);
-      alarmButton.addEventListener('click', playAlarm);
-      stopAlarmButton.addEventListener('click', stopAlarm);
-    
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         const selectedImage = backgroundImageSelect.value;
@@ -208,44 +201,68 @@
       }
     
       function playAlarm() {
-        const selectedAlarm = alarmSelect.value;
-        const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
-        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-    
-        if (targetSession <= totalSessions) {
+          const selectedAlarm = alarmSelect.value;
+          const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('alarm-user-session'));
+          const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
+          if (targetSession <= totalSessions) {
+            if (currentAlarm) {
+              currentAlarm.pause();
+              currentAlarm.currentTime = 0;
+            }
+
+            currentAlarm = new Audio(alarmUrls[selectedAlarm]);
+            currentAlarm.loop = false;
+
+            // Start playing the alarm asynchronously
+            const playPromise = currentAlarm.play();
+
+            // Handle the case where play() returns a promise (modern browsers)
+            if (playPromise !== undefined) {
+              playPromise.then(() => {
+                // Show alert and stop alarm when OK is pressed
+                const result = alert(`Time is up!`);
+                if (!result) {
+                  currentAlarm.pause();
+                }
+              }).catch(error => {
+                console.error('Failed to start alarm playback:', error);
+              });
+            } else {
+              // Handle browsers that do not return a promise from play()
+              setTimeout(() => {
+                const result = alert(`Time is up!`);
+                if (!result) {
+                  currentAlarm.pause();
+                }
+              }, 10); // Minimal delay to ensure alert appears after audio starts
+            }
+          } else {
+            alert(`You need ${targetSession} sessions to unlock this alarm!`);
+          }
+        }
+
+        function stopAlarm() {
           if (currentAlarm) {
             currentAlarm.pause();
             currentAlarm.currentTime = 0;
           }
-    
-          currentAlarm = new Audio(alarmUrls[selectedAlarm]);
-          currentAlarm.loop = false;
-          currentAlarm.onended = loopAlarm;
-          currentAlarm.play();
-          startAlarmTime = new Date().getTime();
-        } else {
-          alert(`You need ${targetSession} sessions to unlock this alarm!`);
         }
-      }
-    
-      function stopAlarm() {
-        if (currentAlarm) {
-          currentAlarm.pause();
-          currentAlarm.currentTime = 0;
+
+        function loopAlarm() {
+          // Your loop logic if needed
+          const currentTime = new Date().getTime();
+          const elapsedTime = (currentTime - startAlarmTime) / 1000;
+
+          if (elapsedTime < 25 * 60) {
+            currentAlarm.play();
+          } else {
+            currentAlarm.pause();
+            currentAlarm.currentTime = 0;
+          }
         }
-      }
-    
-      function loopAlarm() {
-        const currentTime = new Date().getTime();
-        const elapsedTime = (currentTime - startAlarmTime) / 1000;
-    
-        if (elapsedTime < 25 * 60) {
-          currentAlarm.play();
-        } else {
-          currentAlarm.pause();
-          currentAlarm.currentTime = 0;
-        }
-      }
+
+
     </script>
     
     <!--start timer functionality-->
@@ -333,31 +350,19 @@
           alert(`You need ${targetSession} sessions to unlock this song!`);
         }
       }
-
-      function playSelectedAlarm() {
-          const selectedAlarm = alarmSelect.value;
-          const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
-          const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-
-          if (targetSession <= totalSessions) {
-              const alarmAudio = new Audio(alarmUrls[selectedAlarm]);
-              alarmAudio.loop = true; // Loop the alarm
-              alarmAudio.play();
-              return alarmAudio; // Return the audio object if needed
-          } else {
-              alert(`You need ${targetSession} sessions to unlock this alarm!`);
-          }
-          
-      }
-
-      
-
+    
       studyButton.addEventListener("click", () => getCategory("study"))
       gamingButton.addEventListener("click", () => getCategory("gaming"))
       workButton.addEventListener("click", () => getCategory("work"))
       hobbyButton.addEventListener("click", () => getCategory("hobby"))
 
       startButton.addEventListener("click", () => {
+        if (!songSelect.value || !alarmSelect.value) {
+          alert("Please select both a background song and an alarm before starting the timer.");
+          return;
+        }
+
+
         playSelectedBackgroundSong();
         startButton.disabled = true;
         stopButton.disabled = false;
@@ -370,7 +375,7 @@
               clearInterval(workInterval);
               isWorking = false;
               breakTimeLeft = breakTimeLeft;
-
+              
               currentAudio.pause();
 
               breakInterval = setInterval(() => {
@@ -392,13 +397,14 @@
             if (breakTimeLeft === 0) {
               clearInterval(breakInterval);
               isWorking = true;
-              timeLeft = 25 * 60;
+              timeLeft = 5;
               workInterval = setInterval(() => {
                 timeLeft--;
                 workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
                 if (timeLeft === 0) {
                   clearInterval(workInterval);
                   isWorking = false;
+                  playAlarm();
                   
                 }
               }, 1000);
@@ -414,6 +420,7 @@
         stopButton.disabled = true;
         clearInterval(workInterval);
         clearInterval(breakInterval);
+        stopAlarm()
       });
 
       resetButton.addEventListener("click", () => {
@@ -430,42 +437,41 @@
         breakTime.textContent = "05:00";
         isWorking = true;
         skipbreakButton.disabled = false;
-        alarmAudio.pause();
+        stopAlarm();
       });
 
-    skipbreakButton.addEventListener("click", () => {
-      currentAudio.play();
-      if (breakInterval) {
-      clearInterval(breakInterval);
-      isWorking = true;
-      timeLeft = 5;
-      breakTimeLeft = 5 * 60;
-      workInterval = setInterval(() => { 
-        timeLeft--;
-        workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`; 
-        if (timeLeft === 0) { 
-          clearInterval(workInterval); 
-          isWorking = false; 
+        skipbreakButton.addEventListener("click", () => {
 
-            {% if current_user.is_authenticated %}
-            const sessionData = {
-              user_id: {{ current_user.id }},
-              category: category
-            };
-            storeUserSession(sessionData);
-            {% endif %}
+          currentAudio.play();
+          if (breakInterval) {
+          clearInterval(breakInterval);
+          isWorking = true;
+          timeLeft = 5;
+          breakTimeLeft = 5 * 60;
+          workInterval = setInterval(() => { 
+            timeLeft--;
+            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`; 
+            if (timeLeft === 0) { 
+              clearInterval(workInterval); 
+              isWorking = false; 
 
-          currentAudio.pause();
-          alarmAudio.play(); //The selected alarm is play 
-          alarmAudio.currentTime = 0;
-          alert("Timer is up!");
-          alarmAudio.pause();
-          resetTimer();
-        } 
-      }, 1000);
-      skipbreakButton.disabled = true;
-        }
-      });
+                {% if current_user.is_authenticated %}
+                const sessionData = {
+                  user_id: {{ current_user.id }},
+                  category: category
+                };
+                storeUserSession(sessionData);
+                {% endif %}
+              
+
+              currentAudio.pause();
+              playAlarm();
+
+            } 
+          }, 1000);
+          skipbreakButton.disabled = true;
+            }
+          });
 
       updateTimerDisplay(); // Initial display update
       
