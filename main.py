@@ -6,7 +6,7 @@ from flask import session, send_from_directory
 from flask_login import login_required, current_user
 
 from website import create_app, db
-from website.templates.models import UserSession, UserSession2
+from website.templates.models import UserSession
 
 main = create_app()
 

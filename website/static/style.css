@@ -62,15 +62,57 @@ h1{
 
 .container{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.content{
+.content-index{
     width: 100%;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     text-align: center;
     color: antiquewhite;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 70%;
+    flex: 0 0 75%;
+}
+
+
+/*about page*/
+.info-box {
+    background: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-box h2 {
+    font-family: 'headings';
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.info-box p {
+    font-family: 'body';
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.image-container{
+    padding: 20px;
+    margin-top: -50px;
 }
 
 .content h1{
@@ -102,9 +144,11 @@ button{
     height: auto;
 }
 
+
 .navbar {
     height: auto;
-    position: relative;
+    position: fixed;
+    top: 0;
     background: #02988b;
     padding-right: 15px;
     padding-left: 15px;
@@ -116,6 +160,11 @@ button{
     align-items: center;
     justify-content: space-between;
 }
+
+/*nav:hover {
+    background-color: white; /* Change background color to white when hovered over 
+} */
+
 
 .logo a{
     font-size: 35px;
@@ -172,13 +221,19 @@ button a{
     font-size: 15px;
 }
 
+.button-container{
+    text-align: center;
+}
+
 .center-button{
+    display: inline-block;
+    background-color: antiquewhite;
+    color: rgb(2, 33, 17);
+    padding: 10px 20px;
     border-radius: 5px;
-    background: antiquewhite;
-    width: 90px;
-    margin-left: 10px;
-    padding: 10px;
-    white-space: nowrap;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .center-button a{
@@ -186,6 +241,31 @@ button a{
         font-weight: bolder;
         font-size: 15px;
         margin-top: 50px;
+    }
+
+    .center-button:hover {
+        background-color: #0e8362;
+    }
+    
+    .center-button:focus {
+        outline: none;
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .homepage-title {
+            font-size: 32px;
+        }
+    
+        .homepage-text {
+            font-size: 16px;
+        }
+    
+        .center-button {
+            width: 80%;
+            padding: 15px;
+            font-size: 18px;
+        }
     }
 
 .sign_up-box {
@@ -243,5 +323,55 @@ button a{
     font-size: 20px;
     margin-top: 5px;
     margin-bottom: 20px;
+    line-height: 1.5;
 }
 
+.homepage-title{
+    margin-bottom: 20px;
+}
+
+
+  .rotating-logo {
+    width: 750px; 
+    height: 750px; 
+    object-fit: cover;
+    animation: rotate 5s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .content, .image-container {
+        max-width: 100%;
+    }
+
+    .tomato-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .info-box h2 {
+        font-size: 20px;
+    }
+
+    .info-box p {
+        font-size: 16px;
+    }
+}
+
+
+/*about page layout should be applied elsewhere too*/
+
+/* add css typewriting animation for index page title: jomPOMO */
