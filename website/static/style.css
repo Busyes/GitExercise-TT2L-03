@@ -424,7 +424,10 @@ button a{
     }
 }
 
-
+/* no scrolling for added image bg */
+.apply-bg{
+    background-attachment: fixed;
+}
 
 
 /*about page layout should be applied elsewhere too*/
