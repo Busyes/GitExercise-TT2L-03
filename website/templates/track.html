@@ -48,6 +48,7 @@
     </div>
     <div>
       <canvas id="myChart"></canvas>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -67,6 +68,9 @@
           ],
           datasets: [{
             label: 'Pomozone Session',
+            // barPercentage: 20,
+            barThickness: 250,
+            // maxBarThickness: 8,
             data: [
               {{ session_data.gaming }},
               {{ session_data.study }},
@@ -81,7 +85,11 @@
             y: {
               beginAtZero: true
             }
-          }
+          },
+            bar: {
+              barPercentage: 0.05, 
+              categoryPercentage: 0.05 
+            }
         }
       });
     </script>
