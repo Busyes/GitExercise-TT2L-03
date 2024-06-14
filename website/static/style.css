@@ -3,10 +3,12 @@
     text-decoration: none;
 }
 
+
 :root {
         --gradient: linear-gradient(270deg, #FF3800, rgb(136, 212, 151), #FF3800);
-      
-      } 
+     
+      }
+
 
 @font-face {
     font-family: 'body';
@@ -16,7 +18,9 @@
     font-weight: normal;
     font-style: normal;
 
+
 }
+
 
 @font-face {
     font-family: headings;
@@ -26,6 +30,9 @@
     font-weight: normal;
     font-style: normal;
 }
+
+
+
 
 
 
@@ -40,25 +47,30 @@ body{
     animation: bg-animation 25s infinite;
 }
 
+
 @keyframes bg-animation{
     0% {background-position: left;}
     50% {background-position: right;}
     100% {background-position: left;}
 }
 
+
 .body:hover, .body:focus{
     background-position: right;
 }
 
+
 p{
-    font-family: 'big', sans-serif; 
+    font-family: 'big', sans-serif;
     text-align: center;
     line-height: 1.5;
 }
 
+
 h1{
     font-family: 'big';
 }
+
 
 .container{
     display: flex;
@@ -70,6 +82,7 @@ h1{
     margin: 0 auto;
 }
 
+
 .content-index{
     width: 100%;
     position: absolute;
@@ -79,6 +92,7 @@ h1{
     color: antiquewhite;
 }
 
+
 .content{
     display: flex;
     flex-direction: column;
@@ -86,6 +100,8 @@ h1{
     max-width: 70%;
     flex: 0 0 75%;
 }
+
+
 
 
 /*about page*/
@@ -98,11 +114,13 @@ h1{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 .info-box h2 {
     font-family: 'headings';
     font-size: 24px;
     margin-bottom: 10px;
 }
+
 
 .info-box p {
     font-family: 'body';
@@ -110,15 +128,18 @@ h1{
     line-height: 1.6;
 }
 
+
 .image-container{
     padding: 20px;
     margin-top: -50px;
 }
 
+
 .content h1{
     font-size: 70px;
     margin-top: 80px;
 }
+
 
 .content p{
     margin: 20px auto;
@@ -126,6 +147,7 @@ h1{
     font-weight: 100;
     line-height: 25px;
 }
+
 
 button{
     width: 200px;
@@ -137,7 +159,9 @@ button{
     border: 2px solid antiquewhite;
     background: transparent;
 
+
 }
+
 
 .logo img{
     width: 100px;
@@ -145,15 +169,17 @@ button{
 }
 
 
+
+
 .navbar {
     height: auto;
-    position: fixed;
-    top: 0;
+    position: relative;
     background: #02988b;
     padding-right: 15px;
     padding-left: 15px;
     z-index: 1002;
 }
+
 
 .navdiv{
     display: flex;
@@ -161,9 +187,12 @@ button{
     justify-content: space-between;
 }
 
+
 /*nav:hover {
-    background-color: white; /* Change background color to white when hovered over 
+    background-color: white; /* Change background color to white when hovered over
 } */
+
+
 
 
 .logo a{
@@ -172,10 +201,12 @@ button{
     color: antiquewhite;
 }
 
+
 li{
     list-style: none;
     display: inline-block;
 }
+
 
 li a{
     color: antiquewhite;
@@ -184,9 +215,11 @@ li a{
     margin-right: 25px;
 }
 
+
 ul li ul.dropdown li{
     display: block;
 }
+
 
 ul li ul.dropdown{
     width: 100%;
@@ -195,16 +228,19 @@ ul li ul.dropdown{
     display: none;
 }
 
+
 ul li a:hover{
     background: #218968;
     border-radius: 10px;
 }
+
 
 ul li:hover ul.dropdown{
     display: block;
     border-radius: 10px;
     width: 150px;
 }
+
 
 button{
     border-radius: 5px;
@@ -215,15 +251,18 @@ button{
     white-space: nowrap;
 }
 
+
 button a{
     color: antiquewhite;
     font-weight: bold;
     font-size: 15px;
 }
 
+
 .button-container{
     text-align: center;
 }
+
 
 .center-button{
     display: inline-block;
@@ -236,6 +275,7 @@ button a{
     transition: background-color 0.3s ease;
 }
 
+
 .center-button a{
         color: rgb(28, 26, 24);
         font-weight: bolder;
@@ -243,24 +283,26 @@ button a{
         margin-top: 50px;
     }
 
+
     .center-button:hover {
         background-color: #0e8362;
     }
-    
+   
     .center-button:focus {
         outline: none;
         box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
     }
 
+
     @media (max-width: 768px) {
         .homepage-title {
             font-size: 32px;
         }
-    
+   
         .homepage-text {
             font-size: 16px;
         }
-    
+   
         .center-button {
             width: 80%;
             padding: 15px;
@@ -268,14 +310,16 @@ button a{
         }
     }
 
+
 .sign_up-box {
         max-width: 400px;
-        margin: 0 auto; 
+        margin: 0 auto;
         padding: 20px;
         border: 1px solid antiquewhite;
         border-radius: 5px;
         background-color: antiquewhite;
     }
+
 
 .login-box {
         max-width: 400px;
@@ -285,17 +329,17 @@ button a{
         border-radius: 5px;
         background-color: antiquewhite;
       }
-  
+ 
 .form-group {
         margin-bottom: 20px;
       }
-  
-  
+ 
+ 
 .form-group label {
         display: block;
         margin-bottom: 5px;
       }
-  
+ 
 .form-control {
         width: 100%;
         padding: 10px;
@@ -303,7 +347,7 @@ button a{
         border-radius: 3px;
         box-sizing: border-box;
       }
-  
+ 
 .btn-primary {
         display: block;
         width: 100%;
@@ -314,10 +358,11 @@ button a{
         border-radius: 3px;
         cursor: pointer;
       }
-  
+ 
 .btn-primary:hover {
         background-color: #0056b3;
       }
+
 
 .homepage-text{
     font-size: 20px;
@@ -326,18 +371,21 @@ button a{
     line-height: 1.5;
 }
 
+
 .homepage-title{
     margin-bottom: 20px;
 }
 
 
+
+
   .rotating-logo {
-    width: 750px; 
-    height: 750px; 
+    width: 750px;
+    height: 750px;
     object-fit: cover;
     animation: rotate 5s linear infinite;
   }
-  
+ 
   @keyframes rotate {
     from {
       transform: rotate(0deg);
@@ -347,24 +395,29 @@ button a{
     }
   }
 
+
   @media (max-width: 768px) {
     .container {
         flex-direction: column;
         align-items: center;
     }
 
+
     .content, .image-container {
         max-width: 100%;
     }
+
 
     .tomato-image {
         width: 200px;
         height: 200px;
     }
 
+
     .info-box h2 {
         font-size: 20px;
     }
+
 
     .info-box p {
         font-size: 16px;
@@ -372,6 +425,9 @@ button a{
 }
 
 
+
+
 /*about page layout should be applied elsewhere too*/
+
 
 /* add css typewriting animation for index page title: jomPOMO */
