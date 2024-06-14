@@ -64,11 +64,11 @@
       <h2 class="centered-text1">Alarm Selection:</h2>
       <select id="alarm-select">
         <option value="">Select an alarm</option>
-        <option value="alarm1" alarm-user-session="0">Alarm 1</option>
-        <option value="alarm2" alarm-user-session="4">Alarm 2</option>
-        <option value="alarm3" alarm-user-session="7">Alarm 3</option>
-        <option value="alarm4" alarm-user-session="10">Alarm 4</option>
-        <option value="alarm5" alarm-user-session="13">Alarm 5</option>
+        <option value="alarm1" data-user-session="0">Alarm 1</option>
+        <option value="alarm2" data-user-session="4">Alarm 2</option>
+        <option value="alarm3" data-user-session="7">Alarm 3</option>
+        <option value="alarm4" data-user-session="10">Alarm 4</option>
+        <option value="alarm5" data-user-session="13">Alarm 5</option>
       </select>
     
   
@@ -96,7 +96,10 @@
     <p id="total-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
     
     <script>
-      document.addEventListener('DOMContentLoaded', fetchTotalSessions);
+      document.addEventListener('DOMContentLoaded', function() {
+          fetchTotalSessions().then(hideUnavailableOptions);
+        });
+
     
       const songSelect = document.getElementById('song-select');
       const playButton = document.getElementById('play-button');
@@ -129,20 +132,40 @@
       let currentAudio;
       let startTime;
       let startAlarmTime;
-    
-      // Fetch the total sessions once and update all relevant elements
-      function fetchTotalSessions() {
-        fetch('/get-total-sessions')
-          .then(response => response.json())
-          .then(data => {
-            const totalSessionsCount = document.getElementById('total-sessions-count');
-            totalSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
-          })
-          .catch(error => {
-            console.error('Error fetching total sessions:', error);
-          });
+
+
+       // Fetch the total sessions once and update all relevant elements
+    async function fetchTotalSessions() {
+      try {
+        const response = await fetch('/get-total-sessions');
+        const data = await response.json();
+        const totalSessionsCount = document.getElementById('total-sessions-count');
+        totalSessionsCount.textContent = `Total Sessions: ${data.total_sessions}`;
+        return data.total_sessions;
+      } catch (error) {
+        console.error('Error fetching total sessions:', error);
+        return 0;
       }
-    
+    }
+
+    function hideUnavailableOptions(totalSessions) {
+      hideOptions(songSelect, 'data-user-session', totalSessions);
+      hideOptions(alarmSelect, 'data-user-session', totalSessions);
+      hideOptions(backgroundImageSelect, 'data-user-session', totalSessions);
+    }
+
+    function hideOptions(selectElement, sessionAttribute, totalSessions) {
+      const options = selectElement.querySelectorAll('option');
+      options.forEach(option => {
+        const requiredSessions = parseInt(option.getAttribute(sessionAttribute));
+        if (requiredSessions > totalSessions) {
+          option.style.display = 'none';
+        } else {
+          option.style.display = ''; // Ensure options are visible if they should be shown
+        }
+      });
+    }
+
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         startButton.disabled = false;
@@ -203,7 +226,7 @@
     
       function playAlarm() {
           const selectedAlarm = alarmSelect.value;
-          const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('alarm-user-session'));
+          const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
           const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
 
           if (targetSession <= totalSessions) {
@@ -251,7 +274,7 @@
         }
 
         function loopAlarm() {
-          // Your loop logic if needed
+          //loop logic if needed
           const currentTime = new Date().getTime();
           const elapsedTime = (currentTime - startAlarmTime) / 1000;
 
@@ -315,7 +338,7 @@
       // 25 minutes --> 5 minutes --> 25 minutes = 1 session
       let workInterval;
       let breakInterval;
-      let timeLeft = 5; // 25 minutes in seconds
+      let timeLeft = 25 * 60; // 25 minutes in seconds
       let breakTimeLeft = 5 * 60; // 5 minutes in seconds
       let isWorking = true;
       let sessionId = null;
@@ -419,7 +442,8 @@
         stopButton.disabled = true;
         clearInterval(workInterval);
         clearInterval(breakInterval);
-        stopAlarm()
+        stopAlarm();
+        stopSong();
       });
 
       resetButton.addEventListener("click", () => {
@@ -437,6 +461,7 @@
         isWorking = true;
         skipbreakButton.disabled = false;
         stopAlarm();
+        stopSong();
       });
 
         skipbreakButton.addEventListener("click", () => {
