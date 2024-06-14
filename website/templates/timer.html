@@ -168,6 +168,7 @@
 
       form.addEventListener('submit', (event) => {
         event.preventDefault();
+        startButton.disabled = false;
         const selectedImage = backgroundImageSelect.value;
         const targetSession = parseInt(backgroundImageSelect.querySelector(`option[value="${selectedImage}"]`).getAttribute('data-user-session'));
         const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
@@ -289,7 +290,7 @@
     </script>
     
     <!--start timer functionality-->
-    <button id="start-button">Start</button>
+    <button id="start-button" disabled>Start</button>
     <button id="stop-button" disabled>Stop</button>
     <button id="reset-button" disabled>Reset</button>
     <div id="timer">
@@ -344,7 +345,6 @@
       let currentAlarm;
       let category = ""
       
-
       function getCategory(text){
         category = text
         console.log(category)
@@ -384,7 +384,6 @@
           alert("Please select both a background song and an alarm before starting the timer.");
           return;
         }
-
 
         playSelectedBackgroundSong();
         startButton.disabled = true;
