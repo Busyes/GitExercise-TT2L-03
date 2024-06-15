@@ -748,12 +748,42 @@ select, button {
     text-align: center;
 }
 
-
-
 /* no scrolling for added image bg */
 
-
-/about page layout should be applied elsewhere too/
-
-
 /* add css typewriting animation for index page title: jomPOMO */
+/*title typewriter animation*/
+
+
+.homepage-title{
+    font-family: monospace;
+    font-size: 10em;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 0.15em solid antiquewhite;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+
+@keyframes blink-caret{
+    from, to { border-color: transparent; }
+            50% { border-color: antiquewhite; }
+}
+
+
+.content-index {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: antiquewhite;
+}
+
+
