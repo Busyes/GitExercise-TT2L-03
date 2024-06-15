@@ -3,10 +3,12 @@
     text-decoration: none;
 }
 
+
 :root {
         --gradient: linear-gradient(270deg, #FF3800, rgb(136, 212, 151), #FF3800);
-      
-      } 
+     
+      }
+
 
 @font-face {
     font-family: 'body';
@@ -16,7 +18,9 @@
     font-weight: normal;
     font-style: normal;
 
+
 }
+
 
 @font-face {
     font-family: headings;
@@ -26,6 +30,9 @@
     font-weight: normal;
     font-style: normal;
 }
+
+
+
 
 
 
@@ -40,43 +47,89 @@ body{
     animation: bg-animation 25s infinite;
 }
 
+
 @keyframes bg-animation{
     0% {background-position: left;}
     50% {background-position: right;}
     100% {background-position: left;}
 }
 
+
 .body:hover, .body:focus{
     background-position: right;
 }
 
+
 p{
-    font-family: 'big', sans-serif; 
+    font-family: 'big', sans-serif;
     text-align: center;
     line-height: 1.5;
 }
+
 
 h1{
     font-family: 'big';
 }
 
+
 .container{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+
 .content{
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    text-align: center;
-    color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 70%;
+    flex: 0 0 75%;
 }
+
+
+
+
+/*about page*/
+.info-box {
+    background: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.info-box h2 {
+    font-family: 'headings';
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
+.info-box p {
+    font-family: 'body';
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+.image-container{
+    padding: 20px;
+    margin-top: -50px;
+}
+
 
 .content h1{
     font-size: 70px;
     margin-top: 80px;
 }
+
 
 .content p{
     margin: 20px auto;
@@ -84,6 +137,7 @@ h1{
     font-weight: 100;
     line-height: 25px;
 }
+
 
 button{
     width: 200px;
@@ -95,12 +149,17 @@ button{
     border: 2px solid antiquewhite;
     background: transparent;
 
+
 }
+
 
 .logo img{
     width: 100px;
     height: auto;
 }
+
+
+
 
 .navbar {
     height: auto;
@@ -111,11 +170,20 @@ button{
     z-index: 1002;
 }
 
+
 .navdiv{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
+
+/*nav:hover {
+    background-color: white; /* Change background color to white when hovered over
+} */
+
+
+
 
 .logo a{
     font-size: 35px;
@@ -123,10 +191,12 @@ button{
     color: antiquewhite;
 }
 
+
 li{
     list-style: none;
     display: inline-block;
 }
+
 
 li a{
     color: antiquewhite;
@@ -135,9 +205,11 @@ li a{
     margin-right: 25px;
 }
 
+
 ul li ul.dropdown li{
     display: block;
 }
+
 
 ul li ul.dropdown{
     width: 100%;
@@ -146,16 +218,19 @@ ul li ul.dropdown{
     display: none;
 }
 
+
 ul li a:hover{
     background: #218968;
     border-radius: 10px;
 }
+
 
 ul li:hover ul.dropdown{
     display: block;
     border-radius: 10px;
     width: 150px;
 }
+
 
 button{
     border-radius: 5px;
@@ -166,20 +241,30 @@ button{
     white-space: nowrap;
 }
 
+
 button a{
     color: antiquewhite;
     font-weight: bold;
     font-size: 15px;
 }
 
-.center-button{
-    border-radius: 5px;
-    background: antiquewhite;
-    width: 90px;
-    margin-left: 10px;
-    padding: 10px;
-    white-space: nowrap;
+
+.button-container{
+    text-align: center;
 }
+
+
+.center-button{
+    display: inline-block;
+    background-color: antiquewhite;
+    color: rgb(2, 33, 17);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
 
 .center-button a{
         color: rgb(28, 26, 24);
@@ -188,14 +273,28 @@ button a{
         margin-top: 50px;
     }
 
+
+    .center-button:hover {
+        background-color: #ff6d18;
+    }
+   
+    .center-button:focus {
+        outline: none;
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+    }
+
+
+
+
 .sign_up-box {
         max-width: 400px;
-        margin: 0 auto; 
+        margin: 0 auto;
         padding: 20px;
         border: 1px solid antiquewhite;
         border-radius: 5px;
         background-color: antiquewhite;
     }
+
 
 .login-box {
         max-width: 400px;
@@ -205,17 +304,17 @@ button a{
         border-radius: 5px;
         background-color: antiquewhite;
       }
-  
+ 
 .form-group {
         margin-bottom: 20px;
       }
-  
-  
+ 
+ 
 .form-group label {
         display: block;
         margin-bottom: 5px;
       }
-  
+ 
 .form-control {
         width: 100%;
         padding: 10px;
@@ -223,7 +322,7 @@ button a{
         border-radius: 3px;
         box-sizing: border-box;
       }
-  
+ 
 .btn-primary {
         display: block;
         width: 100%;
@@ -234,14 +333,392 @@ button a{
         border-radius: 3px;
         cursor: pointer;
       }
-  
+ 
 .btn-primary:hover {
         background-color: #0056b3;
       }
+
 
 .homepage-text{
     font-size: 20px;
     margin-top: 5px;
     margin-bottom: 20px;
+    line-height: 1.5;
 }
 
+
+.homepage-title{
+    margin-bottom: 20px;
+}
+
+
+
+
+  .rotating-logo {
+    width: 750px;
+    height: 750px;
+    object-fit: cover;
+    animation: rotate 5s linear infinite;
+  }
+ 
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+
+  @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+    .content, .image-container {
+        max-width: 100%;
+    }
+
+
+    .tomato-image {
+        width: 200px;
+        height: 200px;
+    }
+
+
+    .info-box h2 {
+        font-size: 20px;
+    }
+
+
+    .info-box p {
+        font-size: 16px;
+    }
+}
+
+/* pomozone page */
+
+
+
+
+.body-pomozone {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    .navbar{width: 100%;
+            margin-bottom: 20px;}
+}
+
+.container-pomozone{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; /* Center horizontally */
+    align-items: center; /* Center vertically within the main container */
+    width: 100%; /* Ensure it spans the entire width */
+    margin-top: 20px;
+}
+
+.container-pomozone .timer-box{
+    background-color: antiquewhite;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 50%; /* Increased width for timer box */
+    margin: 0 auto;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text inside the box */
+    max-width: 90%; /* Optional: Max width for responsiveness */
+    margin-top: 20px;
+}
+
+.sound-box{
+    display: flex;
+    flex-direction: row; /* Arrange selections side by side */
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.selection-box {
+    background-color: rgba(250, 235, 215, 0.723);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 29%;
+    text-align: center;
+}
+
+.timer-box {
+    width: 50%; /* Increased width for timer box */
+    margin: 0 auto;
+  
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text inside the box */
+    max-width: 90%; /* Optional: Max width for responsiveness */
+    margin-top: 20px;
+}
+
+#timer {
+    font-size: 2em; /* Adjust font size for the timer */
+    margin: 10px 0; /* Add margin above and below the timer */
+    color: #333; /* Darker color for better contrast */
+}
+
+button {
+    padding: 10px 20px; /* Adjust padding for buttons */
+    font-size: 1em; /* Set font size for buttons */
+    margin: 5px; /* Space between buttons */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove button borders */
+    border-radius: 5px; /* Rounded corners for buttons */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    width: fit-content; /* Set a fixed width for buttons */
+}
+
+/* Style for category buttons */
+.category-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-start; /* Align buttons to the left */
+    width: 30%; /* Set a fixed width for category buttons */
+    margin-bottom: 20px;
+}
+
+.category-buttons button {
+    margin-bottom: 5px; /* Space between category buttons */
+    width: 100%; /* Make buttons take up full width */
+}
+
+.category-container{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.category-title{
+    text-align: center;
+    margin-bottom: 10px
+}
+
+#study-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#gaming-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#hobby-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#work-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#start-button{
+    background-color: rgb(0, 179, 0);
+}
+
+#stop-button{
+    background-color: red;
+}
+
+.login-button{
+    background-color: #0057b300;
+}
+
+.signup-button{
+    background-color: #0057b300;
+}
+
+.logout-button{
+    background-color: #0057b300;
+}
+
+/*title typewriter animation*/
+
+.homepage-title{
+    font-family: monospace;
+    font-size: 10em;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 0.15em solid antiquewhite;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret{
+    from, to { border-color: transparent; }
+            50% { border-color: antiquewhite; }
+}
+
+.content-index {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: antiquewhite;
+}
+
+
+/*music sound page*/
+.grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;
+        max-width: 80%;
+        margin-top: 20px;
+}
+
+.music-box {
+    border: 2px solid #000;
+    padding: 20px;
+    background-color: antiquewhite;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 300px;
+}
+
+.music-box h4{
+    margin-top: 0;
+}
+
+.music-box audio {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+#background-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+select, button {
+    margin: 0 10px;
+}
+
+.image-messages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.image-message {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.image-description {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.image-description p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.image-description button {
+    margin-top: 5px;
+}
+
+.bg-container{
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(250, 235, 215, 0.603);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#background-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+select, button {
+    margin: 0 10px;
+    text-align: center;
+}
+
+.img-messages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.img-message {
+    background-color: rgba(250, 235, 215, 0.637);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.img-description {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.img-description p {
+    margin: 0;
+}
+
+.img-description button {
+    margin-top: 5px;
+    text-align: center;
+}
+
+
+/* no scrolling for added image bg */
+
+
+/*about page layout should be applied elsewhere too*/
+
+
+/* add css typewriting animation for index page title: jomPOMO */

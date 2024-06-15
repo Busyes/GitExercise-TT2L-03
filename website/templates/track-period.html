@@ -44,6 +44,7 @@
 
     <h2>User's Trackzz</h2>
     <div>
+      <button><a href="/tracker">Tracker</a></button>
       <button><a href="/tracker-week">Weekly</a></button>
       <button><a href="/tracker-month">Monthly</a></button>
     </div>
@@ -82,7 +83,11 @@
             y: {
               beginAtZero: true
             }
-          }
+          },
+          bar: {
+              barPercentage: 0.05, 
+              categoryPercentage: 0.05 
+            }
         }
       });
     </script>
