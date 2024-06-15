@@ -706,6 +706,11 @@ select, button {
     text-align: center;
 }
 
+.reminder{
+    text-align: center;
+}
+
+
 
 /* no scrolling for added image bg */
 
