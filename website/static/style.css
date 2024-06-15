@@ -130,6 +130,11 @@ h1{
     margin-top: 80px;
 }
 
+.content h3{
+    text-align: center;
+    margin: 20px 10px;
+}
+
 
 .content p{
     margin: 20px auto;
