@@ -72,23 +72,19 @@ h1{
 }
 
 
-.container{
+.container {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    align-items: flex;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    align-items: center; /* Vertically center the image */
+    width: 80%;
+    margin: auto;
 }
 
 
-.content{
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    max-width: 70%;
-    flex: 0 0 75%;
+.content {
+    flex: 1;
+    margin-right: 20px;
+    margin-top: 50px;
 }
 
 
@@ -102,6 +98,29 @@ h1{
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0; /* Initial state for fade-in effect */
+    animation: fadeIn 1s forwards; /* Apply fade-in animation */
+}
+
+.info-box:nth-child(1) {
+    animation-delay: 0.5s; /* Delay for the first box */
+}
+
+.info-box:nth-child(2) {
+    animation-delay: 1s; /* Delay for the second box */
+}
+
+.info-box:nth-child(3) {
+    animation-delay: 1.5s; /* Delay for the third box */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -119,9 +138,10 @@ h1{
 }
 
 
-.image-container{
-    padding: 20px;
-    margin-top: -50px;
+.image-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center; /* Center image vertically */
 }
 
 
@@ -133,7 +153,7 @@ h1{
 
 .content p{
     margin: 20px auto;
-    font-size: 60px;
+    font-size: 30px;
     font-weight: 100;
     line-height: 25px;
 }
@@ -355,8 +375,10 @@ button a{
 
 
   .rotating-logo {
-    width: 750px;
-    height: 750px;
+  
+    display: block;
+    width: 500px;
+    height: 500px;
     object-fit: cover;
     animation: rotate 5s linear infinite;
   }
@@ -370,35 +392,23 @@ button a{
     }
   }
 
-
   @media (max-width: 768px) {
     .container {
         flex-direction: column;
         align-items: center;
     }
 
-
-    .content, .image-container {
-        max-width: 100%;
+    .content {
+        margin-right: 0;
     }
 
-
-    .tomato-image {
-        width: 200px;
-        height: 200px;
-    }
-
-
-    .info-box h2 {
-        font-size: 20px;
-    }
-
-
-    .info-box p {
-        font-size: 16px;
+    .image-container {
+        margin-top: 20px;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center; /* Center image vertically */
     }
 }
-
 /* pomozone page */
 
 
@@ -518,25 +528,7 @@ button {
     margin-bottom: 10px
 }
 
-#study-button{
-    background-color: antiquewhite;
-    color:#333
-}
 
-#gaming-button{
-    background-color: antiquewhite;
-    color:#333
-}
-
-#hobby-button{
-    background-color: antiquewhite;
-    color:#333
-}
-
-#work-button{
-    background-color: antiquewhite;
-    color:#333
-}
 
 #start-button{
     background-color: rgb(0, 179, 0);
