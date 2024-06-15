@@ -144,13 +144,60 @@ h1{
     line-height: 1.6;
 }
 
-
-.image-container {
-    flex: 0 0 auto;
+.about-main{
     display: flex;
-    align-items: center; /* Center image vertically */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
+.image-container {
+    flex: 1;
+    display: flex;
+    align-items: center; 
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+
+}
+
+
+
+.about-text-box {
+    flex: 1;
+    padding: 20px;
+    background-color: rgba(127, 255, 212, 0.548); /* semi-transparent background */
+    border-radius: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* optional: add a subtle shadow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.about-text-box h1, .about-text-box p {
+    margin: 10px 0;
+}
+
+
+.about-text-box button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.about-text-box button:hover {
+    background-color: #0056b3;
+}
 
 .content h1{
     font-size: 70px;
@@ -413,7 +460,7 @@ button a{
         margin-top: 20px;
         flex: 0 0 auto;
         display: flex;
-        align-items: center; /* Center image vertically */
+        align-items: center; 
     }
 }
 /* pomozone page */
@@ -433,9 +480,9 @@ button a{
 .container-pomozone{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly; /* Center horizontally */
-    align-items: center; /* Center vertically within the main container */
-    width: 100%; /* Ensure it spans the entire width */
+    justify-content: space-evenly; 
+    align-items: center; 
+    width: 100%; 
     margin-top: 20px;
 }
 
@@ -445,16 +492,16 @@ button a{
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 50%; /* Increased width for timer box */
+    width: 50%; 
     margin: 0 auto;
     flex-direction: row;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-    padding: 20px; /* Padding inside the box */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    text-align: center; /* Center text inside the box */
-    max-width: 90%; /* Optional: Max width for responsiveness */
+    background-color: rgba(255, 255, 255, 0.9); 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    text-align: center; 
+    max-width: 90%; 
     margin-top: 20px;
 }
 
@@ -497,17 +544,17 @@ button a{
 }
 
 button {
-    padding: 10px 20px; /* Adjust padding for buttons */
-    font-size: 1em; /* Set font size for buttons */
-    margin: 5px; /* Space between buttons */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    border: none; /* Remove button borders */
-    border-radius: 5px; /* Rounded corners for buttons */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
-    transition: background-color 0.3s ease; /* Smooth color transition */
-    width: fit-content; /* Set a fixed width for buttons */
+    padding: 10px 20px; 
+    font-size: 1em; 
+    margin: 5px; 
+    cursor: pointer; 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s ease; 
+    width: fit-content; 
 }
 
 /* Style for category buttons */
@@ -833,4 +880,5 @@ select, button {
 
 .slider-container{
     margin-top: 50px;
+    margin-bottom: 50px;
 }
