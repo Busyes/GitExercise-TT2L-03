@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="icon" href="static/images/logo.png">
+
     <title>POMOZONE</title>
   </head>
 
 
+
+
   <head>
     <link rel="stylesheet" href="static/style.css">
+   
+
 </head>
+
 
     <nav class="navbar">
         <div class="navdiv">
@@ -24,32 +31,274 @@
                     </li>
                     <li><a href="/tracker">TRACK</a></li>
                     <li><a href="/about">ABOUT</a></li>
-                    <button><a href="/login">LOG IN</a></button>
-                    <button><a href="/logout">LOG OUT</a></button>
-                    <button><a href="/sign_up">SIGN UP</a></button>
+                    <button class="login-button"><a href="/login">LOG IN</a></button>
+                    <button class="logout-button"><a href="/logout">LOG OUT</a></button>
+                    <button class="signup-button"><a href="/sign_up">SIGN UP</a></button>
                 </ul>
+
+
 
 
         </div>
 
-    </nav>
-    
-<body class="body-pomozone">    
-  <h1>POMOZONE</h1>
 
-<div class="main">
-  <aside class="left">
+    </nav>
+   
+<body class="body-pomozone">    
  
-    <h5>Pick a Category</h5>
+<h2 class="category-title">What are you going to do today?</h5>
+   <div class="category-container">
     <button id="study-button" class="category-button">Study</button>
     <button id="gaming-button" class="category-button">Gaming</button>
     <button id="work-button" class="category-button">Work</button>
     <button id="hobby-button" class="category-button">Hobby</button>
-    <h5>Timer Control</h5>
+   </div>
+    
+
+<!--start timer functionality-->
+
+<div id="container-pomozone">
+   <div class="timer-box">
+   <button id="start-button" disabled>Start</button>
+   <button id="stop-button" disabled>Stop</button>
+   <button id="reset-button" disabled>Reset</button>
+   <div id="timer">
+     <span id="work-time">25:00</span>
+     <span id="separator">/</span>
+     <span id="break-time">05:00</span>
+   </div>
+  
+     <button id="skipbreak-button">Skip Break</button>
+     </div>
+  </div>    
+</main>
+
+
+
+   <script>
+     function storeUserSession(sessionData) {
+       fetch('/store-session', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(sessionData),
+       })
+       .then((response) => response.json())
+       .then((data) => {
+         console.log('Success:', data);
+       })
+       .catch((error) => {
+         console.error('Error:', error);
+       });
+     }
+
+
+     const startButton = document.getElementById("start-button");
+     const stopButton = document.getElementById("stop-button");
+     const resetButton = document.getElementById("reset-button");
+     const timer = document.getElementById("timer");
+     const workTime = document.getElementById("work-time");
+     const breakTime = document.getElementById("break-time");
+     const skipbreakButton = document.getElementById("skipbreak-button");
+     const BgSound = document.getElementById("bg-sound")
+     const studyButton = document.getElementById("study-button")
+     const gamingButton = document.getElementById("gaming-button")
+     const workButton = document.getElementById("work-button")
+     const hobbyButton = document.getElementById("hobby-button")
+     const categoryButtons = document.getElementsByClassName("category-button")
+
+
+     // 25 minutes --> 5 minutes --> 25 minutes = 1 session
+     let workInterval;
+     let breakInterval;
+     let timeLeft = 25 * 60; // 25 minutes in seconds
+     let breakTimeLeft = 5 * 60; // 5 minutes in seconds
+     let isWorking = true;
+     let sessionId = null;
+     let currentAlarm;
+     let category = ""
+    
+     function getCategory(text){
+       category = text
+       console.log(category)
+
+
+       for (i = 0; i < categoryButtons.length; i++) {
+         categoryButtons[i].disabled = true
+       }
+     }
+
+
+     function playSelectedBackgroundSong() {
+       const selectedSong = songSelect.value;
+       const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
+       const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
+
+       if (targetSession <= totalSessions) {
+         if (currentAudio) {
+           currentAudio.pause();
+           currentAudio.currentTime = 0;
+         }
+
+
+         currentAudio = new Audio(songUrls[selectedSong]);
+         currentAudio.loop = true; // Loop the background song
+         currentAudio.play();
+         startTime = new Date().getTime();
+       } else {
+         alert(`You need ${targetSession} sessions to unlock this song!`);
+       }
+     }
+  
+     studyButton.addEventListener("click", () => getCategory("study"))
+     gamingButton.addEventListener("click", () => getCategory("gaming"))
+     workButton.addEventListener("click", () => getCategory("work"))
+     hobbyButton.addEventListener("click", () => getCategory("hobby"))
+
+
+     startButton.addEventListener("click", () => {
+       if (!songSelect.value || !alarmSelect.value) {
+         alert("Please select both a background song and an alarm before starting the timer.");
+         return;
+       }
+
+
+       playSelectedBackgroundSong();
+       startButton.disabled = true;
+       stopButton.disabled = false;
+       resetButton.disabled = false;
+       if (isWorking) {
+         workInterval = setInterval(() => {
+           timeLeft--;
+           workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+           if (timeLeft === 0) {
+             clearInterval(workInterval);
+             isWorking = false;
+             breakTimeLeft = breakTimeLeft;
+            
+             currentAudio.pause();
+
+
+             breakInterval = setInterval(() => {
+               breakTimeLeft--;
+               breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
+               if (breakTimeLeft === 0) {
+                 clearInterval(breakInterval);
+                 isWorking = true;
+
+
+                 currentAudio.play();
+               }
+             }, 1000);
+           }
+         }, 1000);
+       } else {
+         breakInterval = setInterval(() => {
+           breakTimeLeft--;
+           breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
+           if (breakTimeLeft === 0) {
+             clearInterval(breakInterval);
+             isWorking = true;
+             timeLeft = 5;
+             workInterval = setInterval(() => {
+               timeLeft--;
+               workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+               if (timeLeft === 0) {
+                 clearInterval(workInterval);
+                 isWorking = false;
+                 playAlarm();
+                
+               }
+             }, 1000);
+           }
+         }, 1000);
+       }
+     });
+
+
+
+
+
+
+     stopButton.addEventListener("click", () => {
+       startButton.disabled = false;
+       stopButton.disabled = true;
+       clearInterval(workInterval);
+       clearInterval(breakInterval);
+       stopAlarm();
+       stopSong();
+     });
+
+
+     resetButton.addEventListener("click", () => {
+       startButton.disabled = false;
+       stopButton.disabled = true;
+       resetButton.disabled = true;
+       clearInterval(workInterval);
+       clearInterval(breakInterval);
+
+
+       timeLeft = 5;
+
+
+       breakTimeLeft = 5 * 60;
+       workTime.textContent = "25:00";
+       breakTime.textContent = "05:00";
+       isWorking = true;
+       skipbreakButton.disabled = false;
+       stopAlarm();
+       stopSong();
+     });
+
+
+       skipbreakButton.addEventListener("click", () => {
+
+
+         currentAudio.play();
+         if (breakInterval) {
+         clearInterval(breakInterval);
+         isWorking = true;
+         timeLeft = 5;
+         breakTimeLeft = 5 * 60;
+         workInterval = setInterval(() => {
+           timeLeft--;
+           workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+           if (timeLeft === 0) {
+             clearInterval(workInterval);
+             isWorking = false;
+
+
+               {% if current_user.is_authenticated %}
+               const sessionData = {
+                 user_id: {{ current_user.id }},
+                 category: category
+               };
+               storeUserSession(sessionData);
+               {% endif %}
+            
+
+
+             currentAudio.pause();
+             playAlarm();
+
+
+           }
+         }, 1000);
+         skipbreakButton.disabled = true;
+           }
+         });
+
+
+     updateTimerDisplay(); // Initial display update
+    
+     </script>
 
 
     <!--background song dropdown-->
-    <div>
+   <div class="sound-box" >
+    <div class="selection-box">
       <h2 class="centered-text1">Background Song selection:</h2>
       <select id="song-select">
         <option value="">Select a song</option>
@@ -59,12 +308,12 @@
         <option value="song4" data-user-session="9">Song 4</option>
         <option value="song5" data-user-session="12">Song 5</option>
       </select>
-  
-  
+ 
+ 
     </div>
-    
+   
     <!--alarm dropdown-->
-    <div>
+    <div class="selection-box">
       <h2 class="centered-text1">Alarm Selection:</h2>
       <select id="alarm-select">
         <option value="">Select an alarm</option>
@@ -74,18 +323,18 @@
         <option value="alarm4" data-user-session="10">Alarm 4</option>
         <option value="alarm5" data-user-session="13">Alarm 5</option>
       </select>
-    
-  
+   
+ 
     </div>
-  </aside>
-    
+   
+   
     <!--background image dropdown-->
-   <aside class="right"> 
+    <div class="selection-box">
     <nav>
       <h1 class="centered-text1">Background image selection:</h1>
       <p class="centered-text2">Select a background image to apply it to the webpage:</p>
-    
-      
+   
+     
       <form id="background-form">
         <label for="background-image">Choose an image:</label>
         <select id="background-image" name="background-image">
@@ -95,33 +344,36 @@
           <option value="img 4.jpg" data-user-session="11">Image 4</option>
           <option value="img 5.jpg" data-user-session="14">Image 5</option>
         </select>
-    
+   
         <button type="submit">Apply</button>
         <button id="unapply-button" type="button">Unapply</button>
       </form>
     </nav>
-  </aside>  
-    
+    </div>
+   </div>
+  </div>
+   
     <p id="total-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
-    
+   
     <script>
       document.addEventListener('DOMContentLoaded', function() {
           fetchTotalSessions().then(hideUnavailableOptions);
         });
 
-    
+
+   
       const songSelect = document.getElementById('song-select');
       const playButton = document.getElementById('play-button');
       const stopSongButton = document.getElementById('stop-song-button');
-    
+   
       const alarmSelect = document.getElementById('alarm-select');
       const alarmButton = document.getElementById('alarm-button');
       const stopAlarmButton = document.getElementById('stop-alarm-button');
-    
+   
       const form = document.getElementById('background-form');
       const backgroundImageSelect = document.getElementById('background-image');
       const unapplyButton = document.getElementById('unapply-button');
-    
+   
       const songUrls = {
         song1: 'static/sound/sound 1.mp3',
         song2: 'static/sound/sound 2.mp3',
@@ -129,7 +381,7 @@
         song4: 'static/sound/sound 4.mp3',
         song5: 'static/sound/sound 5.mp3',
       };
-    
+   
       const alarmUrls = {
         alarm1: 'static/sound/alarm 1.mp3',
         alarm2: 'static/sound/alarm 2.mp3',
@@ -137,10 +389,12 @@
         alarm4: 'static/sound/alarm 4.mp3',
         alarm5: 'static/sound/alarm 5.mp3',
       };
-    
+   
       let currentAudio;
       let startTime;
       let startAlarmTime;
+
+
 
 
        // Fetch the total sessions once and update all relevant elements
@@ -157,11 +411,13 @@
       }
     }
 
+
     function hideUnavailableOptions(totalSessions) {
       hideOptions(songSelect, 'data-user-session', totalSessions);
       hideOptions(alarmSelect, 'data-user-session', totalSessions);
       hideOptions(backgroundImageSelect, 'data-user-session', totalSessions);
     }
+
 
     function hideOptions(selectElement, sessionAttribute, totalSessions) {
       const options = selectElement.querySelectorAll('option');
@@ -175,35 +431,36 @@
       });
     }
 
+
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         startButton.disabled = false;
         const selectedImage = backgroundImageSelect.value;
         const targetSession = parseInt(backgroundImageSelect.querySelector(`option[value="${selectedImage}"]`).getAttribute('data-user-session'));
         const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-    
+   
         if (targetSession <= totalSessions) {
           document.body.style.backgroundImage = `url('static/images/${selectedImage}')`;
         } else {
           alert(`You need ${targetSession} sessions to unlock this image!`);
         }
       });
-    
+   
       unapplyButton.addEventListener('click', () => {
         document.body.style.backgroundImage = '';
       });
-    
+   
       function playSong() {
         const selectedSong = songSelect.value;
         const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
         const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-    
+   
         if (targetSession <= totalSessions) {
           if (currentAudio) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
           }
-    
+   
           currentAudio = new Audio(songUrls[selectedSong]);
           currentAudio.loop = false;
           currentAudio.onended = loopAudio;
@@ -213,18 +470,18 @@
           alert(`You need ${targetSession} sessions to unlock this song!`);
         }
       }
-    
+   
       function stopSong() {
         if (currentAudio) {
           currentAudio.pause();
           currentAudio.currentTime = 0;
         }
       }
-    
+   
       function loopAudio() {
         const currentTime = new Date().getTime();
         const elapsedTime = (currentTime - startTime) / 1000;
-    
+   
         if (elapsedTime < 25 * 60) {
           currentAudio.play();
         } else {
@@ -232,11 +489,12 @@
           currentAudio.currentTime = 0;
         }
       }
-    
+   
       function playAlarm() {
           const selectedAlarm = alarmSelect.value;
           const targetSession = parseInt(alarmSelect.querySelector(`option[value="${selectedAlarm}"]`).getAttribute('data-user-session'));
           const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
 
           if (targetSession <= totalSessions) {
             if (currentAlarm) {
@@ -244,11 +502,14 @@
               currentAlarm.currentTime = 0;
             }
 
+
             currentAlarm = new Audio(alarmUrls[selectedAlarm]);
             currentAlarm.loop = false;
 
+
             // Start playing the alarm asynchronously
             const playPromise = currentAlarm.play();
+
 
             // Handle the case where play() returns a promise (modern browsers)
             if (playPromise !== undefined) {
@@ -275,6 +536,7 @@
           }
         }
 
+
         function stopAlarm() {
           if (currentAlarm) {
             currentAlarm.pause();
@@ -282,10 +544,12 @@
           }
         }
 
+
         function loopAlarm() {
           //loop logic if needed
           const currentTime = new Date().getTime();
           const elapsedTime = (currentTime - startAlarmTime) / 1000;
+
 
           if (elapsedTime < 25 * 60) {
             currentAlarm.play();
@@ -296,223 +560,10 @@
         }
 
 
+
+
     </script>
-    
-    <!--start timer functionality-->
-<main>
-   <div id="container-pomozone"> 
-    <div class="timer-box">
-    <button id="start-button" disabled>Start</button>
-    <button id="stop-button" disabled>Stop</button>
-    <button id="reset-button" disabled>Reset</button>
-    <div id="timer">
-      <span id="work-time">25:00</span>
-      <span id="separator">/</span>
-      <span id="break-time">05:00</span>
-    </div>
    
-      <button id="skipbreak-button">Skip Break</button>
-      </div>
-   </div>    
-</main>
-</div>   
-
-    <script>
-      function storeUserSession(sessionData) {
-        fetch('/store-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(sessionData),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-      }
-
-      const startButton = document.getElementById("start-button");
-      const stopButton = document.getElementById("stop-button");
-      const resetButton = document.getElementById("reset-button");
-      const timer = document.getElementById("timer");
-      const workTime = document.getElementById("work-time");
-      const breakTime = document.getElementById("break-time");
-      const skipbreakButton = document.getElementById("skipbreak-button");
-      const BgSound = document.getElementById("bg-sound")
-      const studyButton = document.getElementById("study-button")
-      const gamingButton = document.getElementById("gaming-button")
-      const workButton = document.getElementById("work-button")
-      const hobbyButton = document.getElementById("hobby-button")
-      const categoryButtons = document.getElementsByClassName("category-button")
-
-      // 25 minutes --> 5 minutes --> 25 minutes = 1 session
-      let workInterval;
-      let breakInterval;
-      let timeLeft = 25 * 60; // 25 minutes in seconds
-      let breakTimeLeft = 5 * 60; // 5 minutes in seconds
-      let isWorking = true;
-      let sessionId = null;
-      let currentAlarm;
-      let category = ""
-      
-      function getCategory(text){
-        category = text
-        console.log(category)
-
-        for (i = 0; i < categoryButtons.length; i++) {
-          categoryButtons[i].disabled = true
-        }
-      } 
-
-      function playSelectedBackgroundSong() {
-        const selectedSong = songSelect.value;
-        const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
-        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-
-        if (targetSession <= totalSessions) {
-          if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-          }
-
-          currentAudio = new Audio(songUrls[selectedSong]);
-          currentAudio.loop = true; // Loop the background song
-          currentAudio.play();
-          startTime = new Date().getTime();
-        } else {
-          alert(`You need ${targetSession} sessions to unlock this song!`);
-        }
-      }
     
-      studyButton.addEventListener("click", () => getCategory("study"))
-      gamingButton.addEventListener("click", () => getCategory("gaming"))
-      workButton.addEventListener("click", () => getCategory("work"))
-      hobbyButton.addEventListener("click", () => getCategory("hobby"))
-
-      startButton.addEventListener("click", () => {
-        if (!songSelect.value || !alarmSelect.value) {
-          alert("Please select both a background song and an alarm before starting the timer.");
-          return;
-        }
-
-        playSelectedBackgroundSong();
-        startButton.disabled = true;
-        stopButton.disabled = false;
-        resetButton.disabled = false;
-        if (isWorking) {
-          workInterval = setInterval(() => {
-            timeLeft--;
-            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
-            if (timeLeft === 0) {
-              clearInterval(workInterval);
-              isWorking = false;
-              breakTimeLeft = breakTimeLeft;
-              
-              currentAudio.pause();
-
-              breakInterval = setInterval(() => {
-                breakTimeLeft--;
-                breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
-                if (breakTimeLeft === 0) {
-                  clearInterval(breakInterval);
-                  isWorking = true;
-
-                  currentAudio.play();
-                }
-              }, 1000);
-            }
-          }, 1000);
-        } else {
-          breakInterval = setInterval(() => {
-            breakTimeLeft--;
-            breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
-            if (breakTimeLeft === 0) {
-              clearInterval(breakInterval);
-              isWorking = true;
-              timeLeft = 5;
-              workInterval = setInterval(() => {
-                timeLeft--;
-                workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
-                if (timeLeft === 0) {
-                  clearInterval(workInterval);
-                  isWorking = false;
-                  playAlarm();
-                  
-                }
-              }, 1000);
-            }
-          }, 1000);
-        }
-      });
-
-
-
-      stopButton.addEventListener("click", () => {
-        startButton.disabled = false;
-        stopButton.disabled = true;
-        clearInterval(workInterval);
-        clearInterval(breakInterval);
-        stopAlarm();
-        stopSong();
-      });
-
-      resetButton.addEventListener("click", () => {
-        startButton.disabled = false;
-        stopButton.disabled = true;
-        resetButton.disabled = true;
-        clearInterval(workInterval);
-        clearInterval(breakInterval);
-
-        timeLeft = 5;
-
-        breakTimeLeft = 5 * 60;
-        workTime.textContent = "25:00";
-        breakTime.textContent = "05:00";
-        isWorking = true;
-        skipbreakButton.disabled = false;
-        stopAlarm();
-        stopSong();
-      });
-
-        skipbreakButton.addEventListener("click", () => {
-
-          currentAudio.play();
-          if (breakInterval) {
-          clearInterval(breakInterval);
-          isWorking = true;
-          timeLeft = 5;
-          breakTimeLeft = 5 * 60;
-          workInterval = setInterval(() => { 
-            timeLeft--;
-            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`; 
-            if (timeLeft === 0) { 
-              clearInterval(workInterval); 
-              isWorking = false; 
-
-                {% if current_user.is_authenticated %}
-                const sessionData = {
-                  user_id: {{ current_user.id }},
-                  category: category
-                };
-                storeUserSession(sessionData);
-                {% endif %}
-              
-
-              currentAudio.pause();
-              playAlarm();
-
-            } 
-          }, 1000);
-          skipbreakButton.disabled = true;
-            }
-          });
-
-      updateTimerDisplay(); // Initial display update
-      
-      </script>
 </body>
 </html>

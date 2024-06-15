@@ -83,16 +83,6 @@ h1{
 }
 
 
-.content-index{
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    text-align: center;
-    color: antiquewhite;
-}
-
-
 .content{
     display: flex;
     flex-direction: column;
@@ -285,7 +275,7 @@ button a{
 
 
     .center-button:hover {
-        background-color: #0e8362;
+        background-color: #ff6d18;
     }
    
     .center-button:focus {
@@ -294,21 +284,6 @@ button a{
     }
 
 
-    @media (max-width: 768px) {
-        .homepage-title {
-            font-size: 32px;
-        }
-   
-        .homepage-text {
-            font-size: 16px;
-        }
-   
-        .center-button {
-            width: 80%;
-            padding: 15px;
-            font-size: 18px;
-        }
-    }
 
 
 .sign_up-box {
@@ -425,32 +400,6 @@ button a{
 }
 
 /* pomozone page */
-main{
-    display: flex;
-    flex: 1;
-
-}
-
-
-.left{
-    background-color: #007bff;
-    padding: 3em 0 3em 0;
-    flex: 1 1 100px;
-}
-
-.main{
-    background-color: antiquewhite;
-    padding: 3em 0 3em 0;
-    flex: 5 5 150px;
-   
-}
-
-.right{
-    background-color: #007bff;
-    padding: 3em 0 3em 0;
-    flex: 1 1 100px;
-}
-
 
 
 
@@ -460,16 +409,14 @@ main{
     padding: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center horizontally */
     .navbar{width: 100%;
             margin-bottom: 20px;}
 }
 
 .container-pomozone{
     display: flex;
-    justify-content: center; /* Center horizontally */
+    flex-direction: row;
+    justify-content: space-evenly; /* Center horizontally */
     align-items: center; /* Center vertically within the main container */
     width: 100%; /* Ensure it spans the entire width */
     margin-top: 20px;
@@ -481,18 +428,46 @@ main{
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-
-.timer-box {
-    display: flex;
-    flex-direction: column;
+    width: 50%; /* Increased width for timer box */
+    margin: 0 auto;
+    flex-direction: row;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
     padding: 20px; /* Padding inside the box */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    width: fit-content; /* Adjust width to fit content */
+    text-align: center; /* Center text inside the box */
+    max-width: 90%; /* Optional: Max width for responsiveness */
+    margin-top: 20px;
+}
+
+.sound-box{
+    display: flex;
+    flex-direction: row; /* Arrange selections side by side */
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.selection-box {
+    background-color: rgba(250, 235, 215, 0.723);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 29%;
+    text-align: center;
+}
+
+.timer-box {
+    width: 50%; /* Increased width for timer box */
+    margin: 0 auto;
+  
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     text-align: center; /* Center text inside the box */
     max-width: 90%; /* Optional: Max width for responsiveness */
     margin-top: 20px;
@@ -515,19 +490,229 @@ button {
     border-radius: 5px; /* Rounded corners for buttons */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
     transition: background-color 0.3s ease; /* Smooth color transition */
-    width: 100px; /* Set a fixed width for buttons */
+    width: fit-content; /* Set a fixed width for buttons */
 }
 
-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+/* Style for category buttons */
+.category-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-start; /* Align buttons to the left */
+    width: 30%; /* Set a fixed width for category buttons */
+    margin-bottom: 20px;
+}
+
+.category-buttons button {
+    margin-bottom: 5px; /* Space between category buttons */
+    width: 100%; /* Make buttons take up full width */
+}
+
+.category-container{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.category-title{
+    text-align: center;
+    margin-bottom: 10px
+}
+
+#study-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#gaming-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#hobby-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#work-button{
+    background-color: antiquewhite;
+    color:#333
+}
+
+#start-button{
+    background-color: rgb(0, 179, 0);
+}
+
+#stop-button{
+    background-color: red;
+}
+
+.login-button{
+    background-color: #0057b300;
+}
+
+.signup-button{
+    background-color: #0057b300;
+}
+
+.logout-button{
+    background-color: #0057b300;
+}
+
+/*title typewriter animation*/
+
+.homepage-title{
+    font-family: monospace;
+    font-size: 10em;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 0.15em solid antiquewhite;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret{
+    from, to { border-color: transparent; }
+            50% { border-color: antiquewhite; }
+}
+
+.content-index {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: antiquewhite;
 }
 
 
+/*music sound page*/
+.grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;
+        max-width: 80%;
+        margin-top: 20px;
+}
+
+.music-box {
+    border: 2px solid #000;
+    padding: 20px;
+    background-color: antiquewhite;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 300px;
+}
+
+.music-box h4{
+    margin-top: 0;
+}
+
+.music-box audio {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
 
 
+#background-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
+select, button {
+    margin: 0 10px;
+}
 
+.image-messages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
 
+.image-message {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.image-description {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.image-description p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.image-description button {
+    margin-top: 5px;
+}
+
+.bg-container{
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(250, 235, 215, 0.603);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#background-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+select, button {
+    margin: 0 10px;
+    text-align: center;
+}
+
+.img-messages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.img-message {
+    background-color: rgba(250, 235, 215, 0.637);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.img-description {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.img-description p {
+    margin: 0;
+}
+
+.img-description button {
+    margin-top: 5px;
+    text-align: center;
+}
 
 
 /* no scrolling for added image bg */
