@@ -44,6 +44,217 @@
     <button id="hobby-button" class="category-button">Hobby</button>
     <h5>Timer Control</h5>
 
+    <button id="start-button" disabled>Start</button>
+    <button id="stop-button" disabled>Stop</button>
+    <button id="reset-button" disabled>Reset</button>
+    <div id="timer">
+      <span id="work-time">25:00</span>
+      <span id="separator">/</span>
+      <span id="break-time">05:00</span>
+    </div>
+  
+      <button id="skipbreak-button">Skip Break</button>
+
+    </div>
+
+    <script>
+      function storeUserSession(sessionData) {
+        fetch('/store-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(sessionData),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+
+      const startButton = document.getElementById("start-button");
+      const stopButton = document.getElementById("stop-button");
+      const resetButton = document.getElementById("reset-button");
+      const timer = document.getElementById("timer");
+      const workTime = document.getElementById("work-time");
+      const breakTime = document.getElementById("break-time");
+      const skipbreakButton = document.getElementById("skipbreak-button");
+      const BgSound = document.getElementById("bg-sound")
+      const studyButton = document.getElementById("study-button")
+      const gamingButton = document.getElementById("gaming-button")
+      const workButton = document.getElementById("work-button")
+      const hobbyButton = document.getElementById("hobby-button")
+      const categoryButtons = document.getElementsByClassName("category-button")
+
+      // 25 minutes --> 5 minutes --> 25 minutes = 1 session
+      let workInterval;
+      let breakInterval;
+      let timeLeft = 5; // 25 minutes in seconds
+      let breakTimeLeft = 5 * 60; // 5 minutes in seconds
+      let isWorking = true;
+      let sessionId = null;
+      let currentAlarm;
+      let category = ""
+      
+      function getCategory(text){
+        category = text
+        console.log(category)
+
+        for (i = 0; i < categoryButtons.length; i++) {
+          categoryButtons[i].disabled = true
+        }
+      } 
+
+      function playSelectedBackgroundSong() {
+        const selectedSong = songSelect.value;
+        const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
+        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
+
+        if (targetSession <= totalSessions) {
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+          }
+
+          currentAudio = new Audio(songUrls[selectedSong]);
+          currentAudio.loop = true; // Loop the background song
+          currentAudio.play();
+          startTime = new Date().getTime();
+        } else {
+          alert(`You need ${targetSession} sessions to unlock this song!`);
+        }
+      }
+    
+      studyButton.addEventListener("click", () => getCategory("study"))
+      gamingButton.addEventListener("click", () => getCategory("gaming"))
+      workButton.addEventListener("click", () => getCategory("work"))
+      hobbyButton.addEventListener("click", () => getCategory("hobby"))
+
+      startButton.addEventListener("click", () => {
+        if (!songSelect.value || !alarmSelect.value) {
+          alert("Please select both a background song and an alarm before starting the timer.");
+          return;
+        }
+
+        playSelectedBackgroundSong();
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        resetButton.disabled = false;
+        if (isWorking) {
+          workInterval = setInterval(() => {
+            timeLeft--;
+            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+            if (timeLeft === 0) {
+              clearInterval(workInterval);
+              isWorking = false;
+              breakTimeLeft = breakTimeLeft;
+              
+              currentAudio.pause();
+
+              breakInterval = setInterval(() => {
+                breakTimeLeft--;
+                breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
+                if (breakTimeLeft === 0) {
+                  clearInterval(breakInterval);
+                  isWorking = true;
+
+                  currentAudio.play();
+                }
+              }, 1000);
+            }
+          }, 1000);
+        } else {
+          breakInterval = setInterval(() => {
+            breakTimeLeft--;
+            breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
+            if (breakTimeLeft === 0) {
+              clearInterval(breakInterval);
+              isWorking = true;
+              timeLeft = 5;
+              workInterval = setInterval(() => {
+                timeLeft--;
+                workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+                if (timeLeft === 0) {
+                  clearInterval(workInterval);
+                  isWorking = false;
+                  playAlarm();
+                  
+                }
+              }, 1000);
+            }
+          }, 1000);
+        }
+      });
+
+
+
+      stopButton.addEventListener("click", () => {
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        clearInterval(workInterval);
+        clearInterval(breakInterval);
+        stopAlarm();
+        stopSong();
+      });
+
+      resetButton.addEventListener("click", () => {
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        resetButton.disabled = true;
+        clearInterval(workInterval);
+        clearInterval(breakInterval);
+
+        timeLeft = 5;
+
+        breakTimeLeft = 5 * 60;
+        workTime.textContent = "25:00";
+        breakTime.textContent = "05:00";
+        isWorking = true;
+        skipbreakButton.disabled = false;
+        stopAlarm();
+        stopSong();
+      });
+
+        skipbreakButton.addEventListener("click", () => {
+
+          currentAudio.play();
+          if (breakInterval) {
+          clearInterval(breakInterval);
+          isWorking = true;
+          timeLeft = 5;
+          breakTimeLeft = 5 * 60;
+          workInterval = setInterval(() => { 
+            timeLeft--;
+            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`; 
+            if (timeLeft === 0) { 
+              clearInterval(workInterval); 
+              isWorking = false; 
+
+                {% if current_user.is_authenticated %}
+                const sessionData = {
+                  user_id: {{ current_user.id }},
+                  category: category
+                };
+                storeUserSession(sessionData);
+                {% endif %}
+              
+
+              currentAudio.pause();
+              playAlarm();
+
+            } 
+          }, 1000);
+          skipbreakButton.disabled = true;
+            }
+          });
+
+      updateTimerDisplay(); // Initial display update
+      
+      </script>
+
     <!--background song dropdown-->
     <div>
       <h2 class="centered-text1">Background Song selection:</h2>
@@ -289,214 +500,3 @@
 
     </script>
     
-    <!--start timer functionality-->
-    <button id="start-button" disabled>Start</button>
-    <button id="stop-button" disabled>Stop</button>
-    <button id="reset-button" disabled>Reset</button>
-    <div id="timer">
-      <span id="work-time">25:00</span>
-      <span id="separator">/</span>
-      <span id="break-time">05:00</span>
-    </div>
-  
-      <button id="skipbreak-button">Skip Break</button>
-
-    </div>
-
-    <script>
-      function storeUserSession(sessionData) {
-        fetch('/store-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(sessionData),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-      }
-
-      const startButton = document.getElementById("start-button");
-      const stopButton = document.getElementById("stop-button");
-      const resetButton = document.getElementById("reset-button");
-      const timer = document.getElementById("timer");
-      const workTime = document.getElementById("work-time");
-      const breakTime = document.getElementById("break-time");
-      const skipbreakButton = document.getElementById("skipbreak-button");
-      const BgSound = document.getElementById("bg-sound")
-      const studyButton = document.getElementById("study-button")
-      const gamingButton = document.getElementById("gaming-button")
-      const workButton = document.getElementById("work-button")
-      const hobbyButton = document.getElementById("hobby-button")
-      const categoryButtons = document.getElementsByClassName("category-button")
-
-      // 25 minutes --> 5 minutes --> 25 minutes = 1 session
-      let workInterval;
-      let breakInterval;
-      let timeLeft = 25 * 60; // 25 minutes in seconds
-      let breakTimeLeft = 5 * 60; // 5 minutes in seconds
-      let isWorking = true;
-      let sessionId = null;
-      let currentAlarm;
-      let category = ""
-      
-      function getCategory(text){
-        category = text
-        console.log(category)
-
-        for (i = 0; i < categoryButtons.length; i++) {
-          categoryButtons[i].disabled = true
-        }
-      } 
-
-      function playSelectedBackgroundSong() {
-        const selectedSong = songSelect.value;
-        const targetSession = parseInt(songSelect.querySelector(`option[value="${selectedSong}"]`).getAttribute('data-user-session'));
-        const totalSessions = parseInt(document.getElementById('total-sessions-count').textContent.split(':')[1].trim());
-
-        if (targetSession <= totalSessions) {
-          if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-          }
-
-          currentAudio = new Audio(songUrls[selectedSong]);
-          currentAudio.loop = true; // Loop the background song
-          currentAudio.play();
-          startTime = new Date().getTime();
-        } else {
-          alert(`You need ${targetSession} sessions to unlock this song!`);
-        }
-      }
-    
-      studyButton.addEventListener("click", () => getCategory("study"))
-      gamingButton.addEventListener("click", () => getCategory("gaming"))
-      workButton.addEventListener("click", () => getCategory("work"))
-      hobbyButton.addEventListener("click", () => getCategory("hobby"))
-
-      startButton.addEventListener("click", () => {
-        if (!songSelect.value || !alarmSelect.value) {
-          alert("Please select both a background song and an alarm before starting the timer.");
-          return;
-        }
-
-        playSelectedBackgroundSong();
-        startButton.disabled = true;
-        stopButton.disabled = false;
-        resetButton.disabled = false;
-        if (isWorking) {
-          workInterval = setInterval(() => {
-            timeLeft--;
-            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
-            if (timeLeft === 0) {
-              clearInterval(workInterval);
-              isWorking = false;
-              breakTimeLeft = breakTimeLeft;
-              
-              currentAudio.pause();
-
-              breakInterval = setInterval(() => {
-                breakTimeLeft--;
-                breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
-                if (breakTimeLeft === 0) {
-                  clearInterval(breakInterval);
-                  isWorking = true;
-
-                  currentAudio.play();
-                }
-              }, 1000);
-            }
-          }, 1000);
-        } else {
-          breakInterval = setInterval(() => {
-            breakTimeLeft--;
-            breakTime.textContent = `${Math.floor(breakTimeLeft / 60)}:${(breakTimeLeft % 60).toString().padStart(2, "0")}`;
-            if (breakTimeLeft === 0) {
-              clearInterval(breakInterval);
-              isWorking = true;
-              timeLeft = 5;
-              workInterval = setInterval(() => {
-                timeLeft--;
-                workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`;
-                if (timeLeft === 0) {
-                  clearInterval(workInterval);
-                  isWorking = false;
-                  playAlarm();
-                  
-                }
-              }, 1000);
-            }
-          }, 1000);
-        }
-      });
-
-
-
-      stopButton.addEventListener("click", () => {
-        startButton.disabled = false;
-        stopButton.disabled = true;
-        clearInterval(workInterval);
-        clearInterval(breakInterval);
-        stopAlarm();
-        stopSong();
-      });
-
-      resetButton.addEventListener("click", () => {
-        startButton.disabled = false;
-        stopButton.disabled = true;
-        resetButton.disabled = true;
-        clearInterval(workInterval);
-        clearInterval(breakInterval);
-
-        timeLeft = 5;
-
-        breakTimeLeft = 5 * 60;
-        workTime.textContent = "25:00";
-        breakTime.textContent = "05:00";
-        isWorking = true;
-        skipbreakButton.disabled = false;
-        stopAlarm();
-        stopSong();
-      });
-
-        skipbreakButton.addEventListener("click", () => {
-
-          currentAudio.play();
-          if (breakInterval) {
-          clearInterval(breakInterval);
-          isWorking = true;
-          timeLeft = 5;
-          breakTimeLeft = 5 * 60;
-          workInterval = setInterval(() => { 
-            timeLeft--;
-            workTime.textContent = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")}`; 
-            if (timeLeft === 0) { 
-              clearInterval(workInterval); 
-              isWorking = false; 
-
-                {% if current_user.is_authenticated %}
-                const sessionData = {
-                  user_id: {{ current_user.id }},
-                  category: category
-                };
-                storeUserSession(sessionData);
-                {% endif %}
-              
-
-              currentAudio.pause();
-              playAlarm();
-
-            } 
-          }, 1000);
-          skipbreakButton.disabled = true;
-            }
-          });
-
-      updateTimerDisplay(); // Initial display update
-      
-      </script>

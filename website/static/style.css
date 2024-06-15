@@ -4,6 +4,7 @@
 }
 
 
+
 :root {
         --gradient: linear-gradient(270deg, #FF3800, rgb(136, 212, 151), #FF3800);
      
@@ -19,7 +20,9 @@
     font-style: normal;
 
 
+
 }
+
 
 
 @font-face {
@@ -30,6 +33,9 @@
     font-weight: normal;
     font-style: normal;
 }
+
+
+
 
 
 
@@ -48,6 +54,7 @@ body{
 }
 
 
+
 @keyframes bg-animation{
     0% {background-position: left;}
     50% {background-position: right;}
@@ -55,9 +62,11 @@ body{
 }
 
 
+
 .body:hover, .body:focus{
     background-position: right;
 }
+
 
 
 p{
@@ -67,9 +76,11 @@ p{
 }
 
 
+
 h1{
     font-family: 'big';
 }
+
 
 
 .container{
@@ -83,7 +94,7 @@ h1{
 }
 
 
-.content-index{
+.content-index-index{
     width: 100%;
     position: absolute;
     top: 50%;
@@ -371,63 +382,3 @@ button a{
     line-height: 1.5;
 }
 
-
-.homepage-title{
-    margin-bottom: 20px;
-}
-
-
-
-
-  .rotating-logo {
-    width: 750px;
-    height: 750px;
-    object-fit: cover;
-    animation: rotate 5s linear infinite;
-  }
- 
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-
-  @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-
-    .content, .image-container {
-        max-width: 100%;
-    }
-
-
-    .tomato-image {
-        width: 200px;
-        height: 200px;
-    }
-
-
-    .info-box h2 {
-        font-size: 20px;
-    }
-
-
-    .info-box p {
-        font-size: 16px;
-    }
-}
-
-
-
-
-/*about page layout should be applied elsewhere too*/
-
-
-/* add css typewriting animation for index page title: jomPOMO */
