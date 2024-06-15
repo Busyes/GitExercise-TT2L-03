@@ -19,7 +19,7 @@
                         <ul>
                             <li><a href="/timer">POMOZONE</a></li>
                             <li>
-                                <a href="#">LIBRARY 🡻 </a>
+                                <a href="/about">LIBRARY 🡻 </a>
                                 <ul class="dropdown">
                                     <li><a href="/sound">Sound</a> </li>
                                     <li><a href="/alarm">Alarm</a> </li>
@@ -47,8 +47,10 @@
             <p class="centered-text2">Different alarm will be unlocked once you have reached your desired study target!</p>
             
         </body>
-    <div>
+    <div class="grid-container">  
+            
         <!--alarm 1-->
+        <div class="music-box">
         <h3 class="centered-text2">alarm 1</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound = 'sound/alarm 1.mp3')}}" type="audio/mpeg">
@@ -58,8 +60,10 @@
           <p id="message 6"></p>
           <button onclick="playMessage6()">Play Message</button>
           <script src="static/script.js"></script>
+        </div>
 
           <!--alarm 2-->
+          <div class="music-box">
         <h3 class="centered-text2">alarm 2</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound='sound/alarm 2.mp3') }}" type="audio/mp3">
@@ -68,8 +72,10 @@
           <p id="message 7"></p>
           <button onclick="playMessage7()">Play Message</button>
           <script src="static/script.js"></script>
+         </div> 
 
           <!--alarm 3-->
+        <div class="music-box">
         <h3 class="centered-text2">alarm 3</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound='sound/alarm 3.mp3') }}" type="audio/mp3">
@@ -78,8 +84,11 @@
           <p id="message 8"></p>
           <button onclick="playMessage8()">Play Message</button>
           <script src="static/script.js"></script>
+        </div>
+
 
           <!--alarm 4-->
+          <div class="music-box">
         <h3 class="centered-text2">alarm 4</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound='sound/alarm 4.mp3') }}" type="audio/mp3">
@@ -88,8 +97,10 @@
           <p id="message 9"></p>
           <button onclick="playMessage9()">Play Message</button>
           <script src="static/script.js"></script>
+          </div>
 
           <!--alarm 5-->
+        <div class="music-box">
         <h3 class="centered-text2">alarm 5</h3>
         <audio controls>
             <source src="{{ url_for('serve_song', sound='sound/alarm 5.mp3') }}" type="audio/mp3">
@@ -98,6 +109,7 @@
           <p id="message 10"></p>
           <button onclick="playMessage10()">Play Message</button>
           <script src="static/script.js"></script>
+        </div>
 
             <script>
                     document.addEventListener("visibilitychange", function() {
