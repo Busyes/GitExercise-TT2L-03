@@ -90,7 +90,7 @@ h1{
 
 
 
-/*about page*/
+/about page/
 .info-box {
     background: rgba(255, 255, 255, 0.9);
     margin-bottom: 20px;
@@ -550,7 +550,7 @@ button {
     background-color: #0057b300;
 }
 
-/*title typewriter animation*/
+/title typewriter animation/
 
 .homepage-title{
     font-family: monospace;
@@ -582,7 +582,7 @@ button {
 }
 
 
-/*music sound page*/
+/music sound page/
 .grid-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -710,7 +710,7 @@ select, button {
 /* no scrolling for added image bg */
 
 
-/*about page layout should be applied elsewhere too*/
+/about page layout should be applied elsewhere too/
 
 
 /* add css typewriting animation for index page title: jomPOMO */

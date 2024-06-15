@@ -3,14 +3,20 @@
   <head>
     <link rel="icon" href="static/images/logo.png">
 
+    <link rel="icon" href="static/images/logo.png">
+
     <title>POMOZONE</title>
   </head>
 
 
 
 
+
+
   <head>
     <link rel="stylesheet" href="static/style.css">
+   
+
    
 
 </head>
@@ -34,7 +40,13 @@
                     <button class="login-button"><a href="/login">LOG IN</a></button>
                     <button class="logout-button"><a href="/logout">LOG OUT</a></button>
                     <button class="signup-button"><a href="/sign_up">SIGN UP</a></button>
+                    <li><a href="/about">ABOUT</a></li>
+                    <button class="login-button"><a href="/login">LOG IN</a></button>
+                    <button class="logout-button"><a href="/logout">LOG OUT</a></button>
+                    <button class="signup-button"><a href="/sign_up">SIGN UP</a></button>
                 </ul>
+
+
 
 
 
@@ -42,7 +54,13 @@
         </div>
 
 
+
     </nav>
+   
+<body class="body-pomozone">    
+ 
+<h2 class="category-title">What are you going to do today?</h5>
+   <div class="category-container">
    
 <body class="body-pomozone">    
  
@@ -112,7 +130,7 @@
      // 25 minutes --> 5 minutes --> 25 minutes = 1 session
      let workInterval;
      let breakInterval;
-     let timeLeft = 25 * 60; // 25 minutes in seconds
+     let timeLeft = 5; // 25 minutes in seconds
      let breakTimeLeft = 5 * 60; // 5 minutes in seconds
      let isWorking = true;
      let sessionId = null;
@@ -294,7 +312,7 @@
      updateTimerDisplay(); // Initial display update
     
      </script>
-
+    <h3>Make sure you have selected background song, alarm and background image before starting timer!</h3>
 
     <!--background song dropdown-->
    <div class="sound-box" >
