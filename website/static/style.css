@@ -71,6 +71,10 @@ h1{
     font-family: 'big';
 }
 
+.centered-text1{
+    text-align: center;
+}
+
 
 .container {
     display: flex;
@@ -582,16 +586,15 @@ button {
 }
 
 
-/music sound page/
+/*music sound page*/
 .grid-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: auto auto auto auto auto;
         gap: 20px;
         padding: 20px;
         justify-items: center;
         align-items: center;
         justify-content: center;
-        max-width: 80%;
         margin-top: 20px;
 }
 
@@ -599,7 +602,7 @@ button {
     border: 2px solid #000;
     padding: 20px;
     background-color: antiquewhite;
-    width: 100%;
+    width: 275px;
     box-sizing: border-box;
     text-align: center;
     display: flex;
@@ -607,7 +610,39 @@ button {
     align-items: center;
     justify-content: space-between;
     max-width: 300px;
+    opacity: 0; /* Initial state for fade-in effect */
+    animation: fadeIn 1s forwards; /* Apply fade-in animation */
 }
+
+.music-box:nth-child(1) {
+    animation-delay: 0.2s; /* Delay for the first box */
+}
+
+.music-box:nth-child(2) {
+    animation-delay: 0.4s; /* Delay for the second box */
+}
+
+.music-box:nth-child(3) {
+    animation-delay: 0.6s; /* Delay for the third box */
+}
+
+.music-box:nth-child(4) {
+    animation-delay: 0.8s; /* Delay for the third box */
+}
+
+.music-box:nth-child(5) {
+    animation-delay: 1.0s; /* Delay for the third box */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 
 .music-box h4{
     margin-top: 0;
@@ -616,6 +651,8 @@ button {
 .music-box audio {
     width: 100%;
 }
+
+
 
 @media (max-width: 768px) {
     .grid-container {
