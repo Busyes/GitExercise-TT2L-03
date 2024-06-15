@@ -424,10 +424,113 @@ button a{
     }
 }
 
-/* no scrolling for added image bg */
-.apply-bg{
-    background-attachment: fixed;
+/* pomozone page */
+main{
+    display: flex;
+    flex: 1;
+
 }
+
+
+.left{
+    background-color: #007bff;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px;
+}
+
+.main{
+    background-color: antiquewhite;
+    padding: 3em 0 3em 0;
+    flex: 5 5 150px;
+   
+}
+
+.right{
+    background-color: #007bff;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px;
+}
+
+
+
+
+
+.body-pomozone {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    .navbar{width: 100%;
+            margin-bottom: 20px;}
+}
+
+.container-pomozone{
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically within the main container */
+    width: 100%; /* Ensure it spans the entire width */
+    margin-top: 20px;
+}
+
+.container-pomozone .timer-box{
+    background-color: antiquewhite;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+.timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: fit-content; /* Adjust width to fit content */
+    text-align: center; /* Center text inside the box */
+    max-width: 90%; /* Optional: Max width for responsiveness */
+    margin-top: 20px;
+}
+
+#timer {
+    font-size: 2em; /* Adjust font size for the timer */
+    margin: 10px 0; /* Add margin above and below the timer */
+    color: #333; /* Darker color for better contrast */
+}
+
+button {
+    padding: 10px 20px; /* Adjust padding for buttons */
+    font-size: 1em; /* Set font size for buttons */
+    margin: 5px; /* Space between buttons */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove button borders */
+    border-radius: 5px; /* Rounded corners for buttons */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    width: 100px; /* Set a fixed width for buttons */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+
+
+
+
+
+
+
+/* no scrolling for added image bg */
 
 
 /*about page layout should be applied elsewhere too*/

@@ -8,7 +8,7 @@
   <head>
     <link rel="stylesheet" href="static/style.css">
 </head>
-<body>
+
     <nav class="navbar">
         <div class="navdiv">
             <div class="logo"><a href="/index" class="logo"><img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo"> </a> </div>
@@ -23,7 +23,7 @@
                         </ul>
                     </li>
                     <li><a href="/tracker">TRACK</a></li>
-                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="/about">ABOUT</a></li>
                     <button><a href="/login">LOG IN</a></button>
                     <button><a href="/logout">LOG OUT</a></button>
                     <button><a href="/sign_up">SIGN UP</a></button>
@@ -34,15 +34,19 @@
 
     </nav>
     
+<body class="body-pomozone">    
+  <h1>POMOZONE</h1>
 
-  <body>
-    <h1>POMOZONE</h1>
+<div class="main">
+  <aside class="left">
+ 
     <h5>Pick a Category</h5>
     <button id="study-button" class="category-button">Study</button>
     <button id="gaming-button" class="category-button">Gaming</button>
     <button id="work-button" class="category-button">Work</button>
     <button id="hobby-button" class="category-button">Hobby</button>
     <h5>Timer Control</h5>
+
 
     <!--background song dropdown-->
     <div>
@@ -73,13 +77,15 @@
     
   
     </div>
+  </aside>
     
     <!--background image dropdown-->
+   <aside class="right"> 
     <nav>
       <h1 class="centered-text1">Background image selection:</h1>
       <p class="centered-text2">Select a background image to apply it to the webpage:</p>
     
-      <div class="apply-bg">
+      
       <form id="background-form">
         <label for="background-image">Choose an image:</label>
         <select id="background-image" name="background-image">
@@ -89,11 +95,12 @@
           <option value="img 4.jpg" data-user-session="11">Image 4</option>
           <option value="img 5.jpg" data-user-session="14">Image 5</option>
         </select>
-      </div>
+    
         <button type="submit">Apply</button>
         <button id="unapply-button" type="button">Unapply</button>
       </form>
     </nav>
+  </aside>  
     
     <p id="total-sessions-count">Total Sessions: 0</p> <!-- Placeholder for total sessions -->
     
@@ -292,6 +299,9 @@
     </script>
     
     <!--start timer functionality-->
+<main>
+   <div id="container-pomozone"> 
+    <div class="timer-box">
     <button id="start-button" disabled>Start</button>
     <button id="stop-button" disabled>Stop</button>
     <button id="reset-button" disabled>Reset</button>
@@ -300,10 +310,12 @@
       <span id="separator">/</span>
       <span id="break-time">05:00</span>
     </div>
-  
+   
       <button id="skipbreak-button">Skip Break</button>
-
-    </div>
+      </div>
+   </div>    
+</main>
+</div>   
 
     <script>
       function storeUserSession(sessionData) {
@@ -502,3 +514,5 @@
       updateTimerDisplay(); // Initial display update
       
       </script>
+</body>
+</html>
