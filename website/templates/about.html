@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, intial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="static/style.css">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> 
@@ -12,124 +12,84 @@
         <!--w-->
     </head>
     <body>
-        
-       
-       
         <!--supposedly header sec with navbar + login option-->
-            <nav class="navbar">
-                <div class="navdiv">
-                    <div class="logo"><a href="/index" class="logo"><img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo"> </a> </div>
-                        <ul>
-                            {% if current_user.is_authenticated %}
-                            <li><a href="/timer">POMOZONE</a></li>
-                            <li>
-                                <a href="#">LIBRARY 🡻 </a>
-                                <ul class="dropdown">
-                                    <li><a href="/sound">Sound</a> </li>
-                                    <li><a href="/alarm">Alarm</a> </li>
-                                    <li><a href="/bgimage">Background Image</a> </li>
-                                </ul>
-                        
-                            </li>
-                            <li><a href="/tracker">TRACK</a></li>
-                            {% endif %}
-                            <li><a href="/about">ABOUT</a></li>
-                            <button><a href="/login">LOG IN</a></button>
-                            <button><a href="/logout">LOG OUT</a></button>
-                            <button><a href="/sign_up">SIGN UP</a></button>
+        <nav class="navbar">
+            <div class="navdiv">
+                <div class="logo">
+                    <a href="/index" class="logo">
+                        <img src="{{ url_for('send_static', logo='images/logo.png') }}" alt="jomPOMO logo">
+                    </a>
+                </div>
+                <ul>
+                    {% if current_user.is_authenticated %}
+                    <li><a href="/timer">POMOZONE</a></li>
+                    <li>
+                        <a href="#">LIBRARY 🡻</a>
+                        <ul class="dropdown">
+                            <li><a href="/sound">Sound</a></li>
+                            <li><a href="/alarm">Alarm</a></li>
+                            <li><a href="/bgimage">Background Image</a></li>
                         </ul>
-                        
-
-
-                </div>
-
-
-
-
-            </nav>
-
-    <body>
- 
-    
-    <main>
-        <div class="main-content">
-          <div class="container">
-            <div class="content">
-                <div class="info-box">
-                <h2>✦ About jomPOMO</h2>
-                <p>This is a website to increase your productivity and keep you on track with your goals. </p>
-                </div>
-            <div class="info-box">
-                <h2>✦ Features</h2>
-                <p>Track your activity with our pomodoro timer and obtain rewards as you go! Specially designed to help you stay focused and engaged.</p>
+                    </li>
+                    <li><a href="/tracker">TRACK</a></li>
+                    {% endif %}
+                    <li><a href="/about">ABOUT</a></li>
+                    <button><a href="/login">LOG IN</a></button>
+                    <button><a href="/logout">LOG OUT</a></button>
+                    <button><a href="/sign_up">SIGN UP</a></button>
+                </ul>
             </div>
-          
+        </nav>
 
-            </div>
-            <div class="image-container">
-                <img src="static/images/logo.png" alt="Logo" class="rotating-logo">
-            </div>
-    
-          </div>
-        </div>
-
-        <section class="about"
-        <div class="about-main">
-            <div class="about-text-box">
-                <h1>Join jomPOMO</h1>
-                <p>jomPOMO is a website made for procrastinators and slackers alike.
-                    Sign up and join us to track your productivity! We will reward dedicated
-                    and hard-working users with more songs, alarms and scenic images. 
-                    What are you waiting for? (Also, scroll to see preview of the reward!)</p>
-                <button type="button"><a href="/sign_up" >Join us now</a></button>
-                
-            </div>       
-
-        </div>
-
-        <section class="slider-container">
-            <div class="slider-wrapper">
-                <div class="slider">
-                    <img id="slide-1" src="static/images/img 1.jpg" alt="rewad" />
-                    <img id="slide-2" src="static/images/img 2.jpg" alt="reward1" />
-                    <img id="slide-3" src="static/images/img 3.jpg" alt="reward1" />
-                
-                </div>
-                <div class="slider-nav">
-                    <a href="#slide-1"></a>
-                    <a href="#slide-2"></a>
-                    <a href="#slide-3"></a>
+        <main>
+            <div class="main-content">
+                <div class="container">
+                    <div class="content">
+                        <div class="info-box">
+                            <h2>✦ About jomPOMO</h2>
+                            <p>This is a website to increase your productivity and keep you on track with your goals.</p>
+                        </div>
+                        <div class="info-box">
+                            <h2>✦ Features</h2>
+                            <p>Track your activity with our pomodoro timer and obtain rewards as you go! Specially designed to help you stay focused and engaged.</p>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <img src="static/images/logo.png" alt="Logo" class="rotating-logo">
+                    </div>
                 </div>
             </div>
-        </section>
 
-
-        
-
-    </main>
-    </body>    
-
-
-<!--
-    <body>
-        <section class="about"
-            <div class="about-main"
-                <div class="image-container">
-                    <img src="static/images/logo.png" alt="Logo" class="rotating-logo">
+            <section class="about">
+                <div class="about-main">
+                    <div class="about-text-box">
+                        <h1>Join jomPOMO</h1>
+                        <p>jomPOMO is a website made for procrastinators and slackers alike.
+                            Sign up and join us to track your productivity! We will reward dedicated
+                            and hard-working users with more songs, alarms and scenic images.
+                            What are you waiting for? (Also, scroll to see preview of the reward!)</p>
+                        <button type="button"><a href="/sign_up">Join us now</a></button>
+                    </div>
                 </div>
-                    <div class="about-text"
-                    <h1>About jomPOMO</h1>
-                    <p>jomPOMO is a website made for procrastinators and slackers alike.
-                        Sign up and join us to track your productivity! We will reward dedicated
-                        and hard-working users with more songs, alarms and scenic images. 
-                        What are you waiting for? (Also, scroll to see preview of the reward!)</p>
-                    <button type="button">Join us now</button>
-                    </div>       
+            </section>
 
-            </div>
-  
-                -->
-
+            <section class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="slider">
+                        <img id="slide-1" src="static/images/img 1.jpg" alt="reward" />
+                        <img id="slide-2" src="static/images/img 2.jpg" alt="reward1" />
+                        <img id="slide-3" src="static/images/img 3.jpg" alt="reward1" />
+                    </div>
+                    <div class="slider-nav">
+                        <a href="#slide-1"></a>
+                        <a href="#slide-2"></a>
+                        <a href="#slide-3"></a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
 </html>
+
 
  
