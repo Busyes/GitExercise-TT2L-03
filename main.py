@@ -73,7 +73,6 @@ def send_static(logo):
 def serve_song(sound):
     return send_from_directory('static', sound)
 
-
 @main.route('/store-session', methods=['POST'])
 def store_session():
     if request.method == 'POST':
