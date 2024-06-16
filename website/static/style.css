@@ -882,3 +882,16 @@ select, button {
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+/*tracker page*/
+
+.tracker-button{
+    text-align: center;
+    align-items: center;
+}
+
+.tracker-date{
+    text-align: center;
+    font-size: 0.5cm;
+    margin-top: 5px;
+}
