@@ -888,10 +888,12 @@ select, button {
 .tracker-button{
     text-align: center;
     align-items: center;
+    margin-top: 10px;
 }
 
 .tracker-date{
     text-align: center;
-    font-size: 0.5cm;
+    font-size: 0.70cm;
     margin-top: 5px;
+    font-family: monospace;
 }
