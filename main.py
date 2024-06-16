@@ -73,23 +73,6 @@ def send_static(logo):
 def serve_song(sound):
     return send_from_directory('static', sound)
 
-# @main.route('/store-total-session', methods=['POST'])
-# def store_total_session():
-#     if request.method == 'POST':
-#         data = request.get_json()
-#         session = UserSession.query.filter_by(user_id=data['user_id'], category=data['category']).first()
-#         if session:
-#             session.num_session = session.num_session + 1
-#             db.session.commit()
-#             return 'session added'
-#         else:
-#             new_session = UserSession(user_id=data['user_id'],category=data['category'], num_session=1)
-#             db.session.add(new_session)
-#             db.session.commit()
-#             return 'session created'
-# part ni temporary dulu
-
-
 @main.route('/store-session', methods=['POST'])
 def store_session():
     if request.method == 'POST':

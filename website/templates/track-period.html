@@ -69,6 +69,7 @@
           ],
           datasets: [{
             label: 'Pomozone Session',
+            barThickness: 250,
             data: [
               {{ session_data.gaming }},
               {{ session_data.study }},
@@ -84,12 +85,12 @@
               beginAtZero: true
             }
           },
-          bar: {
-              barPercentage: 0.05, 
-              categoryPercentage: 0.05 
-            }
+          responsive: true,
+            maintainAspectRatio: false,
+            aspectRatio: 0.5,
+          }
         }
-      });
+    );
     </script>
 
 
